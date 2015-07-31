@@ -194,3 +194,7 @@ FakesAssemblies/
 
 # Visual Studio 6 workspace options file
 *.opt
+FenrirProjectManager.sln
+DataAccessImplementation/DataAccessImplementation.csproj
+DataAccessInterfaces/DataAccessInterfaces.csproj
+Model/Model.csproj
