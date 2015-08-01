@@ -1,4 +1,4 @@
-﻿namespace Model
+﻿namespace Model.Enums
 {
     /// <summary>
     /// Represents current project status

@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using Model.Enums;
 
-namespace Model
+namespace Model.Models
 {
     public class Project
     {

@@ -1,6 +1,7 @@
 ﻿using System;
+using Model.Enums;
 
-namespace Model
+namespace Model.Models
 {
     public class Issue
     {

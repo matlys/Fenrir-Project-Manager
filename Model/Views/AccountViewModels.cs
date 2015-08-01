@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace FenrirProjectManager.Models
+namespace Model.Views
 {
     public class ExternalLoginConfirmationViewModel
     {
