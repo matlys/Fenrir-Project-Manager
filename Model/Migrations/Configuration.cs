@@ -17,6 +17,10 @@ namespace Model.Migrations
 
         protected override void Seed(Context context)
         {
+            if (System.Diagnostics.Debugger.IsAttached == false)
+            {
+                System.Diagnostics.Debugger.Launch();
+            }
             SeedRoles();
             SeedProjects(context);
             SeedProjectUsers(context);
@@ -75,7 +79,7 @@ namespace Model.Migrations
                 Id = Guid.Parse("de33562c-eb3f-41e6-9c2c-854fd15abf18"),
                 Name = "Fenrir Project Manager",
                 Description = "Template project",
-                Logo = new byte[1] {0}, //todo: method which convert loaded bitmap to byte[]
+                Logo = new byte[] {0}, //todo: method which convert loaded bitmap to byte[]
                 CreationDate = DateTime.Parse("2015-08-01"),
                 ClosedDate = DateTime.Parse("2016-01-01"),
                 Status = ProjectStatus.Open
@@ -97,7 +101,8 @@ namespace Model.Migrations
                 EmailConfirmed = true,
                 FirstName = "Mateusz",
                 LastName = "£ysieñ",
-                Avatar = new byte[1] { 0 }, //todo: method which convert loaded bitmap to byte[]
+                UserName = "mateusz.lysien@gmail.com",
+                Avatar = new byte[] { 0 }, //todo: method which convert loaded bitmap to byte[]
                 ProjectId = Guid.Parse("de33562c-eb3f-41e6-9c2c-854fd15abf18"),
             };
             var administratorResult = userManager.Create(administrator, "mateusz1234");
@@ -116,7 +121,8 @@ namespace Model.Migrations
                 EmailConfirmed = true,
                 FirstName = "Reenie",
                 LastName = "Chandler",
-                Avatar = new byte[1] {0}, //todo: method which convert loaded bitmap to byte[]
+                UserName = "reenie.chandler@fenrir.com",
+                Avatar = new byte[] {0}, //todo: method which convert loaded bitmap to byte[]
                 ProjectId = Guid.Parse("de33562c-eb3f-41e6-9c2c-854fd15abf18"),
             };
             var projectManagerResult = userManager.Create(projectManager, "projectmanager");
@@ -136,7 +142,8 @@ namespace Model.Migrations
                 EmailConfirmed = true,
                 FirstName = "Zola",
                 LastName = "Firmin",
-                Avatar = new byte[1] {0}, //todo: method which convert loaded bitmap to byte[]
+                UserName = "zola.firmin@fenrir.com",
+                Avatar = new byte[] {0}, //todo: method which convert loaded bitmap to byte[]
                 ProjectId = Guid.Parse("de33562c-eb3f-41e6-9c2c-854fd15abf18"),
             };
             var developer1Result = userManager.Create(developer1, "developer1");
@@ -156,7 +163,8 @@ namespace Model.Migrations
                 EmailConfirmed = true,
                 FirstName = "Johnny",
                 LastName = "Reynell",
-                Avatar = new byte[1] {0}, //todo: method which convert loaded bitmap to byte[]
+                UserName = "johnny.reynell@fenrir.com",
+                Avatar = new byte[] {0}, //todo: method which convert loaded bitmap to byte[]
                 ProjectId = Guid.Parse("de33562c-eb3f-41e6-9c2c-854fd15abf18"),
             };
             var developer2Result = userManager.Create(developer2, "developer2");
@@ -176,7 +184,8 @@ namespace Model.Migrations
                 EmailConfirmed = true,
                 FirstName = "Dillan",
                 LastName = "Paterson",
-                Avatar = new byte[1] {0}, //todo: method which convert loaded bitmap to byte[]
+                UserName = "dillan.paterson@fenrir.com",
+                Avatar = new byte[] {0}, //todo: method which convert loaded bitmap to byte[]
                 ProjectId = Guid.Parse("de33562c-eb3f-41e6-9c2c-854fd15abf18"),
             };
             var developer3Result = userManager.Create(developer3, "developer3");
@@ -196,7 +205,8 @@ namespace Model.Migrations
                 EmailConfirmed = true,
                 FirstName = "Faith",
                 LastName = "Dorsey",
-                Avatar = new byte[1] {0}, //todo: method which convert loaded bitmap to byte[]
+                UserName = "faith.dorsey@fenrir.com",
+                Avatar = new byte[] {0}, //todo: method which convert loaded bitmap to byte[]
                 ProjectId = Guid.Parse("de33562c-eb3f-41e6-9c2c-854fd15abf18"),
             };
             var observerResult = userManager.Create(observer, "observer");
