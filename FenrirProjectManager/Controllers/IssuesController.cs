@@ -6,6 +6,7 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using DataAccessInterfaces;
 using Model;
 using Model.Models;
 
@@ -13,12 +14,20 @@ namespace FenrirProjectManager.Controllers
 {
     public class IssuesController : Controller
     {
+        private IIssueRepo _issueRepo;
+
+
         private Context db = new Context();
+
+        public IssuesController(IIssueRepo issueRepo)
+        {
+            _issueRepo = issueRepo;
+        }
 
         // GET: Issues
         public ActionResult Index()
         {
-            return View(db.ProjectIssues.ToList());
+            return View(_issueRepo.GetAllIssues());
         }
 
         // GET: Issues/Details/5
