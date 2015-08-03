@@ -1,23 +1,14 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Data.Entity;
-using System.Linq;
 using System.Net;
-using System.Web;
 using System.Web.Mvc;
 using DataAccessInterfaces;
-using Model;
 using Model.Models;
 
 namespace FenrirProjectManager.Controllers
 {
     public class IssuesController : Controller
     {
-        private IIssueRepo _issueRepo;
-
-
-        private Context db = new Context();
+        private readonly IIssueRepo _issueRepo;
 
         public IssuesController(IIssueRepo issueRepo)
         {
@@ -33,15 +24,12 @@ namespace FenrirProjectManager.Controllers
         // GET: Issues/Details/5
         public ActionResult Details(Guid? id)
         {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Issue issue = db.ProjectIssues.Find(id);
-            if (issue == null)
-            {
-                return HttpNotFound();
-            }
+            if (id == null) return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            
+            Issue issue = _issueRepo.GetIssueById((Guid)id);
+
+            if (issue == null) return HttpNotFound();
+            
             return View(issue);
         }
 
@@ -61,8 +49,8 @@ namespace FenrirProjectManager.Controllers
             if (ModelState.IsValid)
             {
                 issue.Id = Guid.NewGuid();
-                db.ProjectIssues.Add(issue);
-                db.SaveChanges();
+                _issueRepo.CreateIssue(issue);
+                _issueRepo.SaveChanges();
                 return RedirectToAction("Index");
             }
 
@@ -72,15 +60,12 @@ namespace FenrirProjectManager.Controllers
         // GET: Issues/Edit/5
         public ActionResult Edit(Guid? id)
         {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Issue issue = db.ProjectIssues.Find(id);
-            if (issue == null)
-            {
-                return HttpNotFound();
-            }
+            if (id == null) return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+
+            Issue issue = _issueRepo.GetIssueById((Guid) id);
+
+            if (issue == null) return HttpNotFound();
+            
             return View(issue);
         }
 
@@ -93,8 +78,8 @@ namespace FenrirProjectManager.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Entry(issue).State = EntityState.Modified;
-                db.SaveChanges();
+                _issueRepo.UpdateIssue(issue);
+                _issueRepo.SaveChanges();
                 return RedirectToAction("Index");
             }
             return View(issue);
@@ -103,15 +88,12 @@ namespace FenrirProjectManager.Controllers
         // GET: Issues/Delete/5
         public ActionResult Delete(Guid? id)
         {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Issue issue = db.ProjectIssues.Find(id);
-            if (issue == null)
-            {
-                return HttpNotFound();
-            }
+            if (id == null) return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+
+            Issue issue = _issueRepo.GetIssueById((Guid) id);
+
+            if (issue == null) return HttpNotFound();
+            
             return View(issue);
         }
 
@@ -120,9 +102,8 @@ namespace FenrirProjectManager.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(Guid id)
         {
-            Issue issue = db.ProjectIssues.Find(id);
-            db.ProjectIssues.Remove(issue);
-            db.SaveChanges();
+            _issueRepo.DeleteIssue(id);
+            _issueRepo.SaveChanges();
             return RedirectToAction("Index");
         }
 
@@ -130,7 +111,8 @@ namespace FenrirProjectManager.Controllers
         {
             if (disposing)
             {
-                db.Dispose();
+                // comming soon
+                //_issueRepo.Dispose();
             }
             base.Dispose(disposing);
         }
