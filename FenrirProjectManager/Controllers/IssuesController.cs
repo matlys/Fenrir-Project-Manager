@@ -9,10 +9,12 @@ namespace FenrirProjectManager.Controllers
     public class IssuesController : Controller
     {
         private readonly IIssueRepo _issueRepo;
+        private readonly IUserRepo _userRepo;
 
-        public IssuesController(IIssueRepo issueRepo)
+        public IssuesController(IIssueRepo issueRepo, IUserRepo userRepo)
         {
             _issueRepo = issueRepo;
+            _userRepo = userRepo;
         }
 
         // GET: Issues

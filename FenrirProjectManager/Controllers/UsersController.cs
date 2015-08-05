@@ -9,8 +9,8 @@ namespace FenrirProjectManager.Controllers
 {
     public class UsersController : Controller
     {
-        private IUserRepo _userRepo;
-        private IProjectRepo _projectRepo;
+        private readonly IUserRepo _userRepo;
+        private readonly IProjectRepo _projectRepo;
 
         public UsersController(IUserRepo userRepo, IProjectRepo projectRepo)
         {
