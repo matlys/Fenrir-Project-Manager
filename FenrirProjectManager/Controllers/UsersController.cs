@@ -1,24 +1,28 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Data.Entity;
 using System.Linq;
 using System.Net;
-using System.Web;
 using System.Web.Mvc;
-using Model;
+using DataAccessInterfaces;
 using Model.Models;
 
 namespace FenrirProjectManager.Controllers
 {
     public class UsersController : Controller
     {
-        private Context db = new Context();
+        private IUserRepo _userRepo;
+        private IProjectRepo _projectRepo;
+
+        public UsersController(IUserRepo userRepo, IProjectRepo projectRepo)
+        {
+            _userRepo = userRepo;
+            _projectRepo = projectRepo;
+        }
+
 
         // GET: Users
         public ActionResult Index()
         {
-            var users = db.ProjectUsers.Include(u => u.Project);
+            var users = _userRepo.GetAllUsers();
             return View(users.ToList());
         }
 
@@ -26,21 +30,20 @@ namespace FenrirProjectManager.Controllers
         public ActionResult Details(string id)
         {
             if (id == null)
-            {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            User user = db.ProjectUsers.Find(id);
+
+            User user = _userRepo.GetUserById(Guid.Parse(id));
+
             if (user == null)
-            {
                 return HttpNotFound();
-            }
+            
             return View(user);
         }
 
         // GET: Users/Create
         public ActionResult Create()
         {
-            ViewBag.ProjectId = new SelectList(db.Projects, "Id", "Name");
+            ViewBag.ProjectId = new SelectList(_projectRepo.GetAllProjects(), "Id", "Name");
             return View();
         }
 
@@ -53,12 +56,13 @@ namespace FenrirProjectManager.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Users.Add(user);
-                db.SaveChanges();
+                user.Id = Guid.NewGuid().ToString();
+                _userRepo.CreateUser(user);
+                _userRepo.SaveChanges();
                 return RedirectToAction("Index");
             }
 
-            ViewBag.ProjectId = new SelectList(db.Projects, "Id", "Name", user.ProjectId);
+            ViewBag.ProjectId = new SelectList(_projectRepo.GetAllProjects(), "Id", "Name", user.ProjectId);
             return View(user);
         }
 
@@ -66,15 +70,14 @@ namespace FenrirProjectManager.Controllers
         public ActionResult Edit(string id)
         {
             if (id == null)
-            {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            User user = db.ProjectUsers.Find(id);
+            
+            User user = _userRepo.GetUserById(Guid.Parse(id));
+
             if (user == null)
-            {
                 return HttpNotFound();
-            }
-            ViewBag.ProjectId = new SelectList(db.Projects, "Id", "Name", user.ProjectId);
+            
+            ViewBag.ProjectId = new SelectList(_projectRepo.GetAllProjects(), "Id", "Name", user.ProjectId);
             return View(user);
         }
 
@@ -87,11 +90,11 @@ namespace FenrirProjectManager.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Entry(user).State = EntityState.Modified;
-                db.SaveChanges();
+                _userRepo.UpdateUser(user);
+                _userRepo.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.ProjectId = new SelectList(db.Projects, "Id", "Name", user.ProjectId);
+            ViewBag.ProjectId = new SelectList(_projectRepo.GetAllProjects(), "Id", "Name", user.ProjectId);
             return View(user);
         }
 
@@ -99,14 +102,13 @@ namespace FenrirProjectManager.Controllers
         public ActionResult Delete(string id)
         {
             if (id == null)
-            {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            User user = db.ProjectUsers.Find(id);
+            
+            User user = _userRepo.GetUserById(Guid.Parse(id));
+
             if (user == null)
-            {
                 return HttpNotFound();
-            }
+            
             return View(user);
         }
 
@@ -115,9 +117,8 @@ namespace FenrirProjectManager.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(string id)
         {
-            User user = db.ProjectUsers.Find(id);
-            db.Users.Remove(user);
-            db.SaveChanges();
+            _userRepo.DeleteUser(Guid.Parse(id));
+            _userRepo.SaveChanges();
             return RedirectToAction("Index");
         }
 
@@ -125,7 +126,7 @@ namespace FenrirProjectManager.Controllers
         {
             if (disposing)
             {
-                db.Dispose();
+                //_userRepo.Dispose();
             }
             base.Dispose(disposing);
         }

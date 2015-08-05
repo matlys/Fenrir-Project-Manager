@@ -6,6 +6,7 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using DataAccessInterfaces;
 using Model;
 using Model.Models;
 
@@ -13,26 +14,31 @@ namespace FenrirProjectManager.Controllers
 {
     public class ProjectsController : Controller
     {
-        private Context db = new Context();
+        private IProjectRepo _projectRepo;
+
+        public ProjectsController(IProjectRepo projectRepo)
+        {
+            _projectRepo = projectRepo;
+        }
 
         // GET: Projects
         public ActionResult Index()
         {
-            return View(db.Projects.ToList());
+            var projects = _projectRepo.GetAllProjects();
+            return View();
         }
 
         // GET: Projects/Details/5
         public ActionResult Details(Guid? id)
         {
             if (id == null)
-            {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Project project = db.Projects.Find(id);
+            
+            Project project = _projectRepo.GetProjectById((Guid)id);
+
             if (project == null)
-            {
                 return HttpNotFound();
-            }
+            
             return View(project);
         }
 
@@ -52,8 +58,8 @@ namespace FenrirProjectManager.Controllers
             if (ModelState.IsValid)
             {
                 project.Id = Guid.NewGuid();
-                db.Projects.Add(project);
-                db.SaveChanges();
+                _projectRepo.CreateProject(project);
+                _projectRepo.SaveChanges();
                 return RedirectToAction("Index");
             }
 
@@ -64,14 +70,13 @@ namespace FenrirProjectManager.Controllers
         public ActionResult Edit(Guid? id)
         {
             if (id == null)
-            {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Project project = db.Projects.Find(id);
+
+            Project project = _projectRepo.GetProjectById((Guid)id);
+
             if (project == null)
-            {
                 return HttpNotFound();
-            }
+
             return View(project);
         }
 
@@ -84,8 +89,7 @@ namespace FenrirProjectManager.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Entry(project).State = EntityState.Modified;
-                db.SaveChanges();
+                _projectRepo.UpdateProject(project);
                 return RedirectToAction("Index");
             }
             return View(project);
@@ -95,14 +99,13 @@ namespace FenrirProjectManager.Controllers
         public ActionResult Delete(Guid? id)
         {
             if (id == null)
-            {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Project project = db.Projects.Find(id);
+
+            Project project = _projectRepo.GetProjectById((Guid) id);
+
             if (project == null)
-            {
                 return HttpNotFound();
-            }
+            
             return View(project);
         }
 
@@ -111,9 +114,8 @@ namespace FenrirProjectManager.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(Guid id)
         {
-            Project project = db.Projects.Find(id);
-            db.Projects.Remove(project);
-            db.SaveChanges();
+            _projectRepo.DeleteProject(id);
+            _projectRepo.SaveChanges();
             return RedirectToAction("Index");
         }
 
@@ -121,7 +123,7 @@ namespace FenrirProjectManager.Controllers
         {
             if (disposing)
             {
-                db.Dispose();
+                //_projectRepo.Dispose();
             }
             base.Dispose(disposing);
         }
