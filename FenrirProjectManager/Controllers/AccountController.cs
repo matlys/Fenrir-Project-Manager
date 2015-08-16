@@ -142,6 +142,7 @@ namespace FenrirProjectManager.Controllers
         [AllowAnonymous]
         public ActionResult Register()
         {
+            ViewBag.Title = "Registration";
             return View();
         }
 

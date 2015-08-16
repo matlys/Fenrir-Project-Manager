@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Web.Mvc;
 using DataAccessInterfaces;
 using FenrirProjectManager.Controllers;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -44,6 +45,16 @@ namespace FenrirProjectManager.Tests.Controllers
             bool result = _accountController.IsEmailExist(email);
 
             Assert.IsFalse(result);
+        }
+
+        [TestMethod]
+        public void Register()
+        {
+            ViewResult result = _accountController.Register() as ViewResult;
+            if (result != null)
+            {
+                Assert.AreEqual("Registration", result.ViewBag.Title);
+            }
         }
     }
 }
