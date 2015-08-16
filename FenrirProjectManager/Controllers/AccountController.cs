@@ -1,7 +1,9 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using DataAccessInterfaces;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
@@ -13,14 +15,16 @@ namespace FenrirProjectManager.Controllers
     [Authorize]
     public class AccountController : Controller
     {
+        private readonly IUserRepo _userRepo;
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
 
-        public AccountController()
+        public AccountController(IUserRepo userRepo)
         {
+            _userRepo = userRepo;
         }
 
-        public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager )
+        public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager)
         {
             UserManager = userManager;
             SignInManager = signInManager;
@@ -38,6 +42,11 @@ namespace FenrirProjectManager.Controllers
             }
         }
 
+        public bool IsEmailExist(string email)
+        {
+            return _userRepo.GetAllUsers().Any(u => u.Email == email);
+        }
+
         public ApplicationUserManager UserManager
         {
             get
@@ -50,7 +59,6 @@ namespace FenrirProjectManager.Controllers
             }
         }
 
-        //
         // GET: /Account/Login
         [AllowAnonymous]
         public ActionResult Login(string returnUrl)
@@ -59,7 +67,6 @@ namespace FenrirProjectManager.Controllers
             return View();
         }
 
-        //
         // POST: /Account/Login
         [HttpPost]
         [AllowAnonymous]
@@ -82,14 +89,12 @@ namespace FenrirProjectManager.Controllers
                     return View("Lockout");
                 case SignInStatus.RequiresVerification:
                     return RedirectToAction("SendCode", new { ReturnUrl = returnUrl, RememberMe = model.RememberMe });
-                case SignInStatus.Failure:
                 default:
                     ModelState.AddModelError("", "Invalid login attempt.");
                     return View(model);
             }
         }
 
-        //
         // GET: /Account/VerifyCode
         [AllowAnonymous]
         public async Task<ActionResult> VerifyCode(string provider, string returnUrl, bool rememberMe)
