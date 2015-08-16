@@ -9,6 +9,7 @@ namespace FenrirProjectManager.Tests
     {
         private EmailValidator _emailValidator = new EmailValidator();
         private PasswordValidator _passwordValidator = new PasswordValidator();
+        private ActivationLinkGenerator _activationLinkGenerator = new ActivationLinkGenerator();
 
         #region email tests
 
@@ -89,6 +90,20 @@ namespace FenrirProjectManager.Tests
 
             Assert.IsFalse(result);
         }
+
+        #endregion
+
+        #region activation link generator
+
+        [TestMethod]
+        [TestCase("mateusz.lysien@gmail.com")]
+        public void activation_link_should_be_created(string email)
+        { 
+            bool result = _activationLinkGenerator.GenerateLink(email);
+
+            Assert.IsTrue(result);
+        }
+
 
         #endregion
     }
