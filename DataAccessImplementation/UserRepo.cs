@@ -4,7 +4,10 @@ using System.Data.Entity;
 using System.Data.Entity.Migrations;
 using System.Linq;
 using DataAccessInterfaces;
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
 using Model;
+using Model.Consts;
 using Model.Models;
 
 namespace DataAccessImplementation
@@ -12,6 +15,14 @@ namespace DataAccessImplementation
     public class UserRepo : IUserRepo
     {
         private readonly Context _context = new Context();
+
+        public void AddUserToRole(User user, string roleName)
+        {
+            UserStore<User> userStore = new UserStore<User>(_context);
+            UserManager<User> userManager = new UserManager<User>(userStore);
+            userManager.AddToRole(user.Id, roleName);
+
+        }
 
         public void CreateUser(User user)
         {

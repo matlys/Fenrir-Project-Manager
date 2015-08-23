@@ -147,8 +147,6 @@
     <Compile Include="ActivationLinkGenerator.cs" />
     <Compile Include="Controllers\AccountControllerTest.cs" />
     <Compile Include="DataGenerator.cs" />
-    <Compile Include="EmailValidator.cs" />
-    <Compile Include="PasswordValidator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Controllers\HomeControllerTest.cs" />
     <Compile Include="RegistrationTests.cs" />

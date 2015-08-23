@@ -12,6 +12,8 @@ namespace DataAccessInterfaces
         void DeleteUser(Guid id);
         void DeleteAllUsers();
         void SaveChanges();
+        void AddUserToRole(User user, string roleName);
+        //bool IsUserExist(string email);
         User GetUserById(Guid id);
         IQueryable<User> GetAllUsersFromProject(Guid projectId);
         IQueryable<User> GetAllUsers();

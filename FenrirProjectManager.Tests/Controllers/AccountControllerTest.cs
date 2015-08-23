@@ -15,11 +15,13 @@ namespace FenrirProjectManager.Tests.Controllers
         private readonly List<User> _fakeUsers; 
         private readonly AccountController _accountController;
         private readonly Mock<IUserRepo> _userRepo;
+        private readonly Mock<IProjectRepo> _projectRepo;
 
         public AccountControllerTest()
         {
             _userRepo = new Mock<IUserRepo>();
-            _accountController = new AccountController(_userRepo.Object);
+            _projectRepo = new Mock<IProjectRepo>();
+            _accountController = new AccountController(_userRepo.Object, _projectRepo.Object);
             _fakeUsers = DataGenerator.GetFakeUsers();
         }
 

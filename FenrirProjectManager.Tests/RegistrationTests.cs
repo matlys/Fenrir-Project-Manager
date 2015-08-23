@@ -1,4 +1,7 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
+using FenrirProjectManager.ValidationAttributes;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NUnit.Framework;
 using Assert = Microsoft.VisualStudio.TestTools.UnitTesting.Assert;
 
@@ -7,9 +10,9 @@ namespace FenrirProjectManager.Tests
     [TestClass]
     public class RegistrationTests
     {
-        private EmailValidator _emailValidator = new EmailValidator();
-        private PasswordValidator _passwordValidator = new PasswordValidator();
-        private ActivationLinkGenerator _activationLinkGenerator = new ActivationLinkGenerator();
+        private readonly EmailValidator _emailValidator = new EmailValidator();
+        private readonly PasswordValidator _passwordValidator = new PasswordValidator();
+        private readonly ActivationLinkGenerator _activationLinkGenerator = new ActivationLinkGenerator();
 
         #region email tests
 
@@ -23,7 +26,7 @@ namespace FenrirProjectManager.Tests
         [TestCase("pawel_kukiz@onet.pl")]
         public void email_should_be_correct(string email)
         {
-            bool result = _emailValidator.ValidEmail(email);
+            bool result = _emailValidator.IsValidEmail(email);
 
             Assert.IsTrue(result);
         }
@@ -32,11 +35,23 @@ namespace FenrirProjectManager.Tests
         [TestCase("im@stupid@idiot.com")]
         [TestCase("mateu$z@idiot.com")]
         [TestCase("mateusz lysien@idiot.com")]
+        [TestCase("")]
+        [TestCase(" ")]
         public void email_should_be_incorrect(string email)
         {
-            var result = _emailValidator.ValidEmail(email);
+            var result = _emailValidator.IsValidEmail(email);
 
             Assert.IsFalse(result);
+        }
+
+        [TestMethod]
+        [TestCase("")]
+        [TestCase(" ")]
+        public void email_is_empty(string email)
+        {
+            var result = _emailValidator.IsEmpty(email);
+
+            Assert.IsTrue(result);
         }
 
         #endregion
@@ -52,9 +67,9 @@ namespace FenrirProjectManager.Tests
         [TestCase("kCX2_zA6f?=Tc")]
         public void password_allowed_chars_should_be_correct(string password)
         {
-            bool result = _passwordValidator.HasAllowedChars(password);
+            bool result = _passwordValidator.HasNotAllowedChars(password);
 
-            Assert.IsTrue(result);
+            Assert.IsFalse(result);
         }
 
         [TestMethod]
@@ -68,42 +83,60 @@ namespace FenrirProjectManager.Tests
         [TestCase("qwertyuiop123456")]
         public void password_length_should_be_correct(string password)
         {
-            bool result = _passwordValidator.IsCorrectLength(password);
-
-            Assert.IsTrue(result);
-        }
-
-        [TestMethod]
-        [TestCase("m@teusz2015", "m@teusz2015")]
-        public void passwords_are_equal(string password1, string password2)
-        {
-            bool result = _passwordValidator.AreEquala(password1, password2);
-
-            Assert.IsTrue(result);
-        }
-
-        [TestMethod]
-        [TestCase("m@teusz2015", "mateusz2015")]
-        public void passwords_are_not_equal(string password1, string password2)
-        {
-            bool result = _passwordValidator.AreEquala(password1, password2);
+            bool result = _passwordValidator.IsNotCorrectLength(password);
 
             Assert.IsFalse(result);
         }
 
-        #endregion
-
-        #region activation link generator
+        [TestMethod]
+        [TestCase("")]
+        [TestCase(" ")]
+        public void password_is_empty(string password)
+        {
+            bool result = _passwordValidator.IsEmpty(password);
+            Assert.IsTrue(result);
+        }
 
         [TestMethod]
-        [TestCase("mateusz.lysien@gmail.com")]
-        public void activation_link_should_be_created(string email)
-        { 
-            bool result = _activationLinkGenerator.GenerateLink(email);
+        [TestCase("m@teusz24")]
+        [TestCase("zaq12#")]
+        public void password_is_correct(string password)
+        {
+            bool result = _passwordValidator.IsValid(password);
 
             Assert.IsTrue(result);
         }
 
+        [TestMethod]
+        [TestCase(" ")]
+        [TestCase("")]
+        [TestCase("1123")]
+        [TestCase("11afsdfasf")]
+        [TestCase("112vads3")]
+        [TestCase("mateusz12")]
+        [TestCase("Mateusz24")]
+        [TestCase("m@teusz")]
+        public void password_is_incorrect(string password)
+        {
+            bool result = _passwordValidator.IsValid(password);
+
+            Assert.IsFalse(result);
+        }
+
+        [TestMethod]
+        [TestCase("112vads3")]
+        [TestCase("mateusz12")]
+        [TestCase("Mateusz24")]
+        [TestCase("m@teusz")]
+        public void password_hash_is_correct(string password)
+        {
+            string hash = _passwordValidator.ToHashCode(password);
+
+            Assert.IsTrue(hash.Length == 40);
+        }
+        #endregion
+
+        #region activation link generator
 
         #endregion
     }

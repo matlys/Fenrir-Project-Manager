@@ -7,7 +7,7 @@ using Model.Models;
 
 namespace FenrirProjectManager.Controllers
 {
-    public class UsersController : Controller
+    public partial class UsersController : Controller
     {
         private readonly IUserRepo _userRepo;
         private readonly IProjectRepo _projectRepo;
@@ -20,14 +20,14 @@ namespace FenrirProjectManager.Controllers
 
 
         // GET: Users
-        public ActionResult Index()
+        public virtual ActionResult Index()
         {
             var users = _userRepo.GetAllUsers();
             return View(users.ToList());
         }
 
         // GET: Users/Details/5
-        public ActionResult Details(string id)
+        public virtual ActionResult Details(string id)
         {
             if (id == null)
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -36,12 +36,12 @@ namespace FenrirProjectManager.Controllers
 
             if (user == null)
                 return HttpNotFound();
-            
+
             return View(user);
         }
 
         // GET: Users/Create
-        public ActionResult Create()
+        public virtual ActionResult Create()
         {
             ViewBag.ProjectId = new SelectList(_projectRepo.GetAllProjects(), "Id", "Name");
             return View();
@@ -52,7 +52,7 @@ namespace FenrirProjectManager.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Email,EmailConfirmed,PasswordHash,SecurityStamp,PhoneNumber,PhoneNumberConfirmed,TwoFactorEnabled,LockoutEndDateUtc,LockoutEnabled,AccessFailedCount,UserName,FirstName,LastName,Avatar,ProjectId")] User user)
+        public virtual ActionResult Create([Bind(Include = "Id,Email,EmailConfirmed,PasswordHash,SecurityStamp,PhoneNumber,PhoneNumberConfirmed,TwoFactorEnabled,LockoutEndDateUtc,LockoutEnabled,AccessFailedCount,UserName,FirstName,LastName,Avatar,ProjectId")] User user)
         {
             if (ModelState.IsValid)
             {
@@ -67,16 +67,16 @@ namespace FenrirProjectManager.Controllers
         }
 
         // GET: Users/Edit/5
-        public ActionResult Edit(string id)
+        public virtual ActionResult Edit(string id)
         {
             if (id == null)
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            
+
             User user = _userRepo.GetUserById(Guid.Parse(id));
 
             if (user == null)
                 return HttpNotFound();
-            
+
             ViewBag.ProjectId = new SelectList(_projectRepo.GetAllProjects(), "Id", "Name", user.ProjectId);
             return View(user);
         }
@@ -86,7 +86,7 @@ namespace FenrirProjectManager.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Email,EmailConfirmed,PasswordHash,SecurityStamp,PhoneNumber,PhoneNumberConfirmed,TwoFactorEnabled,LockoutEndDateUtc,LockoutEnabled,AccessFailedCount,UserName,FirstName,LastName,Avatar,ProjectId")] User user)
+        public virtual ActionResult Edit([Bind(Include = "Id,Email,EmailConfirmed,PasswordHash,SecurityStamp,PhoneNumber,PhoneNumberConfirmed,TwoFactorEnabled,LockoutEndDateUtc,LockoutEnabled,AccessFailedCount,UserName,FirstName,LastName,Avatar,ProjectId")] User user)
         {
             if (ModelState.IsValid)
             {
@@ -99,23 +99,23 @@ namespace FenrirProjectManager.Controllers
         }
 
         // GET: Users/Delete/5
-        public ActionResult Delete(string id)
+        public virtual ActionResult Delete(string id)
         {
             if (id == null)
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            
+
             User user = _userRepo.GetUserById(Guid.Parse(id));
 
             if (user == null)
                 return HttpNotFound();
-            
+
             return View(user);
         }
 
         // POST: Users/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(string id)
+        public virtual ActionResult DeleteConfirmed(string id)
         {
             _userRepo.DeleteUser(Guid.Parse(id));
             _userRepo.SaveChanges();

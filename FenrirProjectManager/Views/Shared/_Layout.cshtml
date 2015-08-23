@@ -1,44 +1,81 @@
-﻿<!DOCTYPE html>
+﻿@using Model.Views
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewBag.Title - My ASP.NET Application</title>
-    @Styles.Render("~/Content/css")
-    @Scripts.Render("~/bundles/modernizr")
-
+    <title>Fenrir - Project Manager</title>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="~/css/materialize.css" type="text/css" rel="stylesheet" media="screen,projection" />
+    <link href="~/css/style.css" type="text/css" rel="stylesheet" media="screen,projection" />
 </head>
+
 <body>
-    <div class="navbar navbar-inverse navbar-fixed-top">
-        <div class="container">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                @Html.ActionLink("Application name", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
-            </div>
-            <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("Home", "Index", "Home")</li>
-                    <li>@Html.ActionLink("About", "About", "Home")</li>
-                    <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
+    <nav class="white" role="navigation">
+        <div class="nav-wrapper container">
+
+            <img src="~/Graph/FENRIR_LOGO2.png" style="padding: 10px" width="65" class="responsive-img" />
+            @Html.ActionLink("FENRIR PROJECT MANAGER", MVC.Home.Index(), new { @class = "brand-logo", @id = "logo-container" })
+            <p> Hello, @HttpContext.Current.User.Identity.Name</p>
+            @if (HttpContext.Current.User.Identity.IsAuthenticated)
+            {
+                <p> Hello, @User.Identity.Name</p>
+            }
+            else
+            {
+                <ul class="blue-text right hide-on-med-and-down">
+                    <li>@Html.ActionLink("Support", MVC.Home.About(), new {@class = "black-text"})</li>
+                    <li>@Html.ActionLink("About", MVC.Home.About(), new {@class = "brown-text"})</li>
+                    <li>@Html.ActionLink("Log in", MVC.Account.Login(), new {@class = "blue-text"})</li>
+                    <li>@Html.ActionLink("Sign in", MVC.Account.Register(), new {@class = "lime-text"})</li>
                 </ul>
-                @Html.Partial("_LoginPartial")
+            }
+            <ul id="nav-mobile" class="side-nav">
+                <li><a href="#">Pomoc</a></li>
+                <li><a href="#">Co to jest?</a></li>
+                <li><a href="#">Zaloguj się</a></li>
+            </ul>
+            <a href="#" data-activates="nav-mobile" class="button-collapse"><i class="material-icons">menu</i></a>
+        </div>
+    </nav>
+
+    <div id="index-banner" class="parallax-container">
+        <div class="section no-pad-bot">
+            <div class="container center ">
+                <div class="row">
+                    <div class="col l12 s12 m5">
+                        <h1 class="header green-text">ABSOLUTLY FREE</h1>
+                        <div class="row">
+                            <h5 class="header col s12 m6 l6 offset-l3 offset-m3 light" style="text-align: justify;">
+                                Lorem ipsum dolor sit amet enim. Etiam ullamcorper.
+                                Suspendisse a pellentesque dui, non felis.
+                                Maecenas malesuada elit lectus felis, malesuada ultricies.
+                            </h5>
+                        </div>
+                        <div class="row center">
+                            @Html.ActionLink("Get started", MVC.Account.Register(), new { @class = "btn blue btn-large waves-effect waves-light" })
+                        </div>
+                        <br><br>
+                    </div>
+                </div>
             </div>
         </div>
-    </div>
-    <div class="container body-content">
-        @RenderBody()
-        <hr />
-        <footer>
-            <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
-        </footer>
+        <div class="parallax"><img src="~/Graph/Backgrounds/background3.jpg"></div>
     </div>
 
-    @Scripts.Render("~/bundles/jquery")
-    @Scripts.Render("~/bundles/bootstrap")
-    @RenderSection("scripts", required: false)
+    <div id="register-section" class="container body-content">
+        @RenderBody()
+    </div>
+
+    <footer class="center-align">
+        <p>&copy; @DateTime.Now.Year - FENRIR SOFTWARE</p>
+    </footer>
+
+    <!--  Scripts-->
+    <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+    <script src="~/js/materialize.js"></script>
+    <script src="~/js/init.js"></script>
+
+
 </body>
 </html>
