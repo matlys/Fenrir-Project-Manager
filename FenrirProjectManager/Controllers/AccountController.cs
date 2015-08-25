@@ -1,14 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
-using System.Web.Security;
 using DataAccessInterfaces;
+using FenrirProjectManager.Extension;
 using FenrirProjectManager.Models;
 using Microsoft.AspNet.Identity;
-using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using Model.Enums;
@@ -22,20 +21,22 @@ namespace FenrirProjectManager.Controllers
     {
         private readonly IUserRepo _userRepo;
         private readonly IProjectRepo _projectRepo;
+        private readonly IEmailRepo _emailRepo;
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
 
-        public AccountController(IUserRepo userRepo, IProjectRepo projectRepo)
+        public AccountController(IUserRepo userRepo, IProjectRepo projectRepo, IEmailRepo emailRepo)
         {
             _userRepo = userRepo;
             _projectRepo = projectRepo;
+            _emailRepo = emailRepo;
+            _emailRepo.SetSmtpConfiguration("localhost", 25, "registration@fenrir-software.com", "fenrir2015", false);
         }
 
-        public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager, IProjectRepo projectRepo)
+        public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager)
         {
             UserManager = userManager;
             SignInManager = signInManager;
-            _projectRepo = projectRepo;
         }
 
         public ApplicationSignInManager SignInManager
@@ -141,17 +142,22 @@ namespace FenrirProjectManager.Controllers
             }
         }
 
-        //
-        // GET: /Account/Register
         [AllowAnonymous]
         public virtual ActionResult Register()
         {
-            ViewBag.Title = "Registration";
+            try
+            {
+                _emailRepo.SendEmail("mateusz.lysien@fenrir-software.com",
+                                     Helpers.EmailManager.Subject,
+                                     Helpers.EmailManager.GenerateBody(Request.Url.Host, "Mateusz", new Guid()));
+            }
+            catch (Exception exception)
+            {
+                Debug.Write(exception.Message);
+            }
             return View();
         }
 
-        //
-        // POST: /Account/Register
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
@@ -178,24 +184,27 @@ namespace FenrirProjectManager.Controllers
                     Email = model.Email,
                     EmailConfirmed = false,
                 };
+                
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
-                    //await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
-
-                    // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
-                    // Send an email with this link
-                    // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
-                    // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
-                    // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
-
-                    return RedirectToAction("Index", "Home");
+                    _userRepo.AddUserToRole(user, Model.Consts.Consts.ProjectManagerRole);
+                    _userRepo.SaveChanges();
+                    try
+                    {
+                        _emailRepo.SendEmail(user.Email, 
+                                             Helpers.EmailManager.Subject,
+                                             Helpers.EmailManager.GenerateBody(Request.Url.Host, user.FirstName, new Guid(user.Id)));
+                    }
+                    catch (Exception exception)
+                    {
+                        return View("ConfirmEmail");
+                    }
+                    return View("ConfirmEmail");
                 }
                 AddErrors(result);
 
             }
-
-            // If we got this far, something failed, redisplay form
             return View(model);
         }
 

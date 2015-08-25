@@ -198,9 +198,11 @@
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\ProjectsController.cs" />
     <Compile Include="Controllers\UsersController.cs" />
+    <Compile Include="Extension\Extension.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Helpers\EmailGenerator.cs" />
     <Compile Include="HomeController.generated.cs">
       <DependentUpon>T4MVC.tt</DependentUpon>
     </Compile>
@@ -234,6 +236,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="css\materialize.css" />
+    <Content Include="css\slider.css" />
     <Content Include="css\style.css" />
     <Content Include="favico.ico" />
     <Content Include="Global.asax" />
@@ -320,12 +323,14 @@
     <None Include="T4MVC.tt.hooks.t4" />
     <Content Include="Views\Account\_ViewStart.cshtml" />
     <Content Include="Views\Shared\_NotLoggedInLayout.cshtml" />
+    <Content Include="Views\Shared\FeatureSlider.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Content\" />
     <Folder Include="font\material-design-icons\" />
     <Folder Include="font\roboto\" />
+    <Folder Include="Views\Email\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

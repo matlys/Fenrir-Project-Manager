@@ -57,6 +57,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="EmailRepo.cs" />
     <Compile Include="ProjectRepo.cs" />
     <Compile Include="IssueRepo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

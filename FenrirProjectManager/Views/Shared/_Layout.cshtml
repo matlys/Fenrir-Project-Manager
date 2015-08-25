@@ -7,29 +7,41 @@
     <title>Fenrir - Project Manager</title>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link href="~/css/materialize.css" type="text/css" rel="stylesheet" media="screen,projection" />
-    <link href="~/css/style.css" type="text/css" rel="stylesheet" media="screen,projection" />
+    <link href="~/css/style.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+    <link href="~/css/slider.css" type="text/css" rel="stylesheet" media="screen,projection" />
 </head>
 
 <body>
     <nav class="white" role="navigation">
         <div class="nav-wrapper container">
-
             <img src="~/Graph/FENRIR_LOGO2.png" style="padding: 10px" width="65" class="responsive-img" />
             @Html.ActionLink("FENRIR PROJECT MANAGER", MVC.Home.Index(), new { @class = "brand-logo", @id = "logo-container" })
-            <p> Hello, @HttpContext.Current.User.Identity.Name</p>
-            @if (HttpContext.Current.User.Identity.IsAuthenticated)
+
+            <ul class="right hide-on-med-and-down">
+
+                @if (Request.IsAuthenticated)
             {
-                <p> Hello, @User.Identity.Name</p>
-            }
-            else
-            {
-                <ul class="blue-text right hide-on-med-and-down">
-                    <li>@Html.ActionLink("Support", MVC.Home.About(), new {@class = "black-text"})</li>
-                    <li>@Html.ActionLink("About", MVC.Home.About(), new {@class = "brown-text"})</li>
-                    <li>@Html.ActionLink("Log in", MVC.Account.Login(), new {@class = "blue-text"})</li>
-                    <li>@Html.ActionLink("Sign in", MVC.Account.Register(), new {@class = "lime-text"})</li>
-                </ul>
-            }
+                using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
+                {
+                        @Html.AntiForgeryToken()
+
+                        <ul class="nav navbar-nav navbar-right">
+                            <li>
+                                @Html.ActionLink("Hello " + User.Identity.Name + "!", "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" })
+                            </li>
+                            <li><a href="javascript:document.getElementById('logoutForm').submit()">Log off</a></li>
+                        </ul>
+                    }
+                }
+                else
+                {
+                    <li><a class="black-text indigo-hover hover-animation" href="@Url.Action(MVC.Home.About())">What's news</a></li>
+                    <li><a class="black-text blue-hover hover-animation" href="@Url.Action(MVC.Home.About())">Support</a></li>
+                    <li><a class="black-text brown-hover hover-animation" href="@Url.Action(MVC.Account.Login())">About</a></li>
+                    <li><a class="black-text gold-hover hover-animation" href="@Url.Action(MVC.Account.Register())">Register</a></li>
+                    <li><a class="black-text green-hover hover-animation" href="@Url.Action(MVC.Account.Login())">Log in</a></li>
+                }
+            </ul>
             <ul id="nav-mobile" class="side-nav">
                 <li><a href="#">Pomoc</a></li>
                 <li><a href="#">Co to jest?</a></li>
@@ -39,19 +51,12 @@
         </div>
     </nav>
 
-    <div id="index-banner" class="parallax-container">
+    <div id="index-banner" class="parallax-container" style="background: rgba(0, 0, 0, 0.6);">
         <div class="section no-pad-bot">
             <div class="container center ">
                 <div class="row">
                     <div class="col l12 s12 m5">
-                        <h1 class="header green-text">ABSOLUTLY FREE</h1>
-                        <div class="row">
-                            <h5 class="header col s12 m6 l6 offset-l3 offset-m3 light" style="text-align: justify;">
-                                Lorem ipsum dolor sit amet enim. Etiam ullamcorper.
-                                Suspendisse a pellentesque dui, non felis.
-                                Maecenas malesuada elit lectus felis, malesuada ultricies.
-                            </h5>
-                        </div>
+                            @Html.Partial("FeatureSlider")
                         <div class="row center">
                             @Html.ActionLink("Get started", MVC.Account.Register(), new { @class = "btn blue btn-large waves-effect waves-light" })
                         </div>
@@ -60,7 +65,9 @@
                 </div>
             </div>
         </div>
-        <div class="parallax"><img src="~/Graph/Backgrounds/background3.jpg"></div>
+        <div class="parallax">
+            <img src="~/Graph/Backgrounds/background3.jpg">
+        </div>
     </div>
 
     <div id="register-section" class="container body-content">
@@ -71,7 +78,7 @@
         <p>&copy; @DateTime.Now.Year - FENRIR SOFTWARE</p>
     </footer>
 
-    <!--  Scripts-->
+    <!-- Scripts-->
     <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
     <script src="~/js/materialize.js"></script>
     <script src="~/js/init.js"></script>

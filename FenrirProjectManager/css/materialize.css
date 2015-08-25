@@ -1,4 +1,4 @@
-﻿/*!
+/*!
  * Materialize v0.97.0 (http://materializecss.com)
  * Copyright 2014-2015 Materialize
  * MIT License (https://raw.githubusercontent.com/Dogfalo/materialize/master/LICENSE)
@@ -2161,6 +2161,31 @@
 
 .transparent-text {
     color: transparent !important;
+}
+
+/*my classes*/
+.green-hover:hover {
+    color: #689f38 !important;
+}
+
+.blue-hover:hover {
+    color: #0089ec !important;
+}
+
+.brown-hover:hover {
+    color: #795548 !important;
+}
+
+.indigo-hover:hover {
+    color: indigo !important;
+}
+
+.gold-hover:hover {
+    color: gold !important;
+}
+
+.hover-animation {
+    transition: color 0.15s 0s;
 }
 
 /*** Colors ***/
@@ -6644,7 +6669,7 @@ span.badge {
 
 @media only screen and (min-width : 993px) {
     .container {
-        width: 90%;
+        width: 80%;
     }
 }
 
@@ -7061,9 +7086,9 @@ nav .button-collapse {
 
 nav .brand-logo {
     position: absolute;
-    color: #000;
+    color: #fff;
     display: inline-block;
-    font-size: 1.8rem;
+    font-size: 2.1rem;
     padding: 0;
     white-space: nowrap;
 }
@@ -7108,7 +7133,7 @@ nav ul {
     }
 
         nav ul li:hover, nav ul li.active {
-            background-color: rgba(0, 0, 0, 0.1);
+            background-color: rgba(0, 0, 0, 0.0);
         }
 
     nav ul a {

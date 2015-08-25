@@ -30,6 +30,7 @@ namespace FenrirProjectManager
             _containerBuilder.RegisterType<IssueRepo>().AsSelf().As<IIssueRepo>();
             _containerBuilder.RegisterType<ProjectRepo>().AsSelf().As<IProjectRepo>();
             _containerBuilder.RegisterType<UserRepo>().AsSelf().As<IUserRepo>();
+            _containerBuilder.RegisterType<EmailRepo>().AsSelf().As<IEmailRepo>();
 
             // building controllers
             _container = _containerBuilder.Build();

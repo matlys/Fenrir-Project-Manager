@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using System.Web.Helpers;
 using FenrirProjectManager.ValidationAttributes;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NUnit.Framework;
@@ -131,8 +132,8 @@ namespace FenrirProjectManager.Tests
         public void password_hash_is_correct(string password)
         {
             string hash = _passwordValidator.ToHashCode(password);
-
-            Assert.IsTrue(hash.Length == 40);
+            bool result = Crypto.VerifyHashedPassword(hash, password);
+            Assert.IsTrue(result);
         }
         #endregion
 
