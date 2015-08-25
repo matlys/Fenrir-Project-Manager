@@ -145,16 +145,6 @@ namespace FenrirProjectManager.Controllers
         [AllowAnonymous]
         public virtual ActionResult Register()
         {
-            try
-            {
-                _emailRepo.SendEmail("mateusz.lysien@fenrir-software.com",
-                                     Helpers.EmailManager.Subject,
-                                     Helpers.EmailManager.GenerateBody(Request.Url.Host, "Mateusz", new Guid()));
-            }
-            catch (Exception exception)
-            {
-                Debug.Write(exception.Message);
-            }
             return View();
         }
 
@@ -194,7 +184,7 @@ namespace FenrirProjectManager.Controllers
                     {
                         _emailRepo.SendEmail(user.Email, 
                                              Helpers.EmailManager.Subject,
-                                             Helpers.EmailManager.GenerateBody(Request.Url.Host, user.FirstName, new Guid(user.Id)));
+                                             Helpers.EmailManager.GenerateBody(user.Email, new Guid(user.Id)));
                     }
                     catch (Exception exception)
                     {

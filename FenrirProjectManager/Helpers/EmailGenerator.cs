@@ -13,7 +13,7 @@ namespace FenrirProjectManager.Helpers
     {
         public static string Subject = "Welcome in Fenrir Project Manager";
 
-        public static string GenerateBody(string host, string userName, Guid token)
+        public static string GenerateBody(string userName, Guid token)
         {
 
             string body = string.Format(
