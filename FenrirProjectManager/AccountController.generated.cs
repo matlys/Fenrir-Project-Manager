@@ -324,27 +324,7 @@ namespace FenrirProjectManager.Controllers
         partial void VerifyCodeOverride(T4MVC_System_Web_Mvc_ActionResult callInfo, string provider, string returnUrl, bool rememberMe);
 
         [NonAction]
-        public override System.Threading.Tasks.Task<System.Web.Mvc.ActionResult> VerifyCode(string provider, string returnUrl, bool rememberMe)
-        {
-            var callInfo = new T4MVC_System_Web_Mvc_ActionResult(Area, Name, ActionNames.VerifyCode);
-            ModelUnbinderHelpers.AddRouteValues(callInfo.RouteValueDictionary, "provider", provider);
-            ModelUnbinderHelpers.AddRouteValues(callInfo.RouteValueDictionary, "returnUrl", returnUrl);
-            ModelUnbinderHelpers.AddRouteValues(callInfo.RouteValueDictionary, "rememberMe", rememberMe);
-            VerifyCodeOverride(callInfo, provider, returnUrl, rememberMe);
-            return System.Threading.Tasks.Task.FromResult(callInfo as ActionResult);
-        }
-
-        [NonAction]
         partial void VerifyCodeOverride(T4MVC_System_Web_Mvc_ActionResult callInfo, Model.Views.VerifyCodeViewModel model);
-
-        [NonAction]
-        public override System.Threading.Tasks.Task<System.Web.Mvc.ActionResult> VerifyCode(Model.Views.VerifyCodeViewModel model)
-        {
-            var callInfo = new T4MVC_System_Web_Mvc_ActionResult(Area, Name, ActionNames.VerifyCode);
-            ModelUnbinderHelpers.AddRouteValues(callInfo.RouteValueDictionary, "model", model);
-            VerifyCodeOverride(callInfo, model);
-            return System.Threading.Tasks.Task.FromResult(callInfo as ActionResult);
-        }
 
         [NonAction]
         partial void RegisterOverride(T4MVC_System_Web_Mvc_ActionResult callInfo);

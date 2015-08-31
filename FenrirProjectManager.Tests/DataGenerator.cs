@@ -19,6 +19,7 @@ namespace FenrirProjectManager.Tests
                 UserName = "mateusz.lysien@gmail.com",
                 Avatar = new byte[] { 0 }, //todo: method which convert loaded bitmap to byte[]
                 ProjectId = Guid.Parse("de33562c-eb3f-41e6-9c2c-854fd15abf18"),
+                Token = Guid.Parse("de33562c-eb3f-24d4-9c2c-854fd15abf18"),
             };
 
             #endregion
@@ -35,6 +36,7 @@ namespace FenrirProjectManager.Tests
                 UserName = "reenie.chandler@fenrir.com",
                 Avatar = new byte[] { 0 }, //todo: method which convert loaded bitmap to byte[]
                 ProjectId = Guid.Parse("de33562c-eb3f-41e6-9c2c-854fd15abf18"),
+                Token = Guid.Parse("pl33562c-eb3f-24d4-9c2c-854fd15abf18"),
             };
 
             #endregion
@@ -51,6 +53,7 @@ namespace FenrirProjectManager.Tests
                 UserName = "zola.firmin@fenrir.com",
                 Avatar = new byte[] { 0 }, //todo: method which convert loaded bitmap to byte[]
                 ProjectId = Guid.Parse("de33562c-eb3f-41e6-9c2c-854fd15abf18"),
+                Token = Guid.Parse("de33565a-eb3f-24d4-9c2c-854fd15abf18"),
             };
 
             #endregion

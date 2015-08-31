@@ -1,1 +1,2 @@
-1.2.0 - token property added into model
+1.2.1 - changing in Account controller: activation link has been completed.
+1.2.0 - token property added into model.

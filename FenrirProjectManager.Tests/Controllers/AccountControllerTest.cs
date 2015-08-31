@@ -6,6 +6,9 @@ using FenrirProjectManager.Controllers;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Model.Models;
 using Moq;
+using NUnit.Core;
+using NUnit.Framework;
+using Assert = Microsoft.VisualStudio.TestTools.UnitTesting.Assert;
 
 namespace FenrirProjectManager.Tests.Controllers
 {

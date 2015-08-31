@@ -82,9 +82,12 @@ namespace FenrirProjectManager.Controllers
                 return View(model);
             }
 
-            // This doesn't count login failures towards account lockout
-            // To enable password failures to trigger account lockout, change to shouldLockout: true
-
+            if (_userRepo.GetAllUsers().FirstOrDefault(u => u.Email == model.Email && u.EmailConfirmed == false) != null)
+            {
+                ModelState.AddModelError("", "Your account isn't activate yet!");
+                return View(model);
+            }
+            
             var result = await SignInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, shouldLockout: false);
             switch (result)
             {
@@ -100,47 +103,6 @@ namespace FenrirProjectManager.Controllers
             }
         }
 
-        // GET: /Account/VerifyCode
-        [AllowAnonymous]
-        public virtual async Task<ActionResult> VerifyCode(string provider, string returnUrl, bool rememberMe)
-        {
-            // Require that the user has already logged in via username/password or external login
-            if (!await SignInManager.HasBeenVerifiedAsync())
-            {
-                return View("Error");
-            }
-            return View(new VerifyCodeViewModel { Provider = provider, ReturnUrl = returnUrl, RememberMe = rememberMe });
-        }
-
-        //
-        // POST: /Account/VerifyCode
-        [HttpPost]
-        [AllowAnonymous]
-        [ValidateAntiForgeryToken]
-        public virtual async Task<ActionResult> VerifyCode(VerifyCodeViewModel model)
-        {
-            if (!ModelState.IsValid)
-            {
-                return View(model);
-            }
-
-            // The following code protects for brute force attacks against the two factor codes. 
-            // If a user enters incorrect codes for a specified amount of time then the user account 
-            // will be locked out for a specified amount of time. 
-            // You can configure the account lockout settings in IdentityConfig
-            var result = await SignInManager.TwoFactorSignInAsync(model.Provider, model.Code, isPersistent: model.RememberMe, rememberBrowser: model.RememberBrowser);
-            switch (result)
-            {
-                case SignInStatus.Success:
-                    return RedirectToLocal(model.ReturnUrl);
-                case SignInStatus.LockedOut:
-                    return View("Lockout");
-                case SignInStatus.Failure:
-                default:
-                    ModelState.AddModelError("", "Invalid code.");
-                    return View(model);
-            }
-        }
 
         [AllowAnonymous]
         public virtual ActionResult Register()
@@ -173,6 +135,7 @@ namespace FenrirProjectManager.Controllers
                     UserName = model.Email,
                     Email = model.Email,
                     EmailConfirmed = false,
+                    Token = Guid.NewGuid()
                 };
                 
                 var result = await UserManager.CreateAsync(user, model.Password);
@@ -184,7 +147,7 @@ namespace FenrirProjectManager.Controllers
                     {
                         _emailRepo.SendEmail(user.Email, 
                                              Helpers.EmailManager.Subject,
-                                             Helpers.EmailManager.GenerateBody(user.Email, new Guid(user.Id), Guid.NewGuid()));
+                                             Helpers.EmailManager.GenerateBody(user.Email, new Guid(user.Id), user.Token));
                     }
                     catch (Exception exception)
                     {
@@ -201,17 +164,27 @@ namespace FenrirProjectManager.Controllers
             return View(model);
         }
 
-        //
         // GET: /Account/ConfirmEmail
         [AllowAnonymous]
-        public virtual async Task<ActionResult> ConfirmEmail(string userId, string code)
+        public virtual async Task<ActionResult> ConfirmEmail(string userId, string token)
         {
-            if (userId == null || code == null)
+            if (userId == null || token == null)
             {
                 return View("Error");
             }
-            var result = await UserManager.ConfirmEmailAsync(userId, code);
-            return View(result.Succeeded ? "ConfirmEmail" : "Error");
+
+            var user = _userRepo.GetAllUsers().FirstOrDefault(u => u.Id == userId);
+            if (user != null)
+            {
+                if (user.Token == Guid.Parse(token))
+                {
+                    user.EmailConfirmed = true;
+                    _userRepo.SaveChanges();
+                    return View("ConfirmEmail");
+                }
+            }
+
+            return View("Error");
         }
 
         //
