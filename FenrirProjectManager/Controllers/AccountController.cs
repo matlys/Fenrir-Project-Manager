@@ -184,11 +184,14 @@ namespace FenrirProjectManager.Controllers
                     {
                         _emailRepo.SendEmail(user.Email, 
                                              Helpers.EmailManager.Subject,
-                                             Helpers.EmailManager.GenerateBody(user.Email, new Guid(user.Id)));
+                                             Helpers.EmailManager.GenerateBody(user.Email, new Guid(user.Id), Guid.NewGuid()));
                     }
                     catch (Exception exception)
                     {
-                        return View("ConfirmEmail");
+                        ExceptionViewModel exceptionViewModel = new ExceptionViewModel();
+                        exceptionViewModel.ExceptionMessage = exception.Message;
+
+                        return View("Error", exceptionViewModel);
                     }
                     return View("ConfirmEmail");
                 }
