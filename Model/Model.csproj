@@ -90,6 +90,22 @@
     <Compile Include="Migrations\201508011604021_migration1.Designer.cs">
       <DependentUpon>201508011604021_migration1.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201508311620378_token_added.cs" />
+    <Compile Include="Migrations\201508311620378_token_added.Designer.cs">
+      <DependentUpon>201508311620378_token_added.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201508311623090_token_added_repair.cs" />
+    <Compile Include="Migrations\201508311623090_token_added_repair.Designer.cs">
+      <DependentUpon>201508311623090_token_added_repair.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201508311632422_token_added2.cs" />
+    <Compile Include="Migrations\201508311632422_token_added2.Designer.cs">
+      <DependentUpon>201508311632422_token_added2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201508311909112_token_added4.cs" />
+    <Compile Include="Migrations\201508311909112_token_added4.Designer.cs">
+      <DependentUpon>201508311909112_token_added4.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Context.cs" />
     <Compile Include="Enums\Enums.cs" />
@@ -105,6 +121,18 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201508011604021_migration1.resx">
       <DependentUpon>201508011604021_migration1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201508311620378_token_added.resx">
+      <DependentUpon>201508311620378_token_added.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201508311623090_token_added_repair.resx">
+      <DependentUpon>201508311623090_token_added_repair.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201508311632422_token_added2.resx">
+      <DependentUpon>201508311632422_token_added2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201508311909112_token_added4.resx">
+      <DependentUpon>201508311909112_token_added4.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
