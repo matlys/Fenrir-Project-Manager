@@ -1,11 +1,11 @@
 ﻿@model FenrirProjectManager.Models.ExceptionViewModel
 @{
-    ViewBag.Title = "Error";
+    Layout = "~/Views/Shared/_NotLoggedInLayout.cshtml";
 }
 
-<div class="row center">
+<div class="row center ">
 
-    <p>@Model.ExceptionMessage</p>
-
+    <p class="flow-text red-text" style="margin-top: 15%">@Model.ExceptionMessage</p>
+    <a class="btn brown waves-effect waves-light" href="@Url.Action(Model.ReturnUrl)"> OK </a>
 </div>
 

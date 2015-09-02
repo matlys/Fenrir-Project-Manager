@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Drawing;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using DataAccessInterfaces;
 using FenrirProjectManager.Extension;
+using FenrirProjectManager.Helpers;
 using FenrirProjectManager.Models;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
@@ -63,7 +65,30 @@ namespace FenrirProjectManager.Controllers
             }
         }
 
-        // GET: /Account/Login
+        private bool IsEmailConfirned(string email)
+        {
+            var user = _userRepo.GetAllUsers().FirstOrDefault(u => u.Email == email && u.EmailConfirmed);
+            if (user == null) return false;
+            return true;
+        }
+
+        private bool ActivateUser(Guid userId, Guid token)
+        {
+            var user = _userRepo.GetUserById(userId);
+
+            if (user == null) return false;
+
+            if (user.Token != token) return false;
+           
+            user.EmailConfirmed = true;
+            _userRepo.UpdateUser(user);
+            _userRepo.SaveChanges();
+
+            return true;
+        }
+
+
+        [HttpGet]
         [AllowAnonymous]
         public virtual ActionResult Login(string returnUrl)
         {
@@ -71,35 +96,42 @@ namespace FenrirProjectManager.Controllers
             return View();
         }
 
-        // POST: /Account/Login
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
         public virtual async Task<ActionResult> Login(LoginViewModel model, string returnUrl)
         {
-            if (!ModelState.IsValid)
+            try
             {
-                return View(model);
-            }
+                if (!ModelState.IsValid) return View(model);
 
-            if (_userRepo.GetAllUsers().FirstOrDefault(u => u.Email == model.Email && u.EmailConfirmed == false) != null)
-            {
-                ModelState.AddModelError("", "Your account isn't activate yet!");
-                return View(model);
-            }
-            
-            var result = await SignInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, shouldLockout: false);
-            switch (result)
-            {
-                case SignInStatus.Success:
-                    return RedirectToLocal(returnUrl);
-                case SignInStatus.LockedOut:
-                    return View("Lockout");
-                case SignInStatus.RequiresVerification:
-                    return RedirectToAction("SendCode", new { ReturnUrl = returnUrl, RememberMe = model.RememberMe });
-                default:
-                    ModelState.AddModelError("", "Invalid login attempt.");
+                if (!IsEmailConfirned(model.Email))
+                {
+                    ModelState.AddModelError("", "Your account isn't activate yet!");
                     return View(model);
+                }
+
+                var result = await SignInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, false);
+
+                switch (result)
+                {
+                    case SignInStatus.Success:
+                        return RedirectToLocal(returnUrl);
+                    case SignInStatus.LockedOut:
+                        return View("Lockout");
+                    case SignInStatus.RequiresVerification:
+                        return RedirectToAction("SendCode", new {ReturnUrl = returnUrl, RememberMe = model.RememberMe});
+                    default:
+                        ModelState.AddModelError("", "Invalid login attempt.");
+                        return View(model);
+                }
+            }
+            catch (Exception exception)
+            {
+                ExceptionViewModel exceptionViewModel = new ExceptionViewModel();
+                exceptionViewModel.ExceptionMessage = exception.Message;
+                exceptionViewModel.ReturnUrl = MVC.Account.Login();
+                return View("Error", exceptionViewModel);
             }
         }
 
@@ -135,7 +167,8 @@ namespace FenrirProjectManager.Controllers
                     UserName = model.Email,
                     Email = model.Email,
                     EmailConfirmed = false,
-                    Token = Guid.NewGuid()
+                    Token = Guid.NewGuid(),
+                    Avatar = ImageManager.GetByteArray(new Bitmap(Resources.Images.project_manager_avatar))
                 };
                 
                 var result = await UserManager.CreateAsync(user, model.Password);
@@ -164,27 +197,23 @@ namespace FenrirProjectManager.Controllers
             return View(model);
         }
 
-        // GET: /Account/ConfirmEmail
+        [HttpGet]
         [AllowAnonymous]
         public virtual async Task<ActionResult> ConfirmEmail(string userId, string token)
         {
-            if (userId == null || token == null)
+            try
             {
-                return View("Error");
-            }
+                if (userId == null || token == null) return View("Error");
 
-            var user = _userRepo.GetAllUsers().FirstOrDefault(u => u.Id == userId);
-            if (user != null)
+                return View(!ActivateUser(new Guid(userId), new Guid(token)) ? "Error" : "ConfirmEmail");
+            }
+            catch (Exception exception)
             {
-                if (user.Token == Guid.Parse(token))
-                {
-                    user.EmailConfirmed = true;
-                    _userRepo.SaveChanges();
-                    return View("ConfirmEmail");
-                }
+                ExceptionViewModel exceptionViewModel = new ExceptionViewModel();
+                exceptionViewModel.ExceptionMessage = exception.Message;
+                exceptionViewModel.ReturnUrl = MVC.Account.Login();
+                return View("Error", exceptionViewModel);
             }
-
-            return View("Error");
         }
 
         //
@@ -483,6 +512,8 @@ namespace FenrirProjectManager.Controllers
             }
         }
         #endregion
+
+
 
         public bool IsEmailExist(string email)
         {

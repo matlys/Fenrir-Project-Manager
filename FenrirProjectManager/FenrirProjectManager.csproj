@@ -177,6 +177,11 @@
     <Compile Include="AccountController.generated.cs">
       <DependentUpon>T4MVC.tt</DependentUpon>
     </Compile>
+    <Compile Include="App_GlobalResources\Images.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Images.resx</DependentUpon>
+    </Compile>
     <Compile Include="App_GlobalResources\resource.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -241,11 +246,15 @@
     <Content Include="css\style.css" />
     <Content Include="favico.ico" />
     <Content Include="Global.asax" />
+    <Content Include="Graph\Avatars\developer_avatar.png" />
+    <Content Include="Graph\Avatars\observer_avatar.png" />
+    <Content Include="Graph\Avatars\project_manager_avatar.png" />
     <Content Include="Graph\Backgrounds\background1.jpg" />
     <Content Include="Graph\Backgrounds\background2.jpg" />
     <Content Include="Graph\Backgrounds\background3.jpg" />
     <Content Include="Graph\FENRIR_LOGO1.png" />
     <Content Include="Graph\FENRIR_LOGO2.png" />
+    <Compile Include="Helpers\ImageManager.cs" />
     <Content Include="js\init.js" />
     <Content Include="js\materialize.js" />
     <Content Include="js\materialize.min.js" />
@@ -365,6 +374,12 @@
     <Content Include="App_GlobalResources\resource.pl-PL.resx">
       <Generator>GlobalResourceProxyGenerator</Generator>
       <LastGenOutput>resource.pl-PL.designer.cs</LastGenOutput>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="App_GlobalResources\Images.resx">
+      <Generator>GlobalResourceProxyGenerator</Generator>
+      <LastGenOutput>Images.Designer.cs</LastGenOutput>
     </Content>
   </ItemGroup>
   <PropertyGroup>
