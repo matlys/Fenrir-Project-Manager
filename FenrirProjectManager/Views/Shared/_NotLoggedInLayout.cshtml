@@ -1,0 +1,48 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fenrir - Project Manager</title>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="~/css/materialize.css" type="text/css" rel="stylesheet" media="screen,projection" />
+    <link href="~/css/style.css" type="text/css" rel="stylesheet" media="screen,projection" />
+</head>
+
+<body>
+    <nav class="white" role="navigation">
+        <div class="nav-wrapper container">
+
+            <img src="~/Graph/FENRIR_LOGO2.png" style="padding: 10px" width="65" class="responsive-img" />
+            @Html.ActionLink("FENRIR PROJECT MANAGER", MVC.Home.Index(), new { @class = "brand-logo", @id = "logo-container" })
+
+            <ul class="blue-text right hide-on-med-and-down">
+                <li>@Html.ActionLink("Log in", MVC.Account.Login(), new { @class = "blue-text" })</li>
+                <li>@Html.ActionLink("Sign in", MVC.Account.Register(), new { @class = "lime-text" })</li>
+            </ul>
+
+            <ul id="nav-mobile" class="side-nav">
+                <li><a href="#">Pomoc</a></li>
+                <li><a href="#">Co to jest?</a></li>
+                <li><a href="#">Zaloguj się</a></li>
+            </ul>
+            <a href="#" data-activates="nav-mobile" class="button-collapse"><i class="material-icons">menu</i></a>
+        </div>
+    </nav>
+
+    <div id="register-section" class="container body-content">
+        @RenderBody()
+    </div>
+
+    <footer class="center-align">
+        <p>&copy; @DateTime.Now.Year - FENRIR SOFTWARE</p>
+    </footer>
+
+    <!--  Scripts-->
+    <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+    <script src="~/js/materialize.js"></script>
+    <script src="~/js/init.js"></script>
+
+
+</body>
+</html>

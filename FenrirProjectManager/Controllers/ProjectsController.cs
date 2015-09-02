@@ -12,7 +12,7 @@ using Model.Models;
 
 namespace FenrirProjectManager.Controllers
 {
-    public class ProjectsController : Controller
+    public partial class ProjectsController : Controller
     {
         private IProjectRepo _projectRepo;
 
@@ -22,28 +22,28 @@ namespace FenrirProjectManager.Controllers
         }
 
         // GET: Projects
-        public ActionResult Index()
+        public virtual ActionResult Index()
         {
             var projects = _projectRepo.GetAllProjects();
             return View();
         }
 
         // GET: Projects/Details/5
-        public ActionResult Details(Guid? id)
+        public virtual ActionResult Details(Guid? id)
         {
             if (id == null)
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            
+
             Project project = _projectRepo.GetProjectById((Guid)id);
 
             if (project == null)
                 return HttpNotFound();
-            
+
             return View(project);
         }
 
         // GET: Projects/Create
-        public ActionResult Create()
+        public virtual ActionResult Create()
         {
             return View();
         }
@@ -53,7 +53,7 @@ namespace FenrirProjectManager.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Name,Description,Logo,CreationDate,ClosedDate,Status")] Project project)
+        public virtual ActionResult Create([Bind(Include = "Id,Name,Description,Logo,CreationDate,ClosedDate,Status")] Project project)
         {
             if (ModelState.IsValid)
             {
@@ -67,7 +67,7 @@ namespace FenrirProjectManager.Controllers
         }
 
         // GET: Projects/Edit/5
-        public ActionResult Edit(Guid? id)
+        public virtual ActionResult Edit(Guid? id)
         {
             if (id == null)
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -85,7 +85,7 @@ namespace FenrirProjectManager.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Name,Description,Logo,CreationDate,ClosedDate,Status")] Project project)
+        public virtual ActionResult Edit([Bind(Include = "Id,Name,Description,Logo,CreationDate,ClosedDate,Status")] Project project)
         {
             if (ModelState.IsValid)
             {
@@ -96,23 +96,23 @@ namespace FenrirProjectManager.Controllers
         }
 
         // GET: Projects/Delete/5
-        public ActionResult Delete(Guid? id)
+        public virtual ActionResult Delete(Guid? id)
         {
             if (id == null)
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 
-            Project project = _projectRepo.GetProjectById((Guid) id);
+            Project project = _projectRepo.GetProjectById((Guid)id);
 
             if (project == null)
                 return HttpNotFound();
-            
+
             return View(project);
         }
 
         // POST: Projects/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(Guid id)
+        public virtual ActionResult DeleteConfirmed(Guid id)
         {
             _projectRepo.DeleteProject(id);
             _projectRepo.SaveChanges();

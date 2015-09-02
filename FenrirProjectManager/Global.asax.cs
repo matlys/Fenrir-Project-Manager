@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Linq.Expressions;
-using System.Reflection;
-using System.Web;
-using System.Web.Mvc;
+﻿using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
 using Autofac;
@@ -12,7 +6,6 @@ using Autofac.Integration.Mvc;
 using DataAccessImplementation;
 using DataAccessInterfaces;
 using FenrirProjectManager.Controllers;
-
 namespace FenrirProjectManager
 {
     public class MvcApplication : System.Web.HttpApplication
@@ -37,6 +30,7 @@ namespace FenrirProjectManager
             _containerBuilder.RegisterType<IssueRepo>().AsSelf().As<IIssueRepo>();
             _containerBuilder.RegisterType<ProjectRepo>().AsSelf().As<IProjectRepo>();
             _containerBuilder.RegisterType<UserRepo>().AsSelf().As<IUserRepo>();
+            _containerBuilder.RegisterType<EmailRepo>().AsSelf().As<IEmailRepo>();
 
             // building controllers
             _container = _containerBuilder.Build();

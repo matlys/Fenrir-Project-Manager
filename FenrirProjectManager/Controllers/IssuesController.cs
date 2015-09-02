@@ -6,7 +6,7 @@ using Model.Models;
 
 namespace FenrirProjectManager.Controllers
 {
-    public class IssuesController : Controller
+    public partial class IssuesController : Controller
     {
         private readonly IIssueRepo _issueRepo;
         private readonly IUserRepo _userRepo;
@@ -18,25 +18,25 @@ namespace FenrirProjectManager.Controllers
         }
 
         // GET: Issues
-        public ActionResult Index()
+        public virtual ActionResult Index()
         {
             return View(_issueRepo.GetAllIssues());
         }
 
         // GET: Issues/Details/5
-        public ActionResult Details(Guid? id)
+        public virtual ActionResult Details(Guid? id)
         {
             if (id == null) return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            
+
             Issue issue = _issueRepo.GetIssueById((Guid)id);
 
             if (issue == null) return HttpNotFound();
-            
+
             return View(issue);
         }
 
         // GET: Issues/Create
-        public ActionResult Create()
+        public virtual ActionResult Create()
         {
             return View();
         }
@@ -46,7 +46,7 @@ namespace FenrirProjectManager.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Title,Description,CreationDate,FinishDate,Progress,Status,Type,AssignUserId,CreateUserId")] Issue issue)
+        public virtual ActionResult Create([Bind(Include = "Id,Title,Description,CreationDate,FinishDate,Progress,Status,Type,AssignUserId,CreateUserId")] Issue issue)
         {
             if (ModelState.IsValid)
             {
@@ -60,14 +60,14 @@ namespace FenrirProjectManager.Controllers
         }
 
         // GET: Issues/Edit/5
-        public ActionResult Edit(Guid? id)
+        public virtual ActionResult Edit(Guid? id)
         {
             if (id == null) return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 
-            Issue issue = _issueRepo.GetIssueById((Guid) id);
+            Issue issue = _issueRepo.GetIssueById((Guid)id);
 
             if (issue == null) return HttpNotFound();
-            
+
             return View(issue);
         }
 
@@ -76,7 +76,7 @@ namespace FenrirProjectManager.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Title,Description,CreationDate,FinishDate,Progress,Status,Type,AssignUserId,CreateUserId")] Issue issue)
+        public virtual ActionResult Edit([Bind(Include = "Id,Title,Description,CreationDate,FinishDate,Progress,Status,Type,AssignUserId,CreateUserId")] Issue issue)
         {
             if (ModelState.IsValid)
             {
@@ -88,21 +88,21 @@ namespace FenrirProjectManager.Controllers
         }
 
         // GET: Issues/Delete/5
-        public ActionResult Delete(Guid? id)
+        public virtual ActionResult Delete(Guid? id)
         {
             if (id == null) return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 
-            Issue issue = _issueRepo.GetIssueById((Guid) id);
+            Issue issue = _issueRepo.GetIssueById((Guid)id);
 
             if (issue == null) return HttpNotFound();
-            
+
             return View(issue);
         }
 
         // POST: Issues/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(Guid id)
+        public virtual ActionResult DeleteConfirmed(Guid id)
         {
             _issueRepo.DeleteIssue(id);
             _issueRepo.SaveChanges();

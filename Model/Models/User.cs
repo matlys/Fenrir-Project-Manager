@@ -28,7 +28,9 @@ namespace Model.Models
         public virtual Project Project { get; set; }
 
         public virtual ICollection<Issue> Issues { get; set; }
-        
+
+        public Guid Token { get; set; }
+
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<User> manager)
         {
             // Note the authenticationType must match the one defined in CookieAuthenticationOptions.AuthenticationType

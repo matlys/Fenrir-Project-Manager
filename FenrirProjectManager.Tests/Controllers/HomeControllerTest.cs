@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Web.Mvc;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using FenrirProjectManager;
+﻿using System.Web.Mvc;
 using FenrirProjectManager.Controllers;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace FenrirProjectManager.Tests.Controllers
 {
