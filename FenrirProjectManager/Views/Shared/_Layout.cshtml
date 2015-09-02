@@ -1,4 +1,5 @@
-﻿@using Model.Views
+﻿@using System.Drawing
+@using DataAccessImplementation;
 <!DOCTYPE html>
 <html>
 <head>
@@ -18,28 +19,33 @@
             @Html.ActionLink("FENRIR PROJECT MANAGER", MVC.Home.Index(), new { @class = "brand-logo", @id = "logo-container" })
 
             <ul class="right hide-on-med-and-down">
+                @{
+                    if (Request.IsAuthenticated)
+                    {
+                        UserRepo _userRepo = new UserRepo();
+                        var user = _userRepo.GetAllUsers().FirstOrDefault(u => u.Email == User.Identity.Name);
 
-                @if (Request.IsAuthenticated)
-            {
-                using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
-                {
-                        @Html.AntiForgeryToken()
-
-                        <ul class="nav navbar-nav navbar-right">
-                            <li>
-                                @Html.ActionLink("Hello " + User.Identity.Name + "!", "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" })
-                            </li>
-                            <li><a href="javascript:document.getElementById('logoutForm').submit()">Log off</a></li>
-                        </ul>
+                        using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new {id = "logoutForm", @class = "navbar-right"}))
+                        {
+                            @Html.AntiForgeryToken()
+                            <ul class="nav navbar-nav navbar-right">
+                                <li>
+                                <a class="black-text indigo-hover hover-animation" href="@Url.Action(MVC.Home.About())">
+                                    <img style="width: 40px;" align="absmiddle" src="data:image/jpeg;base64,@Convert.ToBase64String(user.Avatar)" />
+                                    Your account
+                                </a>
+                                <li><a href="javascript:document.getElementById('logoutForm').submit()">Log off</a></li>
+                            </ul>
+                        }
                     }
-                }
-                else
-                {
-                    <li><a class="black-text indigo-hover hover-animation" href="@Url.Action(MVC.Home.About())">What's news</a></li>
-                    <li><a class="black-text blue-hover hover-animation" href="@Url.Action(MVC.Home.About())">Support</a></li>
-                    <li><a class="black-text brown-hover hover-animation" href="@Url.Action(MVC.Account.Login())">About</a></li>
-                    <li><a class="black-text gold-hover hover-animation" href="@Url.Action(MVC.Account.Register())">Register</a></li>
-                    <li><a class="black-text green-hover hover-animation" href="@Url.Action(MVC.Account.Login())">Log in</a></li>
+                    else
+                    {
+                        <li><a class="black-text indigo-hover hover-animation" href="@Url.Action(MVC.Home.About())">What's news</a></li>
+                        <li><a class="black-text blue-hover hover-animation" href="@Url.Action(MVC.Home.About())">Support</a></li>
+                        <li><a class="black-text brown-hover hover-animation" href="@Url.Action(MVC.Account.Login())">About</a></li>
+                        <li><a class="black-text gold-hover hover-animation" href="@Url.Action(MVC.Account.Register())">Register</a></li>
+                        <li><a class="black-text green-hover hover-animation" href="@Url.Action(MVC.Account.Login())">Log in</a></li>
+                    }
                 }
             </ul>
             <ul id="nav-mobile" class="side-nav">

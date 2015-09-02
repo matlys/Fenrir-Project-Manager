@@ -189,7 +189,7 @@ namespace FenrirProjectManager.Controllers
 
                         return View("Error", exceptionViewModel);
                     }
-                    return View("ConfirmEmail");
+                    return View("RegisterSuccess");
                 }
                 AddErrors(result);
 

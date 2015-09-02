@@ -334,6 +334,7 @@
     <Content Include="Views\Account\_ViewStart.cshtml" />
     <Content Include="Views\Shared\_NotLoggedInLayout.cshtml" />
     <Content Include="Views\Shared\FeatureSlider.cshtml" />
+    <Content Include="Views\Account\RegisterSuccess.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -380,6 +381,7 @@
     <Content Include="App_GlobalResources\Images.resx">
       <Generator>GlobalResourceProxyGenerator</Generator>
       <LastGenOutput>Images.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
     </Content>
   </ItemGroup>
   <PropertyGroup>
