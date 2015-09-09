@@ -335,6 +335,12 @@
     <Content Include="Views\Shared\_NotLoggedInLayout.cshtml" />
     <Content Include="Views\Shared\FeatureSlider.cshtml" />
     <Content Include="Views\Account\RegisterSuccess.cshtml" />
+    <Content Include="Views\Shared\Menu\developer_menu.cshtml" />
+    <Content Include="Views\Shared\Menu\default_menu.cshtml" />
+    <Content Include="Views\Shared\PartialForLogged.cshtml" />
+    <Content Include="Views\Shared\PartialForAnonymous.cshtml" />
+    <Content Include="Views\Shared\Menu\projectManager_menu.cshtml" />
+    <Content Include="Views\Shared\Menu\observer_menu.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
