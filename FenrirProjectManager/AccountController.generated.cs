@@ -22,7 +22,6 @@ using System.Web.Mvc;
 using System.Web.Mvc.Ajax;
 using System.Web.Mvc.Html;
 using System.Web.Routing;
-using FenrirProjectManager.Models;
 using T4MVC;
 namespace FenrirProjectManager.Controllers
 {
@@ -62,13 +61,6 @@ namespace FenrirProjectManager.Controllers
         public virtual System.Web.Mvc.ActionResult Login()
         {
             return new T4MVC_System_Web_Mvc_ActionResult(Area, Name, ActionNames.Login);
-        }
-        [NonAction]
-        [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
-        public virtual System.Threading.Tasks.Task<System.Web.Mvc.ActionResult> VerifyCode()
-        {
-            var callInfo = new T4MVC_System_Web_Mvc_ActionResult(Area, Name, ActionNames.VerifyCode);
-            return System.Threading.Tasks.Task.FromResult(callInfo as ActionResult);
         }
         [NonAction]
         [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
@@ -127,7 +119,6 @@ namespace FenrirProjectManager.Controllers
         public class ActionNamesClass
         {
             public readonly string Login = "Login";
-            public readonly string VerifyCode = "VerifyCode";
             public readonly string Register = "Register";
             public readonly string ConfirmEmail = "ConfirmEmail";
             public readonly string ForgotPassword = "ForgotPassword";
@@ -146,7 +137,6 @@ namespace FenrirProjectManager.Controllers
         public class ActionNameConstants
         {
             public const string Login = "Login";
-            public const string VerifyCode = "VerifyCode";
             public const string Register = "Register";
             public const string ConfirmEmail = "ConfirmEmail";
             public const string ForgotPassword = "ForgotPassword";
@@ -171,17 +161,6 @@ namespace FenrirProjectManager.Controllers
             public readonly string returnUrl = "returnUrl";
             public readonly string model = "model";
         }
-        static readonly ActionParamsClass_VerifyCode s_params_VerifyCode = new ActionParamsClass_VerifyCode();
-        [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
-        public ActionParamsClass_VerifyCode VerifyCodeParams { get { return s_params_VerifyCode; } }
-        [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
-        public class ActionParamsClass_VerifyCode
-        {
-            public readonly string provider = "provider";
-            public readonly string returnUrl = "returnUrl";
-            public readonly string rememberMe = "rememberMe";
-            public readonly string model = "model";
-        }
         static readonly ActionParamsClass_Register s_params_Register = new ActionParamsClass_Register();
         [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
         public ActionParamsClass_Register RegisterParams { get { return s_params_Register; } }
@@ -197,7 +176,7 @@ namespace FenrirProjectManager.Controllers
         public class ActionParamsClass_ConfirmEmail
         {
             public readonly string userId = "userId";
-            public readonly string code = "code";
+            public readonly string token = "token";
         }
         static readonly ActionParamsClass_ForgotPassword s_params_ForgotPassword = new ActionParamsClass_ForgotPassword();
         [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
@@ -263,6 +242,7 @@ namespace FenrirProjectManager.Controllers
             public class _ViewNamesClass
             {
                 public readonly string _ExternalLoginsListPartial = "_ExternalLoginsListPartial";
+                public readonly string _ViewStart = "_ViewStart";
                 public readonly string ConfirmEmail = "ConfirmEmail";
                 public readonly string ExternalLoginConfirmation = "ExternalLoginConfirmation";
                 public readonly string ExternalLoginFailure = "ExternalLoginFailure";
@@ -270,12 +250,14 @@ namespace FenrirProjectManager.Controllers
                 public readonly string ForgotPasswordConfirmation = "ForgotPasswordConfirmation";
                 public readonly string Login = "Login";
                 public readonly string Register = "Register";
+                public readonly string RegisterSuccess = "RegisterSuccess";
                 public readonly string ResetPassword = "ResetPassword";
                 public readonly string ResetPasswordConfirmation = "ResetPasswordConfirmation";
                 public readonly string SendCode = "SendCode";
                 public readonly string VerifyCode = "VerifyCode";
             }
             public readonly string _ExternalLoginsListPartial = "~/Views/Account/_ExternalLoginsListPartial.cshtml";
+            public readonly string _ViewStart = "~/Views/Account/_ViewStart.cshtml";
             public readonly string ConfirmEmail = "~/Views/Account/ConfirmEmail.cshtml";
             public readonly string ExternalLoginConfirmation = "~/Views/Account/ExternalLoginConfirmation.cshtml";
             public readonly string ExternalLoginFailure = "~/Views/Account/ExternalLoginFailure.cshtml";
@@ -283,6 +265,7 @@ namespace FenrirProjectManager.Controllers
             public readonly string ForgotPasswordConfirmation = "~/Views/Account/ForgotPasswordConfirmation.cshtml";
             public readonly string Login = "~/Views/Account/Login.cshtml";
             public readonly string Register = "~/Views/Account/Register.cshtml";
+            public readonly string RegisterSuccess = "~/Views/Account/RegisterSuccess.cshtml";
             public readonly string ResetPassword = "~/Views/Account/ResetPassword.cshtml";
             public readonly string ResetPasswordConfirmation = "~/Views/Account/ResetPasswordConfirmation.cshtml";
             public readonly string SendCode = "~/Views/Account/SendCode.cshtml";
@@ -321,12 +304,6 @@ namespace FenrirProjectManager.Controllers
         }
 
         [NonAction]
-        partial void VerifyCodeOverride(T4MVC_System_Web_Mvc_ActionResult callInfo, string provider, string returnUrl, bool rememberMe);
-
-        [NonAction]
-        partial void VerifyCodeOverride(T4MVC_System_Web_Mvc_ActionResult callInfo, Model.Views.VerifyCodeViewModel model);
-
-        [NonAction]
         partial void RegisterOverride(T4MVC_System_Web_Mvc_ActionResult callInfo);
 
         [NonAction]
@@ -338,10 +315,10 @@ namespace FenrirProjectManager.Controllers
         }
 
         [NonAction]
-        partial void RegisterOverride(T4MVC_System_Web_Mvc_ActionResult callInfo, RegisterViewModel model);
+        partial void RegisterOverride(T4MVC_System_Web_Mvc_ActionResult callInfo, FenrirProjectManager.Models.RegisterViewModel model);
 
         [NonAction]
-        public override System.Threading.Tasks.Task<System.Web.Mvc.ActionResult> Register(RegisterViewModel model)
+        public override System.Threading.Tasks.Task<System.Web.Mvc.ActionResult> Register(FenrirProjectManager.Models.RegisterViewModel model)
         {
             var callInfo = new T4MVC_System_Web_Mvc_ActionResult(Area, Name, ActionNames.Register);
             ModelUnbinderHelpers.AddRouteValues(callInfo.RouteValueDictionary, "model", model);
@@ -350,15 +327,15 @@ namespace FenrirProjectManager.Controllers
         }
 
         [NonAction]
-        partial void ConfirmEmailOverride(T4MVC_System_Web_Mvc_ActionResult callInfo, string userId, string code);
+        partial void ConfirmEmailOverride(T4MVC_System_Web_Mvc_ActionResult callInfo, string userId, string token);
 
         [NonAction]
-        public override System.Threading.Tasks.Task<System.Web.Mvc.ActionResult> ConfirmEmail(string userId, string code)
+        public override System.Threading.Tasks.Task<System.Web.Mvc.ActionResult> ConfirmEmail(string userId, string token)
         {
             var callInfo = new T4MVC_System_Web_Mvc_ActionResult(Area, Name, ActionNames.ConfirmEmail);
             ModelUnbinderHelpers.AddRouteValues(callInfo.RouteValueDictionary, "userId", userId);
-            ModelUnbinderHelpers.AddRouteValues(callInfo.RouteValueDictionary, "code", code);
-            ConfirmEmailOverride(callInfo, userId, code);
+            ModelUnbinderHelpers.AddRouteValues(callInfo.RouteValueDictionary, "token", token);
+            ConfirmEmailOverride(callInfo, userId, token);
             return System.Threading.Tasks.Task.FromResult(callInfo as ActionResult);
         }
 

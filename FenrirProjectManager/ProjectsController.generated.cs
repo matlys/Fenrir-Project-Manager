@@ -116,6 +116,14 @@ namespace FenrirProjectManager.Controllers
         }
 
 
+        static readonly ActionParamsClass_Index s_params_Index = new ActionParamsClass_Index();
+        [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
+        public ActionParamsClass_Index IndexParams { get { return s_params_Index; } }
+        [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
+        public class ActionParamsClass_Index
+        {
+            public readonly string projectId = "projectId";
+        }
         static readonly ActionParamsClass_Details s_params_Details = new ActionParamsClass_Details();
         [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
         public ActionParamsClass_Details DetailsParams { get { return s_params_Details; } }
@@ -172,12 +180,14 @@ namespace FenrirProjectManager.Controllers
                 public readonly string Details = "Details";
                 public readonly string Edit = "Edit";
                 public readonly string Index = "Index";
+                public readonly string ProjectInfoView = "ProjectInfoView";
             }
             public readonly string Create = "~/Views/Projects/Create.cshtml";
             public readonly string Delete = "~/Views/Projects/Delete.cshtml";
             public readonly string Details = "~/Views/Projects/Details.cshtml";
             public readonly string Edit = "~/Views/Projects/Edit.cshtml";
             public readonly string Index = "~/Views/Projects/Index.cshtml";
+            public readonly string ProjectInfoView = "~/Views/Projects/ProjectInfoView.cshtml";
         }
     }
 
@@ -194,6 +204,18 @@ namespace FenrirProjectManager.Controllers
         {
             var callInfo = new T4MVC_System_Web_Mvc_ActionResult(Area, Name, ActionNames.Index);
             IndexOverride(callInfo);
+            return callInfo;
+        }
+
+        [NonAction]
+        partial void IndexOverride(T4MVC_System_Web_Mvc_ActionResult callInfo, System.Guid projectId);
+
+        [NonAction]
+        public override System.Web.Mvc.ActionResult Index(System.Guid projectId)
+        {
+            var callInfo = new T4MVC_System_Web_Mvc_ActionResult(Area, Name, ActionNames.Index);
+            ModelUnbinderHelpers.AddRouteValues(callInfo.RouteValueDictionary, "projectId", projectId);
+            IndexOverride(callInfo, projectId);
             return callInfo;
         }
 

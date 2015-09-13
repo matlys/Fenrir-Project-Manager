@@ -65,6 +65,15 @@ namespace FenrirProjectManager.Controllers
             }
         }
 
+        private bool IsProjectConfigured(Guid projectId)
+        {
+            var project = _projectRepo.GetProjectById(projectId);
+
+            if (string.IsNullOrEmpty(project?.Name)) return false;
+
+            return true;
+        }
+
         private bool IsEmailConfirned(string email)
         {
             var user = _userRepo.GetAllUsers().FirstOrDefault(u => u.Email == email && u.EmailConfirmed);
@@ -113,10 +122,12 @@ namespace FenrirProjectManager.Controllers
 
                 var result = await SignInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, false);
 
+                var user = _userRepo.GetUserByEmail(model.Email);
+
                 switch (result)
                 {
                     case SignInStatus.Success:
-                        return RedirectToLocal(returnUrl);
+                        return RedirectToAction(MVC.Projects.Index(user.ProjectId));
                     case SignInStatus.LockedOut:
                         return View("Lockout");
                     case SignInStatus.RequiresVerification:
@@ -416,14 +427,12 @@ namespace FenrirProjectManager.Controllers
             return View(model);
         }
 
-        //
-        // POST: /Account/LogOff
-        [HttpPost]
-        [ValidateAntiForgeryToken]
+        [HttpGet]
         public virtual ActionResult LogOff()
         {
+  
             AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction(MVC.Home.Index());
         }
 
         //

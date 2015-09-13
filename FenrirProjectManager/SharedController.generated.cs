@@ -40,13 +40,40 @@ namespace T4MVC
             {
                 public readonly string _Layout = "_Layout";
                 public readonly string _LoginPartial = "_LoginPartial";
+                public readonly string _NotLoggedInLayout = "_NotLoggedInLayout";
                 public readonly string Error = "Error";
+                public readonly string FeatureSlider = "FeatureSlider";
                 public readonly string Lockout = "Lockout";
+                public readonly string PartialForAnonymous = "PartialForAnonymous";
+                public readonly string PartialForLogged = "PartialForLogged";
             }
             public readonly string _Layout = "~/Views/Shared/_Layout.cshtml";
             public readonly string _LoginPartial = "~/Views/Shared/_LoginPartial.cshtml";
+            public readonly string _NotLoggedInLayout = "~/Views/Shared/_NotLoggedInLayout.cshtml";
             public readonly string Error = "~/Views/Shared/Error.cshtml";
+            public readonly string FeatureSlider = "~/Views/Shared/FeatureSlider.cshtml";
             public readonly string Lockout = "~/Views/Shared/Lockout.cshtml";
+            public readonly string PartialForAnonymous = "~/Views/Shared/PartialForAnonymous.cshtml";
+            public readonly string PartialForLogged = "~/Views/Shared/PartialForLogged.cshtml";
+            static readonly _MenuClass s_Menu = new _MenuClass();
+            public _MenuClass Menu { get { return s_Menu; } }
+            [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
+            public partial class _MenuClass
+            {
+                static readonly _ViewNamesClass s_ViewNames = new _ViewNamesClass();
+                public _ViewNamesClass ViewNames { get { return s_ViewNames; } }
+                public class _ViewNamesClass
+                {
+                    public readonly string default_menu = "default_menu";
+                    public readonly string developer_menu = "developer_menu";
+                    public readonly string observer_menu = "observer_menu";
+                    public readonly string projectManager_menu = "projectManager_menu";
+                }
+                public readonly string default_menu = "~/Views/Shared/Menu/default_menu.cshtml";
+                public readonly string developer_menu = "~/Views/Shared/Menu/developer_menu.cshtml";
+                public readonly string observer_menu = "~/Views/Shared/Menu/observer_menu.cshtml";
+                public readonly string projectManager_menu = "~/Views/Shared/Menu/projectManager_menu.cshtml";
+            }
         }
     }
 

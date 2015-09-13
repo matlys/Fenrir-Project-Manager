@@ -51,6 +51,12 @@ namespace DataAccessImplementation
             _context.SaveChanges();
         }
 
+        public User GetUserByEmail(string email)
+        {
+            var user = _context.ProjectUsers.FirstOrDefault(u => u.Email.Contains(email));
+            return user;
+        }
+
         public User GetUserById(Guid id)
         {
             var user = _context.ProjectUsers.FirstOrDefault(u => u.Id.Contains(id.ToString()));

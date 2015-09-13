@@ -13,65 +13,74 @@
 </head>
 
 <body>
-
     <nav class="white" role="navigation">
-        <div class="nav-wrapper container">
-            <img src="~/Graph/FENRIR_LOGO2.png" style="padding: 10px" width="65" class="responsive-img" />
-            @Html.ActionLink("FENRIR PROJECT MANAGER", MVC.Home.Index(), new { @class = "brand-logo", @id = "logo-container" })
+    <div class="nav-wrapper container">
+        <img src="~/Graph/FENRIR_LOGO2.png" style="padding: 10px" width="65" class="responsive-img"/>
+        @Html.ActionLink("FENRIR PROJECT MANAGER", MVC.Home.Index(), new {@class = "brand-logo", @id = "logo-container"})
 
-            @if (Request.IsAuthenticated)
+        @if (Request.IsAuthenticated)
+        {
+            if (User.IsInRole(Consts.DeveloperRole))
             {
-                if (User.IsInRole(Consts.DeveloperRole))
-                {
-                    Html.RenderPartial("Menu/developer_menu");
-                }
-                if (User.IsInRole(Consts.ProjectManagerRole))
-                {
-                    Html.RenderPartial("Menu/projectManager_menu");
-                }
-                if (User.IsInRole(Consts.ObserverRole))
-                {
-                    Html.RenderPartial("Menu/observer_menu");
-                }
+                Html.RenderPartial("Menu/developer_menu");
             }
-            else
+            if (User.IsInRole(Consts.ProjectManagerRole))
             {
-                Html.RenderPartial("Menu/default_menu");
+                Html.RenderPartial("Menu/projectManager_menu");
             }
-         </div>
-    </nav>
-    <div class="container body-content">
-        <div class="card-panel">
-            
-            <div class="row" style="background-color: #c8e6c9; margin-top: 10px;">
-                <div class="center-align" style="width: 45%; padding-top: 5px; height: 20px; background-color: #4caf50"></div>
-            </div>
-            <div class="row">
-                <div class="col s2 m2 l2">
-                    <div class="center-align row">
-                        <img src="../../Graph/Avatars/developer_avatar.png" class="responsive-img" style="padding: 15px;"/>
-                    </div>
-                    <div class="center-align row">
-                        MATEUSZ ŁYSIEŃ
-                    </div>
+            if (User.IsInRole(Consts.ObserverRole))
+            {
+                Html.RenderPartial("Menu/observer_menu");
+            }
+        }
+        else
+        {
+            Html.RenderPartial("Menu/default_menu");
+        }
+    </div>
+</nav>
+
+    @if (!Request.IsAuthenticated)
+    {
+        Html.RenderPartial("PartialForAnonymous");
+        <div class="col s12 m12 l12 card-panel" style="padding-left: 5px;">
+            @RenderBody()
+        </div>
+    }
+    else
+    {
+        <div class="container body-content">
+            <div class="card-panel">
+                <div class="row" style="background-color: #c8e6c9; margin-top: 10px;">
+                    <div class="center-align" style="width: 45%; padding-top: 5px; height: 20px; background-color: #4caf50"></div>
                 </div>
+                <div class="row">
 
-                <div class="col s10 m10 l10 card-panel" style="padding-left: 5px;">
-                    @RenderBody()
+                    <div class="col s2 m2 l2">
+                        <div class="center-align row">
+                            <img src="../../Graph/Avatars/developer_avatar.png" class="responsive-img" style="padding: 15px;"/>
+                        </div>
+                        <div class="center-align row">
+                            MATEUSZ ŁYSIEŃ
+                        </div>
+                    </div>
+                    <div class="col s10 m10 l10 card-panel" style="padding-left: 5px;">
+                        @RenderBody()
+                    </div>
                 </div>
             </div>
         </div>
-        
-    </div>
+            }
 
-    <footer class="center-align">
-        <p>&copy; @DateTime.Now.Year - FENRIR SOFTWARE</p>
-    </footer>
+<footer class="center-align">
+    <p>&copy; @DateTime.Now.Year - FENRIR SOFTWARE</p>
+</footer>
 
-    <!-- Scripts-->
-    <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
-    <script src="~/js/materialize.js"></script>
-    <script src="~/js/init.js"></script>
-
+<!-- Scripts-->
+<script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+<script src="~/js/materialize.js"></script>
+<script src="~/js/init.js"></script>
+    <script>
+    </script>
 </body>
 </html>

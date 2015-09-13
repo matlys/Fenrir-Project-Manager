@@ -203,6 +203,9 @@
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\ProjectsController.cs" />
     <Compile Include="Controllers\UsersController.cs" />
+    <Compile Include="EmailController.generated.cs">
+      <DependentUpon>T4MVC.tt</DependentUpon>
+    </Compile>
     <Compile Include="Extension\Extension.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -220,6 +223,7 @@
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\ExceptionViewModel.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
+    <Compile Include="Models\ProjectInfoModel.cs" />
     <Compile Include="Models\RegisterViewModel.cs" />
     <Compile Include="ProjectsController.generated.cs">
       <DependentUpon>T4MVC.tt</DependentUpon>
@@ -341,6 +345,7 @@
     <Content Include="Views\Shared\PartialForAnonymous.cshtml" />
     <Content Include="Views\Shared\Menu\projectManager_menu.cshtml" />
     <Content Include="Views\Shared\Menu\observer_menu.cshtml" />
+    <Content Include="Views\Projects\ProjectInfoView.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
