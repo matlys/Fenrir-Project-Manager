@@ -2,9 +2,9 @@
 {
     public static class Consts
     {
-        public static readonly string AdministratorRole = "Administrator";
-        public static readonly string ProjectManagerRole = "Project Manager";
-        public static readonly string DeveloperRole = "Developer";
-        public static readonly string ObserverRole = "Observer";
+        public const string AdministratorRole = "Administrator";
+        public const string ProjectManagerRole = "Project Manager";
+        public const string DeveloperRole = "Developer";
+        public const string ObserverRole = "Observer";
     }
 }

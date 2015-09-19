@@ -33,6 +33,7 @@ public static partial class MVC
     public static FenrirProjectManager.Controllers.ManageController Manage = new FenrirProjectManager.Controllers.T4MVC_ManageController();
     public static FenrirProjectManager.Controllers.ProjectsController Projects = new FenrirProjectManager.Controllers.T4MVC_ProjectsController();
     public static FenrirProjectManager.Controllers.UsersController Users = new FenrirProjectManager.Controllers.T4MVC_UsersController();
+    public static T4MVC.EmailController Email = new T4MVC.EmailController();
     public static T4MVC.SharedController Shared = new T4MVC.SharedController();
 }
 

@@ -74,17 +74,9 @@
             @Html.DisplayFor(model => model.AssignUserId)
         </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.CreateUserId)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.CreateUserId)
-        </dd>
-
+        
     </dl>
 </div>
-<p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
-    @Html.ActionLink("Back to List", "Index")
-</p>
+<div class="right" style="padding: 0 0 10px 10px;">
+    <a href="@Url.Action(MVC.Issues.Index())" class="btn btn-form blue lighten-1 waves-effect waves-light">OK</a>
+</div>

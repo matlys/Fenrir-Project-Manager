@@ -146,6 +146,7 @@
   <ItemGroup>
     <Compile Include="ActivationLinkGenerator.cs" />
     <Compile Include="Controllers\AccountControllerTest.cs" />
+    <Compile Include="Controllers\UsersControllerTest.cs" />
     <Compile Include="DataGenerator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Controllers\HomeControllerTest.cs" />

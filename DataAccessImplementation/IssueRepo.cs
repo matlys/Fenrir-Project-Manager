@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using DataAccessInterfaces;
@@ -43,6 +44,18 @@ namespace DataAccessImplementation
         {
             var issue = _context.ProjectIssues.FirstOrDefault(i => i.Id == issueId);
             return issue;
+        }
+
+        public IQueryable<Issue> GetAllIssuesFromProject(Guid projectId)
+        {
+            var usersInProject = _context.ProjectUsers.Where(u=>u.ProjectId == projectId).ToList();
+            var issues = new List<Issue>();
+            foreach (var user in usersInProject)
+            {
+                var issuesFromUser = GetAllIssuesFromUser(Guid.Parse(user.Id)).ToList();
+                issues.AddRange(issuesFromUser);
+            }
+            return issues.AsQueryable();
         }
 
         public IQueryable<Issue> GetAllIssuesFromUser(Guid userId)

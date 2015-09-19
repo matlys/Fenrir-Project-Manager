@@ -203,6 +203,11 @@
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\ProjectsController.cs" />
     <Compile Include="Controllers\UsersController.cs" />
+    <Compile Include="CustomAttributes\AllowRoles.cs" />
+    <Compile Include="CustomAttributes\AllowUser.cs" />
+    <Compile Include="EmailController.generated.cs">
+      <DependentUpon>T4MVC.tt</DependentUpon>
+    </Compile>
     <Compile Include="Extension\Extension.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -220,6 +225,7 @@
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\ExceptionViewModel.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
+    <Compile Include="Models\ProjectInfoModel.cs" />
     <Compile Include="Models\RegisterViewModel.cs" />
     <Compile Include="ProjectsController.generated.cs">
       <DependentUpon>T4MVC.tt</DependentUpon>
@@ -237,8 +243,8 @@
     <Compile Include="UsersController.generated.cs">
       <DependentUpon>T4MVC.tt</DependentUpon>
     </Compile>
-    <Compile Include="ValidationAttributes\EmailValidator.cs" />
-    <Compile Include="ValidationAttributes\PasswordValidator.cs" />
+    <Compile Include="CustomAttributes\EmailValidator.cs" />
+    <Compile Include="CustomAttributes\PasswordValidator.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="css\materialize.css" />
@@ -320,7 +326,6 @@
     <Content Include="Views\Issues\Details.cshtml" />
     <Content Include="Views\Issues\Edit.cshtml" />
     <Content Include="Views\Issues\Index.cshtml" />
-    <Content Include="Views\Projects\Create.cshtml" />
     <Content Include="Views\Projects\Delete.cshtml" />
     <Content Include="Views\Projects\Details.cshtml" />
     <Content Include="Views\Projects\Edit.cshtml" />

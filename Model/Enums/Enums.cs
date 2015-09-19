@@ -1,5 +1,15 @@
 ﻿namespace Model.Enums
 {
+    public struct StaticData
+    { 
+        public string UserName { get; set; }
+        public string UserEmail { get; set; }
+        public string UserRole { get; set; }
+        public byte[] UserAvatar { get; set; }
+        public byte[] ProjectLogo { get; set; }
+        public string ProjectName { get; set; }
+    }   
+
     /// <summary>
     /// Represents current project status
     /// </summary>

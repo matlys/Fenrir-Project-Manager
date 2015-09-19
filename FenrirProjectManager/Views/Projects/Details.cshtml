@@ -1,66 +1,28 @@
 ﻿@model Model.Models.Project
 
-@{
-    ViewBag.Title = "Details";
-}
+<h4>Project details</h4>
 
-<h2>Details</h2>
+<div class="row">
 
-<div>
-    <h4>Project</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.Name)
-        </dt>
+    <div class="row">
+        @Html.DisplayNameFor(model => model.Name)
+        @Html.DisplayFor(model => model.Name)
+    </div>
+    <div class="row">
+        @Html.DisplayNameFor(model => model.Description)
+        @Html.DisplayFor(model => model.Description)
+    </div>
+    <div class="row">
 
-        <dd>
-            @Html.DisplayFor(model => model.Name)
-        </dd>
+        @Html.DisplayNameFor(model => model.CreationDate)
+        @Html.DisplayFor(model => model.CreationDate)
+    </div>
+    <div class="row">
+        @Html.DisplayNameFor(model => model.Status)
+        @Html.DisplayFor(model => model.Status)
+    </div>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Description)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Description)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Logo)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Logo)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.CreationDate)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.CreationDate)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.ClosedDate)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.ClosedDate)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Status)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Status)
-        </dd>
-
-    </dl>
 </div>
-<p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
-    @Html.ActionLink("Back to List", "Index")
-</p>
+<div class="right" style="padding: 0 0 10px 10px;">
+    <a href="@Url.Action(MVC.Projects.Index())" class="btn btn-form blue lighten-1 waves-effect waves-light">OK</a>
+</div>

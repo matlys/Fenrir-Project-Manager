@@ -80,6 +80,12 @@ namespace FenrirProjectManager.Controllers
         {
             return new T4MVC_System_Web_Mvc_ActionResult(Area, Name, ActionNames.DeleteConfirmed);
         }
+        [NonAction]
+        [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
+        public virtual System.Web.Mvc.ActionResult MyIssues()
+        {
+            return new T4MVC_System_Web_Mvc_ActionResult(Area, Name, ActionNames.MyIssues);
+        }
 
         [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
         public UsersController Actions { get { return MVC.Users; } }
@@ -102,6 +108,7 @@ namespace FenrirProjectManager.Controllers
             public readonly string Edit = "Edit";
             public readonly string Delete = "Delete";
             public readonly string DeleteConfirmed = "Delete";
+            public readonly string MyIssues = "MyIssues";
         }
 
         [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
@@ -113,6 +120,7 @@ namespace FenrirProjectManager.Controllers
             public const string Edit = "Edit";
             public const string Delete = "Delete";
             public const string DeleteConfirmed = "Delete";
+            public const string MyIssues = "MyIssues";
         }
 
 
@@ -156,6 +164,14 @@ namespace FenrirProjectManager.Controllers
         public class ActionParamsClass_DeleteConfirmed
         {
             public readonly string id = "id";
+        }
+        static readonly ActionParamsClass_MyIssues s_params_MyIssues = new ActionParamsClass_MyIssues();
+        [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
+        public ActionParamsClass_MyIssues MyIssuesParams { get { return s_params_MyIssues; } }
+        [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
+        public class ActionParamsClass_MyIssues
+        {
+            public readonly string userId = "userId";
         }
         static readonly ViewsClass s_views = new ViewsClass();
         [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
@@ -277,6 +293,18 @@ namespace FenrirProjectManager.Controllers
             var callInfo = new T4MVC_System_Web_Mvc_ActionResult(Area, Name, ActionNames.DeleteConfirmed);
             ModelUnbinderHelpers.AddRouteValues(callInfo.RouteValueDictionary, "id", id);
             DeleteConfirmedOverride(callInfo, id);
+            return callInfo;
+        }
+
+        [NonAction]
+        partial void MyIssuesOverride(T4MVC_System_Web_Mvc_ActionResult callInfo, System.Guid userId);
+
+        [NonAction]
+        public override System.Web.Mvc.ActionResult MyIssues(System.Guid userId)
+        {
+            var callInfo = new T4MVC_System_Web_Mvc_ActionResult(Area, Name, ActionNames.MyIssues);
+            ModelUnbinderHelpers.AddRouteValues(callInfo.RouteValueDictionary, "userId", userId);
+            MyIssuesOverride(callInfo, userId);
             return callInfo;
         }
 

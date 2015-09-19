@@ -2,6 +2,7 @@
 using System.Net;
 using System.Web.Mvc;
 using DataAccessInterfaces;
+using Microsoft.AspNet.Identity;
 using Model.Models;
 
 namespace FenrirProjectManager.Controllers
@@ -18,9 +19,15 @@ namespace FenrirProjectManager.Controllers
         }
 
         // GET: Issues
-        public virtual ActionResult Index()
+        public virtual ActionResult Index(Guid? projectId)
         {
-            return View(_issueRepo.GetAllIssues());
+            if (projectId == null) return HttpNotFound();
+       
+            var userId = User.Identity.GetUserId();
+            if (_userRepo.GetUserById(Guid.Parse(userId)).ProjectId != projectId) return HttpNotFound("Wypierdalać!!!");
+
+            var issues = _issueRepo.GetAllIssuesFromProject((Guid)projectId);
+            return View(issues);
         }
 
         // GET: Issues/Details/5

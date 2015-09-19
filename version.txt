@@ -1,2 +1,5 @@
-1.2.1 - changing in Account controller: activation link has been completed.
-1.2.0 - token property added into model.
+1.3.0 - add new methods into IIsueRepo [INTERFACES LAYER CHANGED]
+1.2.4 - changing in ExceptionViewModel - change class structure [UI LAYER CHANGED]
+1.2.3 - new feature - getting users by them email [UI LAYER CHANGED]
+1.2.1 - changing in Account controller: activation link has been completed. [UI LAYER CHANGED]
+1.2.0 - token property added into model. [MODEL LAYER CHANGED]

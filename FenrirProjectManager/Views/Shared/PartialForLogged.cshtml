@@ -1,1 +1,22 @@
-﻿
+﻿@using DataAccessImplementation;
+@using Microsoft.AspNet.Identity
+@using Model.Consts
+
+@{
+    UserRepo _userRepo = new UserRepo();
+
+    Guid userId = Guid.Parse(User.Identity.GetUserId());
+    var user = _userRepo.GetUserById(userId);
+
+    string UserName = $"{user.FirstName} {user.LastName}";
+    byte[] Avatar = user.Avatar;
+
+}
+<div class="col s2 m2 l2">
+    <div class="center-align row">
+        <img src="data:image/jpeg;base64,@Html.Raw(Avatar)" class="responsive-img" style="padding: 15px;" />
+    </div>
+    <div class="center-align row">
+        @Html.Raw(UserName)
+    </div>
+</div>
