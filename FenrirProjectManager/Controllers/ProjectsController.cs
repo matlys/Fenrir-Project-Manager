@@ -1,107 +1,124 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Data.Entity;
-using System.Linq;
 using System.Net;
-using System.Web;
 using System.Web.Mvc;
 using DataAccessInterfaces;
 using FenrirProjectManager.Models;
-using Model;
 using Model.Models;
 
 namespace FenrirProjectManager.Controllers
 {
     public partial class ProjectsController : Controller
     {
-        private IProjectRepo _projectRepo;
+        private readonly IProjectRepo _projectRepo;
 
         public ProjectsController(IProjectRepo projectRepo)
         {
             _projectRepo = projectRepo;
         }
+        
 
         [HttpGet]
-        public virtual ActionResult Index()
-        {
-            return View();
-        }
-
-        [HttpGet]
-        public virtual ActionResult Index(Guid projectId)
+        public virtual ActionResult Index(Guid? projectId)
         {
             try
             {
-                var project = _projectRepo.GetProjectById(projectId);
-                return string.IsNullOrEmpty(project.Name) ? View("Edit") : View("Details", project);
+                if (projectId == null) return View(_projectRepo.GetAllProjects());
+
+                var project = _projectRepo.GetProjectById((Guid)projectId);
+
+                if (string.IsNullOrEmpty(project.Name)) return RedirectToAction(MVC.Projects.Edit(projectId));
+
+                return RedirectToAction(MVC.Projects.Details(projectId));
             }
             catch (Exception exception)
             {
-                ExceptionViewModel model = new ExceptionViewModel
-                {
-                    ExceptionMessage = exception.Message,
-                    ReturnUrl = MVC.Home.Index()
-                };
+                ExceptionViewModel model = new ExceptionViewModel(exception);
                 return View("Error", model);
             }
         }
 
-        // GET: Projects/Details/5
+        [HttpGet]
         public virtual ActionResult Details(Guid? id)
         {
-            if (id == null)
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            try
+            {
+                if (id == null) return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 
-            Project project = _projectRepo.GetProjectById((Guid)id);
+                var project = _projectRepo.GetProjectById((Guid)id);
 
-            if (project == null)
-                return HttpNotFound();
+                if (project == null) return HttpNotFound();
 
-            return View(project);
+                return View(project);
+            }
+            catch (Exception exception)
+            {
+                ExceptionViewModel model = new ExceptionViewModel(exception);
+                return View("Error", model);
+            }
         }
         
         [HttpGet]
         public virtual ActionResult Edit(Guid? id)
         {
-            if (id == null)
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            try
+            {
+                if (id == null) return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 
-            Project project = _projectRepo.GetProjectById((Guid)id);
+                var project = _projectRepo.GetProjectById((Guid)id);
 
-            if (project == null)
-                return HttpNotFound();
+                if (project == null) return HttpNotFound();
 
-            return View(project);
+                return View(project);
+            }
+            catch (Exception exception)
+            {
+                ExceptionViewModel model = new ExceptionViewModel(exception);
+                return View("Error", model);
+            }
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
         public virtual ActionResult Edit([Bind(Include = "Id,Name,Description,Logo,CreationDate,ClosedDate,Status")] Project project)
         {
-            if (ModelState.IsValid)
+            try
             {
+                if (!ModelState.IsValid) return View(project);
+
                 _projectRepo.UpdateProject(project);
+                _projectRepo.SaveChanges();
                 return RedirectToAction("Index");
             }
-            return View(project);
+            catch (Exception exception)
+            {
+                ExceptionViewModel exceptionViewModel = new ExceptionViewModel(exception);
+                return View("Error", exceptionViewModel);
+            }
         }
 
-        // GET: Projects/Delete/5
+        [HttpGet]
         public virtual ActionResult Delete(Guid? id)
         {
-            if (id == null)
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            try
+            {
+                if (id == null)
+                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 
-            Project project = _projectRepo.GetProjectById((Guid)id);
+                Project project = _projectRepo.GetProjectById((Guid)id);
 
-            if (project == null)
-                return HttpNotFound();
+                if (project == null)
+                    return HttpNotFound();
 
-            return View(project);
+                return View(project);
+            }
+            catch (Exception exception)
+            {
+                ExceptionViewModel exceptionViewModel = new ExceptionViewModel(exception);
+                return View("Error", exceptionViewModel);
+            }
         }
 
-        // POST: Projects/Delete/5
+
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public virtual ActionResult DeleteConfirmed(Guid id)

@@ -1,5 +1,6 @@
 ﻿@using DataAccessImplementation;
-@using Model.Consts
+@using Microsoft.AspNet.Identity
+@using Model.Consts;
 <!DOCTYPE html>
 <html>
 <head>
@@ -55,15 +56,7 @@
                     <div class="center-align" style="width: 45%; padding-top: 5px; height: 20px; background-color: #4caf50"></div>
                 </div>
                 <div class="row">
-
-                    <div class="col s2 m2 l2">
-                        <div class="center-align row">
-                            <img src="../../Graph/Avatars/developer_avatar.png" class="responsive-img" style="padding: 15px;"/>
-                        </div>
-                        <div class="center-align row">
-                            MATEUSZ ŁYSIEŃ
-                        </div>
-                    </div>
+                    @{ Html.RenderPartial("PartialForLogged");}
                     <div class="col s10 m10 l10 card-panel" style="padding-left: 5px;">
                         @RenderBody()
                     </div>
@@ -81,6 +74,10 @@
 <script src="~/js/materialize.js"></script>
 <script src="~/js/init.js"></script>
     <script>
+        
+              $(document).ready(function() {
+                  $('select').material_select();
+              });
     </script>
 </body>
 </html>

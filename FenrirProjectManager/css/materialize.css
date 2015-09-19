@@ -7812,6 +7812,10 @@ small {
     vertical-align: middle;
     -webkit-tap-highlight-color: transparent;
 }
+.btn, .btn-form {
+    border: none;
+    width: 150px!important;
+}
 
     .btn.disabled, .disabled.btn-large, .btn-floating.disabled, .btn-large.disabled, .btn:disabled, .btn-large:disabled, .btn-large:disabled, .btn-floating:disabled {
         background-color: #DFDFDF !important;

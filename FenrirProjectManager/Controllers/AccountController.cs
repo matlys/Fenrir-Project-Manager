@@ -1,20 +1,20 @@
 ﻿using System;
-using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using DataAccessInterfaces;
-using FenrirProjectManager.Extension;
 using FenrirProjectManager.Helpers;
 using FenrirProjectManager.Models;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
+using Model.Consts;
 using Model.Enums;
 using Model.Models;
 using Model.Views;
+using Resources;
 
 namespace FenrirProjectManager.Controllers
 {
@@ -26,6 +26,7 @@ namespace FenrirProjectManager.Controllers
         private readonly IEmailRepo _emailRepo;
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
+        private StaticData _staticData;
 
         public AccountController(IUserRepo userRepo, IProjectRepo projectRepo, IEmailRepo emailRepo)
         {
@@ -33,6 +34,7 @@ namespace FenrirProjectManager.Controllers
             _projectRepo = projectRepo;
             _emailRepo = emailRepo;
             _emailRepo.SetSmtpConfiguration("localhost", 25, "registration@fenrir-software.com", "fenrir2015", false);
+            _staticData = new StaticData();
         }
 
         public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager)
@@ -120,10 +122,11 @@ namespace FenrirProjectManager.Controllers
                     return View(model);
                 }
 
-                var result = await SignInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, false);
+                var result =
+                    await SignInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, false);
 
                 var user = _userRepo.GetUserByEmail(model.Email);
-
+               
                 switch (result)
                 {
                     case SignInStatus.Success:
@@ -139,13 +142,10 @@ namespace FenrirProjectManager.Controllers
             }
             catch (Exception exception)
             {
-                ExceptionViewModel exceptionViewModel = new ExceptionViewModel();
-                exceptionViewModel.ExceptionMessage = exception.Message;
-                exceptionViewModel.ReturnUrl = MVC.Account.Login();
+                ExceptionViewModel exceptionViewModel = new ExceptionViewModel(exception);
                 return View("Error", exceptionViewModel);
             }
         }
-
 
         [AllowAnonymous]
         public virtual ActionResult Register()
@@ -179,25 +179,23 @@ namespace FenrirProjectManager.Controllers
                     Email = model.Email,
                     EmailConfirmed = false,
                     Token = Guid.NewGuid(),
-                    Avatar = ImageManager.GetByteArray(new Bitmap(Resources.Images.project_manager_avatar))
+                    Avatar = ImageManager.GetByteArray(new Bitmap(Images.project_manager_avatar))
                 };
                 
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
-                    _userRepo.AddUserToRole(user, Model.Consts.Consts.ProjectManagerRole);
+                    _userRepo.AddUserToRole(user, Consts.ProjectManagerRole);
                     _userRepo.SaveChanges();
                     try
                     {
                         _emailRepo.SendEmail(user.Email, 
-                                             Helpers.EmailManager.Subject,
-                                             Helpers.EmailManager.GenerateBody(user.Email, new Guid(user.Id), user.Token));
+                                             EmailManager.Subject,
+                                             EmailManager.GenerateBody(user.Email, new Guid(user.Id), user.Token));
                     }
                     catch (Exception exception)
                     {
-                        ExceptionViewModel exceptionViewModel = new ExceptionViewModel();
-                        exceptionViewModel.ExceptionMessage = exception.Message;
-
+                        ExceptionViewModel exceptionViewModel = new ExceptionViewModel(exception);
                         return View("Error", exceptionViewModel);
                     }
                     return View("RegisterSuccess");
@@ -220,9 +218,7 @@ namespace FenrirProjectManager.Controllers
             }
             catch (Exception exception)
             {
-                ExceptionViewModel exceptionViewModel = new ExceptionViewModel();
-                exceptionViewModel.ExceptionMessage = exception.Message;
-                exceptionViewModel.ReturnUrl = MVC.Account.Login();
+                ExceptionViewModel exceptionViewModel = new ExceptionViewModel(exception);
                 return View("Error", exceptionViewModel);
             }
         }

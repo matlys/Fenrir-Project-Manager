@@ -1,117 +1,22 @@
-﻿<div class="card-panel">
-<div class="row" style="background-color: #c8e6c9; margin-top: 10px;">
-        <div style="width: 45%; height: 20px; background-color: #4caf50"></div>
-</div>
-<div class="row">
+﻿@using DataAccessImplementation;
+@using Microsoft.AspNet.Identity
+@using Model.Consts
 
-    <div class="col s2 m2 l2">
+@{
+    UserRepo _userRepo = new UserRepo();
 
-        <div class="center-align row">
-            <img src="../../Graph/Avatars/developer_avatar.png" class="responsive-img" style="padding: 15px;"/>
-        </div>
-        <div class="center-align row">
-            MATEUSZ ŁYSIEŃ
-        </div>
+    Guid userId = Guid.Parse(User.Identity.GetUserId());
+    var user = _userRepo.GetUserById(userId);
 
+    string UserName = $"{user.FirstName} {user.LastName}";
+    byte[] Avatar = user.Avatar;
 
-
+}
+<div class="col s2 m2 l2">
+    <div class="center-align row">
+        <img src="data:image/jpeg;base64,@Html.Raw(Avatar)" class="responsive-img" style="padding: 15px;" />
     </div>
-
-
-    <div class="col s10 m10 l10 card-panel" style="padding-left: 5px;">
-        <table class="striped bordered">
-            <thead>
-                <tr>
-                    <th data-field="id">ISSUE</th>
-                    <th data-field="name">ASSIGNED TO</th>
-                    <th data-field="price">COMPLETED %</th>
-                    <th data-field="price">DEADLINE</th>
-                </tr>
-            </thead>
-
-            <tbody>
-                <tr>
-                    <td>adding new uesr to the database</td>
-                    <td>Mateusz Łysień</td>
-                    <td>
-                        <div class="row" style="background-color: #c8e6c9; margin: 5px;">
-                            <div style="width: 20%; height: 20px; background-color: #4caf50"></div>
-                        </div>
-                    </td>
-                    <td>2015/09/21 (in 13 days)</td>
-                </tr>
-                <tr>
-                    <td>Create documentation</td>
-                    <td>Mateusz Łysień</td>
-                    <td>
-                        <div class="row" style="background-color: #c8e6c9; margin: 5px;">
-                            <div style="width: 60%; height: 20px; background-color: #4caf50"></div>
-                        </div>
-                    </td>
-                    <td>2015/09/19 (in 10 days)</td>
-                </tr>
-            <tr>
-                <td>Create content view</td>
-                <td>Mateusz Łysień</td>
-                <td>
-                    <div class="row" style="background-color: #c8e6c9; margin: 5px;">
-                        <div style="width: 90%; height: 20px; background-color: #4caf50"></div>
-                    </div>
-                </td>
-                <td>2015/09/11 (in 2 days)</td>
-            </tr>
-            <tr>
-                <td>Create content view</td>
-                <td>Mateusz Łysień</td>
-                <td>
-                    <div class="row" style="background-color: #c8e6c9; margin: 5px;">
-                        <div style="width: 90%; height: 20px; background-color: #4caf50"></div>
-                    </div>
-                </td>
-                <td>2015/09/11 (in 2 days)</td>
-            </tr>
-            <tr>
-                <td>Create content view</td>
-                <td>Mateusz Łysień</td>
-                <td>
-                    <div class="row" style="background-color: #c8e6c9; margin: 5px;">
-                        <div style="width: 90%; height: 20px; background-color: #4caf50"></div>
-                    </div>
-                </td>
-                <td>2015/09/11 (in 2 days)</td>
-            </tr>
-            <tr>
-                <td>Create content view</td>
-                <td>Mateusz Łysień</td>
-                <td>
-                    <div class="row" style="background-color: #c8e6c9; margin: 5px;">
-                        <div style="width: 90%; height: 20px; background-color: #4caf50"></div>
-                    </div>
-                </td>
-                <td>2015/09/11 (in 2 days)</td>
-            </tr>
-            <tr>
-                <td>Create content view</td>
-                <td>Mateusz Łysień</td>
-                <td>
-                    <div class="row" style="background-color: #c8e6c9; margin: 5px;">
-                        <div style="width: 90%; height: 20px; background-color: #2196f3"></div>
-                    </div>
-                </td>
-                <td>2015/09/11 (in 2 days)</td>
-            </tr>
-                <tr>
-                    <td>Create content view</td>
-                    <td>Mateusz Łysień</td>
-                    <td>
-                        <div class="row" style="background-color: #c8e6c9; margin: 5px;">
-                            <div style="width: 90%; height: 20px; background-color: #4caf50" alt="90%"></div>
-                        </div>
-                    </td>
-                    <td>2015/09/11 (in 2 days)</td>
-                </tr>
-            </tbody>
-        </table>
+    <div class="center-align row">
+        @Html.Raw(UserName)
     </div>
-</div>
 </div>

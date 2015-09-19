@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Web.Mvc;
+using FenrirProjectManager.Models;
 
 namespace FenrirProjectManager.Controllers
 {
@@ -10,21 +8,41 @@ namespace FenrirProjectManager.Controllers
     {
         public virtual ActionResult Index()
         {
-            return View();
+            try
+            {
+                return View();
+            }
+            catch (Exception exception)
+            {
+                ExceptionViewModel exceptionViewModel = new ExceptionViewModel(exception);
+                return View("Error", exceptionViewModel);
+            }
         }
 
         public virtual ActionResult About()
         {
-            ViewBag.Message = "Your application description page.";
-
-            return View();
+            try
+            {
+                return View();
+            }
+            catch (Exception exception)
+            {
+                ExceptionViewModel exceptionViewModel = new ExceptionViewModel(exception);
+                return View("Error", exceptionViewModel);
+            }
         }
 
         public virtual ActionResult Contact()
         {
-            ViewBag.Message = "Your contact page.";
-
-            return View();
+            try
+            {
+                return View();
+            }
+            catch (Exception exception)
+            {
+                ExceptionViewModel exceptionViewModel = new ExceptionViewModel(exception);
+                return View("Error", exceptionViewModel);
+            }
         }
     }
 }

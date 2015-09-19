@@ -3,6 +3,7 @@ using System.Linq;
 using System.Net;
 using System.Web.Mvc;
 using DataAccessInterfaces;
+using FenrirProjectManager.Models;
 using Model.Models;
 
 namespace FenrirProjectManager.Controllers
@@ -19,28 +20,44 @@ namespace FenrirProjectManager.Controllers
         }
 
 
-        // GET: Users
+        [HttpGet]
         public virtual ActionResult Index()
         {
-            var users = _userRepo.GetAllUsers();
-            return View(users.ToList());
+            try
+            {
+                var users = _userRepo.GetAllUsers();
+                return View(users.ToList());
+            }
+            catch (Exception exception)
+            {
+                ExceptionViewModel exceptionViewModel = new ExceptionViewModel(exception);
+                return View("Error", exceptionViewModel);
+            }
         }
 
-        // GET: Users/Details/5
+        [HttpGet]
         public virtual ActionResult Details(string id)
         {
-            if (id == null)
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            try
+            {
+                if (id == null)
+                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 
-            User user = _userRepo.GetUserById(Guid.Parse(id));
+                User user = _userRepo.GetUserById(Guid.Parse(id));
 
-            if (user == null)
-                return HttpNotFound();
+                if (user == null)
+                    return HttpNotFound();
 
-            return View(user);
+                return View(user);
+            }
+            catch (Exception exception)
+            {
+                ExceptionViewModel exceptionViewModel = new ExceptionViewModel(exception);
+                return View("Error", exceptionViewModel);
+            }
         }
 
-        // GET: Users/Create
+        [HttpGet]
         public virtual ActionResult Create()
         {
             ViewBag.ProjectId = new SelectList(_projectRepo.GetAllProjects(), "Id", "Name");
@@ -121,6 +138,14 @@ namespace FenrirProjectManager.Controllers
             _userRepo.SaveChanges();
             return RedirectToAction("Index");
         }
+
+        public virtual ActionResult MyIssues(Guid userId)
+        {
+            //todo: view for user issues
+            //todo: viewmodel for user issues;
+            return MVC.Issues.Index();
+        }
+
 
         protected override void Dispose(bool disposing)
         {

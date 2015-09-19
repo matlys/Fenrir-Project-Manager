@@ -16,7 +16,7 @@ namespace FenrirProjectManager
             routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}",
-                defaults: MVC.Home.Index()
+                defaults: MVC.Home.Index().AddRouteValue("id", UrlParameter.Optional)
             );
         }
     }
