@@ -203,6 +203,8 @@
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\ProjectsController.cs" />
     <Compile Include="Controllers\UsersController.cs" />
+    <Compile Include="CustomAttributes\AllowRoles.cs" />
+    <Compile Include="CustomAttributes\AllowUser.cs" />
     <Compile Include="EmailController.generated.cs">
       <DependentUpon>T4MVC.tt</DependentUpon>
     </Compile>
@@ -241,8 +243,8 @@
     <Compile Include="UsersController.generated.cs">
       <DependentUpon>T4MVC.tt</DependentUpon>
     </Compile>
-    <Compile Include="ValidationAttributes\EmailValidator.cs" />
-    <Compile Include="ValidationAttributes\PasswordValidator.cs" />
+    <Compile Include="CustomAttributes\EmailValidator.cs" />
+    <Compile Include="CustomAttributes\PasswordValidator.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="css\materialize.css" />
@@ -324,7 +326,6 @@
     <Content Include="Views\Issues\Details.cshtml" />
     <Content Include="Views\Issues\Edit.cshtml" />
     <Content Include="Views\Issues\Index.cshtml" />
-    <Content Include="Views\Projects\Create.cshtml" />
     <Content Include="Views\Projects\Delete.cshtml" />
     <Content Include="Views\Projects\Details.cshtml" />
     <Content Include="Views\Projects\Edit.cshtml" />
@@ -345,7 +346,6 @@
     <Content Include="Views\Shared\PartialForAnonymous.cshtml" />
     <Content Include="Views\Shared\Menu\projectManager_menu.cshtml" />
     <Content Include="Views\Shared\Menu\observer_menu.cshtml" />
-    <Content Include="Views\Projects\ProjectInfoView.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

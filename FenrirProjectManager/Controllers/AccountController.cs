@@ -26,15 +26,13 @@ namespace FenrirProjectManager.Controllers
         private readonly IEmailRepo _emailRepo;
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
-        private StaticData _staticData;
-
+        
         public AccountController(IUserRepo userRepo, IProjectRepo projectRepo, IEmailRepo emailRepo)
         {
             _userRepo = userRepo;
             _projectRepo = projectRepo;
             _emailRepo = emailRepo;
             _emailRepo.SetSmtpConfiguration("localhost", 25, "registration@fenrir-software.com", "fenrir2015", false);
-            _staticData = new StaticData();
         }
 
         public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager)
@@ -130,7 +128,7 @@ namespace FenrirProjectManager.Controllers
                 switch (result)
                 {
                     case SignInStatus.Success:
-                        return RedirectToAction(MVC.Projects.Index(user.ProjectId));
+                        return RedirectToAction(MVC.Issues.Index(user.ProjectId));
                     case SignInStatus.LockedOut:
                         return View("Lockout");
                     case SignInStatus.RequiresVerification:
@@ -352,7 +350,7 @@ namespace FenrirProjectManager.Controllers
             {
                 return View("Error");
             }
-            return RedirectToAction("VerifyCode", new { Provider = model.SelectedProvider, ReturnUrl = model.ReturnUrl, RememberMe = model.RememberMe });
+            return RedirectToAction("SendCode", new { Provider = model.SelectedProvider, ReturnUrl = model.ReturnUrl, RememberMe = model.RememberMe });
         }
 
         //
@@ -426,13 +424,19 @@ namespace FenrirProjectManager.Controllers
         [HttpGet]
         public virtual ActionResult LogOff()
         {
-  
-            AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
-            return RedirectToAction(MVC.Home.Index());
+            try
+            {
+                AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
+                return RedirectToAction(MVC.Home.Index());
+            }
+            catch (Exception exception)
+            {
+                ExceptionViewModel exceptionViewModel = new ExceptionViewModel(exception);
+                return View("Error", exceptionViewModel);
+            }
         }
 
-        //
-        // GET: /Account/ExternalLoginFailure
+        [HttpGet]
         [AllowAnonymous]
         public virtual ActionResult ExternalLoginFailure()
         {

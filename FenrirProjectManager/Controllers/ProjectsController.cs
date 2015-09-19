@@ -2,7 +2,9 @@
 using System.Net;
 using System.Web.Mvc;
 using DataAccessInterfaces;
+using FenrirProjectManager.CustomAttributes;
 using FenrirProjectManager.Models;
+using Model.Consts;
 using Model.Models;
 
 namespace FenrirProjectManager.Controllers
@@ -10,34 +12,23 @@ namespace FenrirProjectManager.Controllers
     public partial class ProjectsController : Controller
     {
         private readonly IProjectRepo _projectRepo;
-
+       
         public ProjectsController(IProjectRepo projectRepo)
         {
             _projectRepo = projectRepo;
         }
-        
 
-        [HttpGet]
-        public virtual ActionResult Index(Guid? projectId)
+        protected override void Dispose(bool disposing)
         {
-            try
+            if (disposing)
             {
-                if (projectId == null) return View(_projectRepo.GetAllProjects());
-
-                var project = _projectRepo.GetProjectById((Guid)projectId);
-
-                if (string.IsNullOrEmpty(project.Name)) return RedirectToAction(MVC.Projects.Edit(projectId));
-
-                return RedirectToAction(MVC.Projects.Details(projectId));
+                //_projectRepo.Dispose();
             }
-            catch (Exception exception)
-            {
-                ExceptionViewModel model = new ExceptionViewModel(exception);
-                return View("Error", model);
-            }
+            base.Dispose(disposing);
         }
 
         [HttpGet]
+        [Authorize]
         public virtual ActionResult Details(Guid? id)
         {
             try
@@ -58,6 +49,7 @@ namespace FenrirProjectManager.Controllers
         }
         
         [HttpGet]
+        [AllowRoles(Consts.ProjectManagerRole, Consts.AdministratorRole)]
         public virtual ActionResult Edit(Guid? id)
         {
             try
@@ -79,6 +71,7 @@ namespace FenrirProjectManager.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [AllowRoles(Consts.ProjectManagerRole, Consts.AdministratorRole)]
         public virtual ActionResult Edit([Bind(Include = "Id,Name,Description,Logo,CreationDate,ClosedDate,Status")] Project project)
         {
             try
@@ -97,6 +90,7 @@ namespace FenrirProjectManager.Controllers
         }
 
         [HttpGet]
+        [AllowRoles(Consts.ProjectManagerRole, Consts.AdministratorRole)]
         public virtual ActionResult Delete(Guid? id)
         {
             try
@@ -118,23 +112,14 @@ namespace FenrirProjectManager.Controllers
             }
         }
 
-
-        [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [HttpPost, ActionName("Delete")]
+        [AllowRoles(Consts.ProjectManagerRole, Consts.AdministratorRole)]
         public virtual ActionResult DeleteConfirmed(Guid id)
         {
             _projectRepo.DeleteProject(id);
             _projectRepo.SaveChanges();
             return RedirectToAction("Index");
-        }
-
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                //_projectRepo.Dispose();
-            }
-            base.Dispose(disposing);
         }
     }
 }
