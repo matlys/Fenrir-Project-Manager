@@ -43,12 +43,8 @@ namespace FenrirProjectManager.Controllers
         [Authorize]
         public virtual ActionResult Index()
         {
-            var projectId = Session[Consts.SESSION_PROJECT_ID];
-            if (projectId == null) return HttpNotFound();
-
-            if (!ValidAccess((Guid) projectId)) return HttpNotFound("Access denied!");    
-             
-            var issues = _issueRepo.GetAllIssuesFromProject((Guid)projectId);
+            var userId = Guid.Parse(User.Identity.GetUserId());
+            var issues = _issueRepo.GetAllIssuesFromProject(_userRepo.GetUserById(userId).ProjectId);
             return View(issues);
         }
 

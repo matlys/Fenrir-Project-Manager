@@ -128,9 +128,6 @@ namespace FenrirProjectManager.Controllers
                 switch (result)
                 {
                     case SignInStatus.Success:
-                        Session[Consts.SESSION_USER_NAME] = $"{user.FirstName} {user.LastName}";
-                        Session[Consts.SESSION_PROJECT_NAME] = _projectRepo.GetProjectById(user.ProjectId).Name;
-                        Session[Consts.SESSION_PROJECT_ID] = user.ProjectId;
                         return RedirectToAction(MVC.Issues.Index());
                     case SignInStatus.LockedOut:
                         return View("Lockout");
@@ -164,6 +161,7 @@ namespace FenrirProjectManager.Controllers
                 var project = new Project()
                 {
                     Id = Guid.NewGuid(),
+                    Name = model.ProjectName,
                     CreationDate = DateTime.Now,
                     ClosedDate = DateTime.MaxValue,
                     Status = ProjectStatus.Open
@@ -177,6 +175,8 @@ namespace FenrirProjectManager.Controllers
                     Id = Guid.NewGuid().ToString(),
                     ProjectId = project.Id,
                     UserName = model.Email,
+                    FirstName = model.FirstName,
+                    LastName = model.LastName,
                     Email = model.Email,
                     EmailConfirmed = false,
                     Token = Guid.NewGuid(),
