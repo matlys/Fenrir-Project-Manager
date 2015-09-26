@@ -54,9 +54,11 @@ namespace FenrirProjectManager.Controllers
         {
             if (id == null) return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 
-            //check if project contatin this issue
-            var projectId = Guid.Parse(Session[Consts.SESSION_PROJECT_ID].ToString());
-            if (!_issueRepo.GetAllIssuesFromProject(projectId).Any(i => i.Id == id))
+            // get logged user
+            var userId = Guid.Parse(User.Identity.GetUserId());
+            var user = _userRepo.GetUserById(userId);
+            
+            if (!_issueRepo.GetAllIssuesFromProject(user.ProjectId).Any(i => i.Id == id))
             {
                 return HttpNotFound("Not found!!!");
             }

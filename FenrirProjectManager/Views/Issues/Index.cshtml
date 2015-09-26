@@ -1,45 +1,62 @@
 ﻿@using DataAccessImplementation
+@using Microsoft.AspNet.Identity
 @model IEnumerable<Model.Models.Issue>
 @{
     UserRepo _userRepo = new UserRepo();
 }
+
 @{
-    ViewBag.Title = "Index";
-}
-<table class="striped">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Title)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.AssignUserId)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Progress)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.FinishDate)
-        </th>
-    </tr>
+    if (Model.Any(m => m != null))
+    {
+        <table class="striped">
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Title)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.AssignUserId)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Progress)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.FinishDate)
+                </th>
+            </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Title)
-        </td>
-        <td>
-            @{
-                string userName = _userRepo.GetUserById(item.AssignUserId).Email;
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Title)
+                    </td>
+                    <td>
+                        @{
+                            string userName = _userRepo.GetUserById(item.AssignUserId).Email;
+                            if (User.Identity.GetUserId() == item.AssignUserId.ToString())
+                            {
+                                userName = "Me";
+                            }
+                        }
+                        @Html.Raw(userName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Progress)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.FinishDate)
+                    </td>
+                </tr>
             }
-            @Html.Raw(userName)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Progress)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.FinishDate)
-        </td>
-    </tr>
-}
 
-</table>
+        </table>
+    }
+    else
+    {
+        <div class="row center">
+            <h5>
+                No issues to show, but don't worry you can <a class="blue-text green-hover hover-animation" href="@Url.Action(MVC.Issues.Create())">add a new issue</a>
+            </h5>
+        </div>
+    }
+}
