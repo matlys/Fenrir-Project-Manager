@@ -1,9 +1,11 @@
 ﻿using System;
+using System.Linq;
 using System.Net;
 using System.Web.Mvc;
 using DataAccessInterfaces;
 using FenrirProjectManager.CustomAttributes;
 using FenrirProjectManager.Models;
+using Microsoft.AspNet.Identity;
 using Model.Consts;
 using Model.Models;
 
@@ -12,10 +14,12 @@ namespace FenrirProjectManager.Controllers
     public partial class ProjectsController : Controller
     {
         private readonly IProjectRepo _projectRepo;
-       
-        public ProjectsController(IProjectRepo projectRepo)
+        private readonly IUserRepo _userRepo;
+
+        public ProjectsController(IProjectRepo projectRepo, IUserRepo userRepo)
         {
             _projectRepo = projectRepo;
+            _userRepo = userRepo;
         }
 
         protected override void Dispose(bool disposing)
@@ -33,9 +37,13 @@ namespace FenrirProjectManager.Controllers
         {
             try
             {
-                if (id == null) return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                //if (id == null) return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 
-                var project = _projectRepo.GetProjectById((Guid)id);
+                // get logged user
+                var userId = Guid.Parse(User.Identity.GetUserId());
+                var user = _userRepo.GetUserById(userId);
+
+                var project = _projectRepo.GetProjectById(user.ProjectId);
 
                 if (project == null) return HttpNotFound();
 
@@ -50,14 +58,18 @@ namespace FenrirProjectManager.Controllers
         
         [HttpGet]
         [AllowRoles(Consts.ProjectManagerRole, Consts.AdministratorRole)]
-        public virtual ActionResult Edit(Guid? id)
+        public virtual ActionResult Edit()
         {
             try
             {
-                if (id == null) return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                // get logged user
+                Guid userId = Guid.Parse(User.Identity.GetUserId());
+                var user = _userRepo.GetUserById(userId);
 
-                var project = _projectRepo.GetProjectById((Guid)id);
+                // get project of logged user
+                var project = _projectRepo.GetProjectById(user.ProjectId);
 
+               
                 if (project == null) return HttpNotFound();
 
                 return View(project);

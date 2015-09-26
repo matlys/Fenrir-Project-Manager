@@ -128,7 +128,7 @@ namespace FenrirProjectManager.Controllers
                 switch (result)
                 {
                     case SignInStatus.Success:
-                        return RedirectToAction(MVC.Issues.Index(user.ProjectId));
+                        return RedirectToAction(MVC.Issues.Index());
                     case SignInStatus.LockedOut:
                         return View("Lockout");
                     case SignInStatus.RequiresVerification:
@@ -161,6 +161,7 @@ namespace FenrirProjectManager.Controllers
                 var project = new Project()
                 {
                     Id = Guid.NewGuid(),
+                    Name = model.ProjectName,
                     CreationDate = DateTime.Now,
                     ClosedDate = DateTime.MaxValue,
                     Status = ProjectStatus.Open
@@ -174,6 +175,8 @@ namespace FenrirProjectManager.Controllers
                     Id = Guid.NewGuid().ToString(),
                     ProjectId = project.Id,
                     UserName = model.Email,
+                    FirstName = model.FirstName,
+                    LastName = model.LastName,
                     Email = model.Email,
                     EmailConfirmed = false,
                     Token = Guid.NewGuid(),

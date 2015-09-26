@@ -64,12 +64,6 @@ namespace FenrirProjectManager.Controllers
         }
         [NonAction]
         [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
-        public virtual System.Web.Mvc.ActionResult Edit()
-        {
-            return new T4MVC_System_Web_Mvc_ActionResult(Area, Name, ActionNames.Edit);
-        }
-        [NonAction]
-        [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
         public virtual System.Web.Mvc.ActionResult Delete()
         {
             return new T4MVC_System_Web_Mvc_ActionResult(Area, Name, ActionNames.Delete);
@@ -146,7 +140,6 @@ namespace FenrirProjectManager.Controllers
         [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
         public class ActionParamsClass_Edit
         {
-            public readonly string id = "id";
             public readonly string user = "user";
         }
         static readonly ActionParamsClass_Delete s_params_Delete = new ActionParamsClass_Delete();
@@ -249,14 +242,13 @@ namespace FenrirProjectManager.Controllers
         }
 
         [NonAction]
-        partial void EditOverride(T4MVC_System_Web_Mvc_ActionResult callInfo, string id);
+        partial void EditOverride(T4MVC_System_Web_Mvc_ActionResult callInfo);
 
         [NonAction]
-        public override System.Web.Mvc.ActionResult Edit(string id)
+        public override System.Web.Mvc.ActionResult Edit()
         {
             var callInfo = new T4MVC_System_Web_Mvc_ActionResult(Area, Name, ActionNames.Edit);
-            ModelUnbinderHelpers.AddRouteValues(callInfo.RouteValueDictionary, "id", id);
-            EditOverride(callInfo, id);
+            EditOverride(callInfo);
             return callInfo;
         }
 

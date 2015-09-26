@@ -6,8 +6,11 @@ namespace FenrirProjectManager.Controllers
 {
     public partial class HomeController : Controller
     {
+
         public virtual ActionResult Index()
         {
+            if (User.Identity.IsAuthenticated) return RedirectToAction(MVC.Issues.Index());
+
             try
             {
                 return View();

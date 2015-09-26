@@ -16,5 +16,6 @@ namespace DataAccessInterfaces
         Project GetProjectById(Guid projectId);
         IQueryable<Project> GetAllProjectsByStatus(ProjectStatus projectStatus);
         IQueryable<Project> GetAllProjects();
+        IQueryable<User> GetAllUsersFromProject(Guid projectId);
     }
 }

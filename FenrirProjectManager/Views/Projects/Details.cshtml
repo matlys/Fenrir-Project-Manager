@@ -2,27 +2,27 @@
 
 <h4>Project details</h4>
 
-<div class="row">
+<div>
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Name)
+            @Html.DisplayFor(model => model.Name)
+        </dt>
+        <dt>
+            @Html.DisplayNameFor(model => model.Description)
+            @Html.DisplayFor(model => model.Description)
+        </dt>
+        <dt>
 
-    <div class="row">
-        @Html.DisplayNameFor(model => model.Name)
-        @Html.DisplayFor(model => model.Name)
-    </div>
-    <div class="row">
-        @Html.DisplayNameFor(model => model.Description)
-        @Html.DisplayFor(model => model.Description)
-    </div>
-    <div class="row">
-
-        @Html.DisplayNameFor(model => model.CreationDate)
-        @Html.DisplayFor(model => model.CreationDate)
-    </div>
-    <div class="row">
-        @Html.DisplayNameFor(model => model.Status)
-        @Html.DisplayFor(model => model.Status)
-    </div>
-
+            @Html.DisplayNameFor(model => model.CreationDate)
+            @Html.DisplayFor(model => model.CreationDate)
+        </dt>
+        <dt>
+            @Html.DisplayNameFor(model => model.Status)
+            @Html.DisplayFor(model => model.Status)
+        </dt>
+    </dl>
 </div>
-<div class="right" style="padding: 0 0 10px 10px;">
-    <a href="@Url.Action(MVC.Projects.Index())" class="btn btn-form blue lighten-1 waves-effect waves-light">OK</a>
+<div class="center row">
+    <a class="btn btn-form green waves-effect waves-light" href="@Url.Action(MVC.Projects.Edit())">Edit</a>
 </div>

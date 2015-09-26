@@ -1,8 +1,11 @@
 ﻿using System;
+using System.Linq;
 using System.Net;
 using System.Web.Mvc;
 using DataAccessInterfaces;
+using FenrirProjectManager.CustomAttributes;
 using Microsoft.AspNet.Identity;
+using Model.Consts;
 using Model.Models;
 
 namespace FenrirProjectManager.Controllers
@@ -11,6 +14,7 @@ namespace FenrirProjectManager.Controllers
     {
         private readonly IIssueRepo _issueRepo;
         private readonly IUserRepo _userRepo;
+     
 
         public IssuesController(IIssueRepo issueRepo, IUserRepo userRepo)
         {
@@ -18,22 +22,46 @@ namespace FenrirProjectManager.Controllers
             _userRepo = userRepo;
         }
 
-        // GET: Issues
-        public virtual ActionResult Index(Guid? projectId)
+        private bool ValidAccess(Guid projectId)
         {
-            if (projectId == null) return HttpNotFound();
-       
-            var userId = User.Identity.GetUserId();
-            if (_userRepo.GetUserById(Guid.Parse(userId)).ProjectId != projectId) return HttpNotFound("Wypierdalać!!!");
+            var userId = Guid.Parse(User.Identity.GetUserId());
+            if (_userRepo.GetUserById(userId).ProjectId != projectId) return false;
+            return true;
+        }
 
-            var issues = _issueRepo.GetAllIssuesFromProject((Guid)projectId);
+
+        [HttpGet]
+        [AllowRoles(Consts.DeveloperRole, Consts.ProjectManagerRole)]
+        public virtual ActionResult MyIssues()
+        {
+            var userId = Guid.Parse(User.Identity.GetUserId());
+            var issues = _issueRepo.GetAllIssuesFromUser(userId);
+            return View("Index", issues);
+        }
+
+        [HttpGet]
+        [Authorize]
+        public virtual ActionResult Index()
+        {
+            var userId = Guid.Parse(User.Identity.GetUserId());
+            var issues = _issueRepo.GetAllIssuesFromProject(_userRepo.GetUserById(userId).ProjectId);
             return View(issues);
         }
 
-        // GET: Issues/Details/5
+        [HttpGet]
+        [Authorize]
         public virtual ActionResult Details(Guid? id)
         {
             if (id == null) return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+
+            // get logged user
+            var userId = Guid.Parse(User.Identity.GetUserId());
+            var user = _userRepo.GetUserById(userId);
+            
+            if (!_issueRepo.GetAllIssuesFromProject(user.ProjectId).Any(i => i.Id == id))
+            {
+                return HttpNotFound("Not found!!!");
+            }
 
             Issue issue = _issueRepo.GetIssueById((Guid)id);
 
@@ -42,17 +70,16 @@ namespace FenrirProjectManager.Controllers
             return View(issue);
         }
 
-        // GET: Issues/Create
+        [HttpGet]
+        [AllowRoles(Consts.ProjectManagerRole, Consts.AdministratorRole)]
         public virtual ActionResult Create()
         {
             return View();
         }
 
-        // POST: Issues/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [AllowRoles(Consts.ProjectManagerRole, Consts.AdministratorRole)]
         public virtual ActionResult Create([Bind(Include = "Id,Title,Description,CreationDate,FinishDate,Progress,Status,Type,AssignUserId,CreateUserId")] Issue issue)
         {
             if (ModelState.IsValid)
@@ -66,7 +93,8 @@ namespace FenrirProjectManager.Controllers
             return View(issue);
         }
 
-        // GET: Issues/Edit/5
+        [HttpGet]
+        [AllowRoles(Consts.ProjectManagerRole, Consts.AdministratorRole)]
         public virtual ActionResult Edit(Guid? id)
         {
             if (id == null) return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -78,11 +106,9 @@ namespace FenrirProjectManager.Controllers
             return View(issue);
         }
 
-        // POST: Issues/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [AllowRoles(Consts.ProjectManagerRole, Consts.AdministratorRole)]
         public virtual ActionResult Edit([Bind(Include = "Id,Title,Description,CreationDate,FinishDate,Progress,Status,Type,AssignUserId,CreateUserId")] Issue issue)
         {
             if (ModelState.IsValid)
@@ -94,7 +120,8 @@ namespace FenrirProjectManager.Controllers
             return View(issue);
         }
 
-        // GET: Issues/Delete/5
+        [HttpGet]
+        [AllowRoles(Consts.ProjectManagerRole, Consts.AdministratorRole)]
         public virtual ActionResult Delete(Guid? id)
         {
             if (id == null) return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -106,9 +133,9 @@ namespace FenrirProjectManager.Controllers
             return View(issue);
         }
 
-        // POST: Issues/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [AllowRoles(Consts.ProjectManagerRole, Consts.AdministratorRole)]
         public virtual ActionResult DeleteConfirmed(Guid id)
         {
             _issueRepo.DeleteIssue(id);

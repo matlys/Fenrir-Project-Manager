@@ -55,5 +55,16 @@ namespace DataAccessImplementation
         {
             return _context.Projects;
         }
+
+        public IQueryable<User> GetAllUsersFromProject(Guid projectId)
+        {
+            var firstOrDefault = _context.Projects.FirstOrDefault(p => p.Id == projectId);
+            if (firstOrDefault != null)
+            {
+                var users = firstOrDefault.Users;
+                return users.AsQueryable();
+            }
+            return null;
+        }
     }
 }

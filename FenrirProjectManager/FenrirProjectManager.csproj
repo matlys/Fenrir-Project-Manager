@@ -204,7 +204,6 @@
     <Compile Include="Controllers\ProjectsController.cs" />
     <Compile Include="Controllers\UsersController.cs" />
     <Compile Include="CustomAttributes\AllowRoles.cs" />
-    <Compile Include="CustomAttributes\AllowUser.cs" />
     <Compile Include="EmailController.generated.cs">
       <DependentUpon>T4MVC.tt</DependentUpon>
     </Compile>
@@ -231,6 +230,9 @@
       <DependentUpon>T4MVC.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SecurityController.generated.cs">
+      <DependentUpon>T4MVC.tt</DependentUpon>
+    </Compile>
     <Compile Include="SharedController.generated.cs">
       <DependentUpon>T4MVC.tt</DependentUpon>
     </Compile>
@@ -353,6 +355,7 @@
     <Folder Include="font\material-design-icons\" />
     <Folder Include="font\roboto\" />
     <Folder Include="Views\Email\" />
+    <Folder Include="Views\Security\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

@@ -26,7 +26,7 @@ namespace FenrirProjectManager
             _containerBuilder.RegisterType<ProjectsController>().InstancePerRequest();
             _containerBuilder.RegisterType<IssuesController>().InstancePerRequest();
 
-            //register services
+            // register services
             _containerBuilder.RegisterType<IssueRepo>().AsSelf().As<IIssueRepo>();
             _containerBuilder.RegisterType<ProjectRepo>().AsSelf().As<IProjectRepo>();
             _containerBuilder.RegisterType<UserRepo>().AsSelf().As<IUserRepo>();
@@ -37,8 +37,7 @@ namespace FenrirProjectManager
 
             // dependency resolver
             DependencyResolver.SetResolver(new AutofacDependencyResolver(_container));
-
-
+            
             AreaRegistration.RegisterAllAreas();
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
