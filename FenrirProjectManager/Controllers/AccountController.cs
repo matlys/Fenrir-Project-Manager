@@ -128,7 +128,10 @@ namespace FenrirProjectManager.Controllers
                 switch (result)
                 {
                     case SignInStatus.Success:
-                        return RedirectToAction(MVC.Issues.Index(user.ProjectId));
+                        Session[Consts.SESSION_USER_NAME] = $"{user.FirstName} {user.LastName}";
+                        Session[Consts.SESSION_PROJECT_NAME] = _projectRepo.GetProjectById(user.ProjectId).Name;
+                        Session[Consts.SESSION_PROJECT_ID] = user.ProjectId;
+                        return RedirectToAction(MVC.Issues.Index());
                     case SignInStatus.LockedOut:
                         return View("Lockout");
                     case SignInStatus.RequiresVerification:

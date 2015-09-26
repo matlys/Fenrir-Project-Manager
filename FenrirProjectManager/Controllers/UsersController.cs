@@ -3,7 +3,10 @@ using System.Linq;
 using System.Net;
 using System.Web.Mvc;
 using DataAccessInterfaces;
+using FenrirProjectManager.CustomAttributes;
 using FenrirProjectManager.Models;
+using Microsoft.AspNet.Identity;
+using Model.Consts;
 using Model.Models;
 
 namespace FenrirProjectManager.Controllers
@@ -40,10 +43,11 @@ namespace FenrirProjectManager.Controllers
         {
             try
             {
-                if (id == null)
+                var userId = User.Identity.GetUserId();
+                if (userId == null)
                     return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 
-                User user = _userRepo.GetUserById(Guid.Parse(id));
+                User user = _userRepo.GetUserById(Guid.Parse(userId));
 
                 if (user == null)
                     return HttpNotFound();
@@ -83,13 +87,15 @@ namespace FenrirProjectManager.Controllers
             return View(user);
         }
 
-        // GET: Users/Edit/5
-        public virtual ActionResult Edit(string id)
+        [HttpGet]
+        [Authorize]
+        public virtual ActionResult Edit()
         {
-            if (id == null)
+            var userId = User.Identity.GetUserId();
+            if (userId == null)
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 
-            User user = _userRepo.GetUserById(Guid.Parse(id));
+            User user = _userRepo.GetUserById(Guid.Parse(userId));
 
             if (user == null)
                 return HttpNotFound();

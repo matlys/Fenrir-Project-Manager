@@ -1,13 +1,11 @@
-﻿@using Microsoft.AspNet.Identity
-
-<ul class="right hide-on-med-and-down">
+﻿<ul class="right hide-on-med-and-down">
     <ul class="nav navbar-nav navbar-right">
         <li>
-            <a class="black-text green-hover hover-animation" href="@Url.Action(MVC.Issues.Index())">My issues</a>
+            <a class="black-text green-hover hover-animation" href="@Url.Action(MVC.Issues.MyIssues())">My issues</a>
         </li>
 
         <li>
-            <a class="black-text blue-hover hover-animation" href="@Url.Action(MVC.Users.Details(User.Identity.GetUserId()))">Settings</a>
+            <a class="black-text blue-hover hover-animation" href="@Url.Action(MVC.Users.Details())">Settings</a>
         </li>
 
         <li>
@@ -21,7 +19,7 @@
         <a class="black-text green-hover hover-animation" href="@Url.Action(MVC.Issues.Index())">My issues</a>
     </li>
     <li>
-        <a class="black-text blue-hover hover-animation" href="@Url.Action(MVC.Users.Details(User.Identity.GetUserId()))">Settings</a>
+        <a class="black-text blue-hover hover-animation" href="@Url.Action(MVC.Users.Details())">Settings</a>
     </li>
     <li>
         <a class="black-text indigo-hover hover-animation" href="@Url.Action(MVC.Account.LogOff())">Logout</a>

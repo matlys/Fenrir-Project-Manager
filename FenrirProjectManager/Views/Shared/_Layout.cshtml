@@ -1,6 +1,23 @@
 ﻿@using DataAccessImplementation;
 @using Microsoft.AspNet.Identity
 @using Model.Consts;
+@using Model.Models
+
+@{
+    User currentUser = null;
+    Project currentProject = null;
+    if (User.Identity.IsAuthenticated)
+    {
+        ProjectRepo _projectRepo = new ProjectRepo();
+        UserRepo _userRepo = new UserRepo();
+
+        Guid userId = Guid.Parse(User.Identity.GetUserId());
+        currentUser = _userRepo.GetUserById(userId);
+        currentProject = _projectRepo.GetProjectById(currentUser.ProjectId);
+    }
+ 
+}
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -17,7 +34,15 @@
     <nav class="white" role="navigation">
     <div class="nav-wrapper container">
         <img src="~/Graph/FENRIR_LOGO2.png" style="padding: 10px" width="65" class="responsive-img"/>
-        @Html.ActionLink("FENRIR PROJECT MANAGER", MVC.Home.Index(), new {@class = "brand-logo", @id = "logo-container"})
+        @if (User.Identity.IsAuthenticated)
+        {
+            @Html.ActionLink(currentProject.Name, MVC.Issues.Index(), new { @class = "brand-logo", @id = "logo-container" })
+        }
+        else
+        {
+            @Html.ActionLink("FENRIR PROJECT MANAGER", MVC.Home.Index(), new { @class = "brand-logo", @id = "logo-container" })
+        }
+        
 
         @if (Request.IsAuthenticated)
         {
@@ -56,7 +81,15 @@
                     <div class="center-align" style="width: 45%; padding-top: 5px; height: 20px; background-color: #4caf50"></div>
                 </div>
                 <div class="row">
-                    @{ Html.RenderPartial("PartialForLogged");}
+                    <div class="col s2 m2 l2">
+                        <div class="center-align row">
+                            <img src="data:image/png;base64,@Html.Raw(currentUser.Avatar)" class="responsive-img" style="padding: 15px;" />
+                        </div>
+                        <div class="center-align row">
+                            @Html.Raw(string.Format("{0} {1}", currentUser.FirstName, currentUser.LastName))
+
+                        </div>
+                    </div>
                     <div class="col s10 m10 l10 card-panel" style="padding-left: 5px;">
                         @RenderBody()
                     </div>
