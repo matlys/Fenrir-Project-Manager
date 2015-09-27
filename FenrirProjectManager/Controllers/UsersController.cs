@@ -1,9 +1,12 @@
 ﻿using System;
+using System.Drawing;
 using System.Linq;
 using System.Net;
+using System.Web;
 using System.Web.Mvc;
 using DataAccessInterfaces;
 using FenrirProjectManager.CustomAttributes;
+using FenrirProjectManager.Helpers;
 using FenrirProjectManager.Models;
 using Microsoft.AspNet.Identity;
 using Model.Consts;
@@ -113,9 +116,26 @@ namespace FenrirProjectManager.Controllers
         {
             if (ModelState.IsValid)
             {
-                _userRepo.UpdateUser(user);
+                var updatedUser = _userRepo.GetUserById(Guid.Parse(user.Id));
+                updatedUser.FirstName = user.FirstName;
+                updatedUser.LastName = user.LastName;
+                updatedUser.Email = user.Email;
+
+                // check avatar file
+                foreach (string upload in Request.Files)
+                {
+                    var httpPostedFileBase = Request.Files[upload];
+                    if (httpPostedFileBase != null && httpPostedFileBase.ContentLength != 0)
+                    {
+                        var inputStream = httpPostedFileBase.InputStream;
+                        user.Avatar = ImageManager.GetByteArray(new Bitmap(inputStream));
+                    }
+                }
+
+                updatedUser.Avatar = (user.Avatar == null) ? updatedUser.Avatar : user.Avatar;
+                _userRepo.UpdateUser(updatedUser);
                 _userRepo.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction(MVC.Users.Details());
             }
             ViewBag.ProjectId = new SelectList(_projectRepo.GetAllProjects(), "Id", "Name", user.ProjectId);
             return View(user);
