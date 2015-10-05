@@ -64,6 +64,8 @@ namespace FenrirProjectManager.Controllers
             }
         }
 
+        #region Create methods
+
         [HttpGet]
         public virtual ActionResult Create()
         {
@@ -71,9 +73,6 @@ namespace FenrirProjectManager.Controllers
             return View();
         }
 
-        // POST: Users/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public virtual ActionResult Create([Bind(Include = "Id,Email,EmailConfirmed,PasswordHash,SecurityStamp,PhoneNumber,PhoneNumberConfirmed,TwoFactorEnabled,LockoutEndDateUtc,LockoutEnabled,AccessFailedCount,UserName,FirstName,LastName,Avatar,ProjectId")] User user)
@@ -83,12 +82,16 @@ namespace FenrirProjectManager.Controllers
                 user.Id = Guid.NewGuid().ToString();
                 _userRepo.CreateUser(user);
                 _userRepo.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("In" +
+                                        "dex");
             }
 
             ViewBag.ProjectId = new SelectList(_projectRepo.GetAllProjects(), "Id", "Name", user.ProjectId);
             return View(user);
         }
+
+
+        #endregion
 
         [HttpGet]
         [Authorize]
@@ -107,10 +110,8 @@ namespace FenrirProjectManager.Controllers
             return View(user);
         }
 
-        // POST: Users/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
+        [Authorize]
         [ValidateAntiForgeryToken]
         public virtual ActionResult Edit([Bind(Include = "Id,Email,EmailConfirmed,PasswordHash,SecurityStamp,PhoneNumber,PhoneNumberConfirmed,TwoFactorEnabled,LockoutEndDateUtc,LockoutEnabled,AccessFailedCount,UserName,FirstName,LastName,Avatar,ProjectId")] User user)
         {
@@ -132,7 +133,7 @@ namespace FenrirProjectManager.Controllers
                     }
                 }
 
-                updatedUser.Avatar = (user.Avatar == null) ? updatedUser.Avatar : user.Avatar;
+                updatedUser.Avatar = user.Avatar ?? updatedUser.Avatar;
                 _userRepo.UpdateUser(updatedUser);
                 _userRepo.SaveChanges();
                 return RedirectToAction(MVC.Users.Details());
@@ -141,7 +142,7 @@ namespace FenrirProjectManager.Controllers
             return View(user);
         }
 
-        // GET: Users/Delete/5
+        [HttpGet]
         public virtual ActionResult Delete(string id)
         {
             if (id == null)
@@ -155,7 +156,6 @@ namespace FenrirProjectManager.Controllers
             return View(user);
         }
 
-        // POST: Users/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public virtual ActionResult DeleteConfirmed(string id)
@@ -171,7 +171,6 @@ namespace FenrirProjectManager.Controllers
             //todo: viewmodel for user issues;
             return MVC.Issues.Index();
         }
-
 
         protected override void Dispose(bool disposing)
         {
