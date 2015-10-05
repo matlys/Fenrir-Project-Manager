@@ -33,41 +33,51 @@
 
 <body>
     <nav class="white" role="navigation">
-    <div class="nav-wrapper container">
-        <img src="~/Graph/FENRIR_LOGO2.png" style="padding: 10px" width="65" class="responsive-img"/>
-        @if (User.Identity.IsAuthenticated)
-        {
-            @Html.ActionLink(currentProject.Name, MVC.Issues.Index(), new { @class = "brand-logo", @id = "logo-container" })
-        }
-        else
-        {
-            @Html.ActionLink("FENRIR PROJECT MANAGER", MVC.Home.Index(), new { @class = "brand-logo", @id = "logo-container" })
-        }
-        
+        <div class="nav-wrapper container">
+            @{
+                if (currentProject.Logo != null)
+                {
+                    <img src="data:image/png;base64,@Html.Raw(Convert.ToBase64String(currentProject.Logo))" style="padding: 10px" width="65" class="responsive-img" />
+                }
+                else
+                {
+                    <img src="~/Graph/FENRIR_LOGO2.png" style="padding: 10px" width="65" class="responsive-img" />
+                }
+            }
+            
+            @if (User.Identity.IsAuthenticated)
+            {
+                @Html.ActionLink(currentProject.Name, MVC.Issues.Index(), new {@class = "brand-logo", @id = "logo-container"})
+            }
+            else
+            {
+                @Html.ActionLink("FENRIR PROJECT MANAGER", MVC.Home.Index(), new {@class = "brand-logo", @id = "logo-container"})
+            }
 
-        @if (Request.IsAuthenticated)
-        {
-            if (User.IsInRole(Consts.DeveloperRole))
+
+            @if (Request.IsAuthenticated)
             {
-                Html.RenderPartial("Menu/developer_menu");
-                userRole = "Developer";
+                if (User.IsInRole(Consts.DeveloperRole))
+                {
+                    Html.RenderPartial("Menu/developer_menu");
+                    userRole = "Developer";
+                }
+                if (User.IsInRole(Consts.ProjectManagerRole))
+                {
+                    Html.RenderPartial("Menu/projectManager_menu");
+                    userRole = "Project manager";
+                }
+                if (User.IsInRole(Consts.ObserverRole))
+                {
+                    Html.RenderPartial("Menu/observer_menu");
+                    userRole = "Observer";
+                }
             }
-            if (User.IsInRole(Consts.ProjectManagerRole))
+            else
             {
-                Html.RenderPartial("Menu/projectManager_menu");
-                userRole = "Project manager";
+                Html.RenderPartial("Menu/default_menu");
             }
-            if (User.IsInRole(Consts.ObserverRole))
-            {
-                Html.RenderPartial("Menu/observer_menu");
-                userRole = "Observer";
-            }
-        }
-        else
-        {
-            Html.RenderPartial("Menu/default_menu");
-        }
-    </div>
+        </div>
 </nav>
 
     @if (!Request.IsAuthenticated)
