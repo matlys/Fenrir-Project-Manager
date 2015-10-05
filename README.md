@@ -1,4 +1,5 @@
-#1.5.2 [2015-10-05]
+#Project history
+1.5.2 [2015-10-05]
 * project manager can update project information,
 * project logo is showing in top-left corner.
 
