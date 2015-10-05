@@ -125,9 +125,9 @@ namespace FenrirProjectManager.Controllers
             }
         }
 
-
         #endregion
 
+        #region Delete
 
         [HttpGet]
         [AllowRoles(Consts.ProjectManagerRole, Consts.AdministratorRole)]
@@ -161,5 +161,7 @@ namespace FenrirProjectManager.Controllers
             _projectRepo.SaveChanges();
             return RedirectToAction("Index");
         }
+
+        #endregion
     }
 }
