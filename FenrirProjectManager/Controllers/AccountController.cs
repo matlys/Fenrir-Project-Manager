@@ -165,7 +165,8 @@ namespace FenrirProjectManager.Controllers
                     Name = model.ProjectName,
                     CreationDate = DateTime.Now,
                     ClosedDate = DateTime.MaxValue,
-                    Status = ProjectStatus.Open
+                    Status = ProjectStatus.Open,
+                    Logo = ImageManager.GetByteArray(new Bitmap(Images.FENRIR_LOGO2))
                 };
 
                 _projectRepo.CreateProject(project);
