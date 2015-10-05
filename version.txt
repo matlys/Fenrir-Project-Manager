@@ -1,3 +1,7 @@
+1.5.2 [2015-10-05]
+* project manager can update project information,
+* project logo is showing in top-left corner.
+
 1.5.1 [2015-10-05]
 * users can update them profile information,
 * user can change them password.

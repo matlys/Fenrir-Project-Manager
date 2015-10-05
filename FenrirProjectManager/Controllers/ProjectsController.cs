@@ -1,9 +1,11 @@
 ﻿using System;
+using System.Drawing;
 using System.Linq;
 using System.Net;
 using System.Web.Mvc;
 using DataAccessInterfaces;
 using FenrirProjectManager.CustomAttributes;
+using FenrirProjectManager.Helpers;
 using FenrirProjectManager.Models;
 using Microsoft.AspNet.Identity;
 using Model.Consts;
@@ -31,6 +33,8 @@ namespace FenrirProjectManager.Controllers
             base.Dispose(disposing);
         }
 
+        #region Details
+
         [HttpGet]
         [Authorize]
         public virtual ActionResult Details(Guid? id)
@@ -55,7 +59,11 @@ namespace FenrirProjectManager.Controllers
                 return View("Error", model);
             }
         }
-        
+
+        #endregion
+
+        #region Edit
+
         [HttpGet]
         [AllowRoles(Consts.ProjectManagerRole, Consts.AdministratorRole)]
         public virtual ActionResult Edit()
@@ -69,7 +77,7 @@ namespace FenrirProjectManager.Controllers
                 // get project of logged user
                 var project = _projectRepo.GetProjectById(user.ProjectId);
 
-               
+
                 if (project == null) return HttpNotFound();
 
                 return View(project);
@@ -84,15 +92,31 @@ namespace FenrirProjectManager.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [AllowRoles(Consts.ProjectManagerRole, Consts.AdministratorRole)]
-        public virtual ActionResult Edit([Bind(Include = "Id,Name,Description,Logo,CreationDate,ClosedDate,Status")] Project project)
+        public virtual ActionResult Edit([Bind(Include = "Id,Name,Description,Logo,CreationDate,ClosedDate,Status")] Project model)
         {
             try
             {
-                if (!ModelState.IsValid) return View(project);
+                if (!ModelState.IsValid) return View(model);
+
+                var project = _projectRepo.GetProjectById(model.Id);
+                project.Name = model.Name;
+                project.Description = model.Description;
+                project.Status = model.Status;
+
+                // check logo file
+                foreach (string upload in Request.Files)
+                {
+                    var httpPostedFileBase = Request.Files[upload];
+                    if (httpPostedFileBase != null && httpPostedFileBase.ContentLength != 0)
+                    {
+                        var inputStream = httpPostedFileBase.InputStream;
+                        project.Logo = ImageManager.GetByteArray(new Bitmap(inputStream));
+                    }
+                }
 
                 _projectRepo.UpdateProject(project);
                 _projectRepo.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction(MVC.Projects.Details());
             }
             catch (Exception exception)
             {
@@ -100,6 +124,10 @@ namespace FenrirProjectManager.Controllers
                 return View("Error", exceptionViewModel);
             }
         }
+
+
+        #endregion
+
 
         [HttpGet]
         [AllowRoles(Consts.ProjectManagerRole, Consts.AdministratorRole)]
