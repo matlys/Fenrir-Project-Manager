@@ -1,9 +1,12 @@
 ﻿using System;
+using System.Drawing;
 using System.Linq;
 using System.Net;
+using System.Web;
 using System.Web.Mvc;
 using DataAccessInterfaces;
 using FenrirProjectManager.CustomAttributes;
+using FenrirProjectManager.Helpers;
 using FenrirProjectManager.Models;
 using Microsoft.AspNet.Identity;
 using Model.Consts;
@@ -61,6 +64,8 @@ namespace FenrirProjectManager.Controllers
             }
         }
 
+        #region Create methods
+
         [HttpGet]
         public virtual ActionResult Create()
         {
@@ -68,9 +73,6 @@ namespace FenrirProjectManager.Controllers
             return View();
         }
 
-        // POST: Users/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public virtual ActionResult Create([Bind(Include = "Id,Email,EmailConfirmed,PasswordHash,SecurityStamp,PhoneNumber,PhoneNumberConfirmed,TwoFactorEnabled,LockoutEndDateUtc,LockoutEnabled,AccessFailedCount,UserName,FirstName,LastName,Avatar,ProjectId")] User user)
@@ -80,12 +82,16 @@ namespace FenrirProjectManager.Controllers
                 user.Id = Guid.NewGuid().ToString();
                 _userRepo.CreateUser(user);
                 _userRepo.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("In" +
+                                        "dex");
             }
 
             ViewBag.ProjectId = new SelectList(_projectRepo.GetAllProjects(), "Id", "Name", user.ProjectId);
             return View(user);
         }
+
+
+        #endregion
 
         [HttpGet]
         [Authorize]
@@ -104,24 +110,39 @@ namespace FenrirProjectManager.Controllers
             return View(user);
         }
 
-        // POST: Users/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
+        [Authorize]
         [ValidateAntiForgeryToken]
         public virtual ActionResult Edit([Bind(Include = "Id,Email,EmailConfirmed,PasswordHash,SecurityStamp,PhoneNumber,PhoneNumberConfirmed,TwoFactorEnabled,LockoutEndDateUtc,LockoutEnabled,AccessFailedCount,UserName,FirstName,LastName,Avatar,ProjectId")] User user)
         {
             if (ModelState.IsValid)
             {
-                _userRepo.UpdateUser(user);
+                var updatedUser = _userRepo.GetUserById(Guid.Parse(user.Id));
+                updatedUser.FirstName = user.FirstName;
+                updatedUser.LastName = user.LastName;
+                updatedUser.Email = user.Email;
+
+                // check avatar file
+                foreach (string upload in Request.Files)
+                {
+                    var httpPostedFileBase = Request.Files[upload];
+                    if (httpPostedFileBase != null && httpPostedFileBase.ContentLength != 0)
+                    {
+                        var inputStream = httpPostedFileBase.InputStream;
+                        user.Avatar = ImageManager.GetByteArray(new Bitmap(inputStream));
+                    }
+                }
+
+                updatedUser.Avatar = user.Avatar ?? updatedUser.Avatar;
+                _userRepo.UpdateUser(updatedUser);
                 _userRepo.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction(MVC.Users.Details());
             }
             ViewBag.ProjectId = new SelectList(_projectRepo.GetAllProjects(), "Id", "Name", user.ProjectId);
             return View(user);
         }
 
-        // GET: Users/Delete/5
+        [HttpGet]
         public virtual ActionResult Delete(string id)
         {
             if (id == null)
@@ -135,7 +156,6 @@ namespace FenrirProjectManager.Controllers
             return View(user);
         }
 
-        // POST: Users/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public virtual ActionResult DeleteConfirmed(string id)
@@ -151,7 +171,6 @@ namespace FenrirProjectManager.Controllers
             //todo: viewmodel for user issues;
             return MVC.Issues.Index();
         }
-
 
         protected override void Dispose(bool disposing)
         {

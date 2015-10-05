@@ -65,20 +65,16 @@ namespace FenrirProjectManager.Controllers
             }
         }
 
-        private bool IsProjectConfigured(Guid projectId)
-        {
-            var project = _projectRepo.GetProjectById(projectId);
-
-            if (string.IsNullOrEmpty(project?.Name)) return false;
-
-            return true;
-        }
-
         private bool IsEmailConfirned(string email)
         {
             var user = _userRepo.GetAllUsers().FirstOrDefault(u => u.Email == email && u.EmailConfirmed);
             if (user == null) return false;
             return true;
+        }
+
+        public bool IsEmailExist(string email)
+        {
+            return _userRepo.GetAllUsers().Any(u => u.Email.Equals(email));
         }
 
         private bool ActivateUser(Guid userId, Guid token)
@@ -96,6 +92,7 @@ namespace FenrirProjectManager.Controllers
             return true;
         }
 
+        #region Login
 
         [HttpGet]
         [AllowAnonymous]
@@ -124,7 +121,7 @@ namespace FenrirProjectManager.Controllers
                     await SignInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, false);
 
                 var user = _userRepo.GetUserByEmail(model.Email);
-               
+
                 switch (result)
                 {
                     case SignInStatus.Success:
@@ -132,7 +129,7 @@ namespace FenrirProjectManager.Controllers
                     case SignInStatus.LockedOut:
                         return View("Lockout");
                     case SignInStatus.RequiresVerification:
-                        return RedirectToAction("SendCode", new {ReturnUrl = returnUrl, RememberMe = model.RememberMe});
+                        return RedirectToAction("SendCode", new { ReturnUrl = returnUrl, RememberMe = model.RememberMe });
                     default:
                         ModelState.AddModelError("", "Invalid login attempt.");
                         return View(model);
@@ -144,6 +141,10 @@ namespace FenrirProjectManager.Controllers
                 return View("Error", exceptionViewModel);
             }
         }
+
+        #endregion
+
+        #region Register
 
         [AllowAnonymous]
         public virtual ActionResult Register()
@@ -209,7 +210,7 @@ namespace FenrirProjectManager.Controllers
 
         [HttpGet]
         [AllowAnonymous]
-        public virtual async Task<ActionResult> ConfirmEmail(string userId, string token)
+        public virtual ActionResult ConfirmEmail(string userId, string token)
         {
             try
             {
@@ -224,16 +225,16 @@ namespace FenrirProjectManager.Controllers
             }
         }
 
-        //
-        // GET: /Account/ForgotPassword
+        #endregion
+
+        #region Forgot password
+        [HttpGet]
         [AllowAnonymous]
         public virtual ActionResult ForgotPassword()
         {
             return View();
         }
 
-        //
-        // POST: /Account/ForgotPassword
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
@@ -260,24 +261,20 @@ namespace FenrirProjectManager.Controllers
             return View(model);
         }
 
-        //
-        // GET: /Account/ForgotPasswordConfirmation
+        [HttpGet]
         [AllowAnonymous]
         public virtual ActionResult ForgotPasswordConfirmation()
         {
             return View();
         }
 
-        //
-        // GET: /Account/ResetPassword
+        [HttpGet]
         [AllowAnonymous]
         public virtual ActionResult ResetPassword(string code)
         {
             return code == null ? View("Error") : View();
         }
 
-        //
-        // POST: /Account/ResetPassword
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
@@ -302,16 +299,17 @@ namespace FenrirProjectManager.Controllers
             return View();
         }
 
-        //
-        // GET: /Account/ResetPasswordConfirmation
+        [HttpGet]
         [AllowAnonymous]
         public virtual ActionResult ResetPasswordConfirmation()
         {
             return View();
         }
 
-        //
-        // POST: /Account/ExternalLogin
+        #endregion
+
+        #region External login
+
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
@@ -321,8 +319,7 @@ namespace FenrirProjectManager.Controllers
             return new ChallengeResult(provider, Url.Action("ExternalLoginCallback", "Account", new { ReturnUrl = returnUrl }));
         }
 
-        //
-        // GET: /Account/SendCode
+        [HttpGet]
         [AllowAnonymous]
         public virtual async Task<ActionResult> SendCode(string returnUrl, bool rememberMe)
         {
@@ -336,8 +333,6 @@ namespace FenrirProjectManager.Controllers
             return View(new SendCodeViewModel { Providers = factorOptions, ReturnUrl = returnUrl, RememberMe = rememberMe });
         }
 
-        //
-        // POST: /Account/SendCode
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
@@ -356,8 +351,7 @@ namespace FenrirProjectManager.Controllers
             return RedirectToAction("SendCode", new { Provider = model.SelectedProvider, ReturnUrl = model.ReturnUrl, RememberMe = model.RememberMe });
         }
 
-        //
-        // GET: /Account/ExternalLoginCallback
+        [HttpGet]
         [AllowAnonymous]
         public virtual async Task<ActionResult> ExternalLoginCallback(string returnUrl)
         {
@@ -385,9 +379,7 @@ namespace FenrirProjectManager.Controllers
                     return View("ExternalLoginConfirmation", new ExternalLoginConfirmationViewModel { Email = loginInfo.Email });
             }
         }
-
-        //
-        // POST: /Account/ExternalLoginConfirmation
+        
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
@@ -425,6 +417,51 @@ namespace FenrirProjectManager.Controllers
         }
 
         [HttpGet]
+        [AllowAnonymous]
+        public virtual ActionResult ExternalLoginFailure()
+        {
+            return View();
+        }
+
+        #endregion
+
+
+        #region Change password
+
+        [HttpGet]
+        [Authorize]
+        public virtual ActionResult ChangePassword()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [Authorize]
+        [ValidateAntiForgeryToken]
+        public virtual async Task<ActionResult> ChangePassword(ChangePasswordViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                // get logged user
+                var userId = Guid.Parse(User.Identity.GetUserId());
+                var user = _userRepo.GetUserById(userId);
+
+                if (model == null || user == null) return HttpNotFound();
+
+                var result =
+                    await UserManager.ChangePasswordAsync(userId.ToString(), model.OldPassword, model.NewPassword);
+                if (result.Succeeded)
+                {
+                    _userRepo.SaveChanges();
+                    return RedirectToAction(MVC.Users.Details());
+                }
+            }
+            return View(model);
+        }
+
+        #endregion
+
+        [HttpGet]
         public virtual ActionResult LogOff()
         {
             try
@@ -437,13 +474,6 @@ namespace FenrirProjectManager.Controllers
                 ExceptionViewModel exceptionViewModel = new ExceptionViewModel(exception);
                 return View("Error", exceptionViewModel);
             }
-        }
-
-        [HttpGet]
-        [AllowAnonymous]
-        public virtual ActionResult ExternalLoginFailure()
-        {
-            return View();
         }
 
         protected override void Dispose(bool disposing)
@@ -525,12 +555,5 @@ namespace FenrirProjectManager.Controllers
         }
         #endregion
 
-
-
-        public bool IsEmailExist(string email)
-        {
-            return _userRepo.GetAllUsers().Any(u => u.Email.Equals(email));
-        }
-        
     }
 }

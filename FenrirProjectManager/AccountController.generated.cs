@@ -64,10 +64,9 @@ namespace FenrirProjectManager.Controllers
         }
         [NonAction]
         [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
-        public virtual System.Threading.Tasks.Task<System.Web.Mvc.ActionResult> ConfirmEmail()
+        public virtual System.Web.Mvc.ActionResult ConfirmEmail()
         {
-            var callInfo = new T4MVC_System_Web_Mvc_ActionResult(Area, Name, ActionNames.ConfirmEmail);
-            return System.Threading.Tasks.Task.FromResult(callInfo as ActionResult);
+            return new T4MVC_System_Web_Mvc_ActionResult(Area, Name, ActionNames.ConfirmEmail);
         }
         [NonAction]
         [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
@@ -129,8 +128,9 @@ namespace FenrirProjectManager.Controllers
             public readonly string SendCode = "SendCode";
             public readonly string ExternalLoginCallback = "ExternalLoginCallback";
             public readonly string ExternalLoginConfirmation = "ExternalLoginConfirmation";
-            public readonly string LogOff = "LogOff";
             public readonly string ExternalLoginFailure = "ExternalLoginFailure";
+            public readonly string ChangePassword = "ChangePassword";
+            public readonly string LogOff = "LogOff";
         }
 
         [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
@@ -147,8 +147,9 @@ namespace FenrirProjectManager.Controllers
             public const string SendCode = "SendCode";
             public const string ExternalLoginCallback = "ExternalLoginCallback";
             public const string ExternalLoginConfirmation = "ExternalLoginConfirmation";
-            public const string LogOff = "LogOff";
             public const string ExternalLoginFailure = "ExternalLoginFailure";
+            public const string ChangePassword = "ChangePassword";
+            public const string LogOff = "LogOff";
         }
 
 
@@ -231,6 +232,14 @@ namespace FenrirProjectManager.Controllers
             public readonly string model = "model";
             public readonly string returnUrl = "returnUrl";
         }
+        static readonly ActionParamsClass_ChangePassword s_params_ChangePassword = new ActionParamsClass_ChangePassword();
+        [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
+        public ActionParamsClass_ChangePassword ChangePasswordParams { get { return s_params_ChangePassword; } }
+        [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
+        public class ActionParamsClass_ChangePassword
+        {
+            public readonly string model = "model";
+        }
         static readonly ViewsClass s_views = new ViewsClass();
         [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
         public ViewsClass Views { get { return s_views; } }
@@ -243,6 +252,7 @@ namespace FenrirProjectManager.Controllers
             {
                 public readonly string _ExternalLoginsListPartial = "_ExternalLoginsListPartial";
                 public readonly string _ViewStart = "_ViewStart";
+                public readonly string ChangePassword = "ChangePassword";
                 public readonly string ConfirmEmail = "ConfirmEmail";
                 public readonly string ExternalLoginConfirmation = "ExternalLoginConfirmation";
                 public readonly string ExternalLoginFailure = "ExternalLoginFailure";
@@ -258,6 +268,7 @@ namespace FenrirProjectManager.Controllers
             }
             public readonly string _ExternalLoginsListPartial = "~/Views/Account/_ExternalLoginsListPartial.cshtml";
             public readonly string _ViewStart = "~/Views/Account/_ViewStart.cshtml";
+            public readonly string ChangePassword = "~/Views/Account/ChangePassword.cshtml";
             public readonly string ConfirmEmail = "~/Views/Account/ConfirmEmail.cshtml";
             public readonly string ExternalLoginConfirmation = "~/Views/Account/ExternalLoginConfirmation.cshtml";
             public readonly string ExternalLoginFailure = "~/Views/Account/ExternalLoginFailure.cshtml";
@@ -330,13 +341,13 @@ namespace FenrirProjectManager.Controllers
         partial void ConfirmEmailOverride(T4MVC_System_Web_Mvc_ActionResult callInfo, string userId, string token);
 
         [NonAction]
-        public override System.Threading.Tasks.Task<System.Web.Mvc.ActionResult> ConfirmEmail(string userId, string token)
+        public override System.Web.Mvc.ActionResult ConfirmEmail(string userId, string token)
         {
             var callInfo = new T4MVC_System_Web_Mvc_ActionResult(Area, Name, ActionNames.ConfirmEmail);
             ModelUnbinderHelpers.AddRouteValues(callInfo.RouteValueDictionary, "userId", userId);
             ModelUnbinderHelpers.AddRouteValues(callInfo.RouteValueDictionary, "token", token);
             ConfirmEmailOverride(callInfo, userId, token);
-            return System.Threading.Tasks.Task.FromResult(callInfo as ActionResult);
+            return callInfo;
         }
 
         [NonAction]
@@ -472,17 +483,6 @@ namespace FenrirProjectManager.Controllers
         }
 
         [NonAction]
-        partial void LogOffOverride(T4MVC_System_Web_Mvc_ActionResult callInfo);
-
-        [NonAction]
-        public override System.Web.Mvc.ActionResult LogOff()
-        {
-            var callInfo = new T4MVC_System_Web_Mvc_ActionResult(Area, Name, ActionNames.LogOff);
-            LogOffOverride(callInfo);
-            return callInfo;
-        }
-
-        [NonAction]
         partial void ExternalLoginFailureOverride(T4MVC_System_Web_Mvc_ActionResult callInfo);
 
         [NonAction]
@@ -490,6 +490,40 @@ namespace FenrirProjectManager.Controllers
         {
             var callInfo = new T4MVC_System_Web_Mvc_ActionResult(Area, Name, ActionNames.ExternalLoginFailure);
             ExternalLoginFailureOverride(callInfo);
+            return callInfo;
+        }
+
+        [NonAction]
+        partial void ChangePasswordOverride(T4MVC_System_Web_Mvc_ActionResult callInfo);
+
+        [NonAction]
+        public override System.Web.Mvc.ActionResult ChangePassword()
+        {
+            var callInfo = new T4MVC_System_Web_Mvc_ActionResult(Area, Name, ActionNames.ChangePassword);
+            ChangePasswordOverride(callInfo);
+            return callInfo;
+        }
+
+        [NonAction]
+        partial void ChangePasswordOverride(T4MVC_System_Web_Mvc_ActionResult callInfo, FenrirProjectManager.Models.ChangePasswordViewModel model);
+
+        [NonAction]
+        public override System.Threading.Tasks.Task<System.Web.Mvc.ActionResult> ChangePassword(FenrirProjectManager.Models.ChangePasswordViewModel model)
+        {
+            var callInfo = new T4MVC_System_Web_Mvc_ActionResult(Area, Name, ActionNames.ChangePassword);
+            ModelUnbinderHelpers.AddRouteValues(callInfo.RouteValueDictionary, "model", model);
+            ChangePasswordOverride(callInfo, model);
+            return System.Threading.Tasks.Task.FromResult(callInfo as ActionResult);
+        }
+
+        [NonAction]
+        partial void LogOffOverride(T4MVC_System_Web_Mvc_ActionResult callInfo);
+
+        [NonAction]
+        public override System.Web.Mvc.ActionResult LogOff()
+        {
+            var callInfo = new T4MVC_System_Web_Mvc_ActionResult(Area, Name, ActionNames.LogOff);
+            LogOffOverride(callInfo);
             return callInfo;
         }
 

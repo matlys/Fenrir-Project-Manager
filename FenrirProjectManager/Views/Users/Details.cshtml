@@ -1,37 +1,39 @@
-﻿@model Model.Models.User
-
+﻿@using Model.Consts
+@model Model.Models.User
 @{
-    ViewBag.Title = "Details";
+            string userRole = string.Empty;
+            if (User.IsInRole(Consts.ProjectManagerRole))
+            {
+                userRole = Consts.ProjectManagerRole;
+            }
+            if (User.IsInRole(Consts.AdministratorRole))
+            {
+                userRole = Consts.AdministratorRole;
+            }
+            if (User.IsInRole(Consts.DeveloperRole))
+            {
+                userRole = Consts.DeveloperRole;
+            }
+            if (User.IsInRole(Consts.ObserverRole))
+            {
+                userRole = Consts.ObserverRole;
+            }
 }
-<h2>Details</h2>
+<div class="row center">
+    <h3>Account settings</h3>
+</div>
+<div class="row left col l12 m12 s12" style="margin-left: 10px">
+    <div class="row">
+        @{
+            string userName = $"{Html.DisplayFor(model => model.FirstName)} {Html.DisplayFor(model => model.LastName)}";
+            <h5>@Html.Raw(userName)</h5>
+            <h5>@Html.DisplayFor(model => model.Email)</h5>
+            <h5>@Html.Raw(userRole)</h5>
+        }
 
-<div>
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.Email)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Email)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.FirstName)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.FirstName)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.LastName)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.LastName)
-        </dd>
-    </dl>
+    </div>
 </div>
 <div class="center row">
     <a class="btn btn-form green waves-effect waves-light" href="@Url.Action(MVC.Users.Edit())">Edit</a>
+    <a class=" blue lighten-1 waves-effect waves-light" href="@Url.Action(MVC.Account.ChangePassword())">Change password</a>
 </div>
