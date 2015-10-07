@@ -34,6 +34,12 @@
             </div>
         </div>
 
+        <div class="form-group">
+            @Html.LabelFor(model => model.UserRole, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.EnumDropDownListFor(model => model.UserRole, new { @class = "gutter input-field col s12" })
+            @Html.ValidationMessageFor(model => model.UserRole, "", new { @class = "text-danger" })
+        </div>
+
         <div class="center row">
             <a class="btn btn-form grey waves-effect waves-light" href="@Url.Action(MVC.Users.Index())">Cancel</a>
             <button class="btn btn-form blue lighten-1 waves-effect waves-light" type="submit" name="action">Save</button>

@@ -106,6 +106,14 @@
     <Compile Include="Migrations\201508311909112_token_added4.Designer.cs">
       <DependentUpon>201508311909112_token_added4.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201510071023093_userModelChange.cs" />
+    <Compile Include="Migrations\201510071023093_userModelChange.Designer.cs">
+      <DependentUpon>201510071023093_userModelChange.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201510071055532_userModelChange2.cs" />
+    <Compile Include="Migrations\201510071055532_userModelChange2.Designer.cs">
+      <DependentUpon>201510071055532_userModelChange2.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Context.cs" />
     <Compile Include="Enums\Enums.cs" />
@@ -133,6 +141,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201508311909112_token_added4.resx">
       <DependentUpon>201508311909112_token_added4.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201510071023093_userModelChange.resx">
+      <DependentUpon>201510071023093_userModelChange.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201510071055532_userModelChange2.resx">
+      <DependentUpon>201510071055532_userModelChange2.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

@@ -1,3 +1,6 @@
+1.6.0 [2015-10-07]
+* user model has been changed.
+
 1.5.2 [2015-10-05]
 * project manager can update project information,
 * project logo is showing in top-left corner.
