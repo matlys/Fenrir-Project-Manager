@@ -70,6 +70,12 @@ namespace FenrirProjectManager.Controllers
         }
         [NonAction]
         [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
+        public virtual System.Web.Mvc.ActionResult ConfirmEmailByInvitation()
+        {
+            return new T4MVC_System_Web_Mvc_ActionResult(Area, Name, ActionNames.ConfirmEmailByInvitation);
+        }
+        [NonAction]
+        [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
         public virtual System.Web.Mvc.ActionResult ResetPassword()
         {
             return new T4MVC_System_Web_Mvc_ActionResult(Area, Name, ActionNames.ResetPassword);
@@ -120,6 +126,7 @@ namespace FenrirProjectManager.Controllers
             public readonly string Login = "Login";
             public readonly string Register = "Register";
             public readonly string ConfirmEmail = "ConfirmEmail";
+            public readonly string ConfirmEmailByInvitation = "ConfirmEmailByInvitation";
             public readonly string ForgotPassword = "ForgotPassword";
             public readonly string ForgotPasswordConfirmation = "ForgotPasswordConfirmation";
             public readonly string ResetPassword = "ResetPassword";
@@ -139,6 +146,7 @@ namespace FenrirProjectManager.Controllers
             public const string Login = "Login";
             public const string Register = "Register";
             public const string ConfirmEmail = "ConfirmEmail";
+            public const string ConfirmEmailByInvitation = "ConfirmEmailByInvitation";
             public const string ForgotPassword = "ForgotPassword";
             public const string ForgotPasswordConfirmation = "ForgotPasswordConfirmation";
             public const string ResetPassword = "ResetPassword";
@@ -178,6 +186,16 @@ namespace FenrirProjectManager.Controllers
         {
             public readonly string userId = "userId";
             public readonly string token = "token";
+        }
+        static readonly ActionParamsClass_ConfirmEmailByInvitation s_params_ConfirmEmailByInvitation = new ActionParamsClass_ConfirmEmailByInvitation();
+        [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
+        public ActionParamsClass_ConfirmEmailByInvitation ConfirmEmailByInvitationParams { get { return s_params_ConfirmEmailByInvitation; } }
+        [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
+        public class ActionParamsClass_ConfirmEmailByInvitation
+        {
+            public readonly string userId = "userId";
+            public readonly string token = "token";
+            public readonly string model = "model";
         }
         static readonly ActionParamsClass_ForgotPassword s_params_ForgotPassword = new ActionParamsClass_ForgotPassword();
         [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
@@ -254,6 +272,7 @@ namespace FenrirProjectManager.Controllers
                 public readonly string _ViewStart = "_ViewStart";
                 public readonly string ChangePassword = "ChangePassword";
                 public readonly string ConfirmEmail = "ConfirmEmail";
+                public readonly string ConfirmEmailByInvitation = "ConfirmEmailByInvitation";
                 public readonly string ExternalLoginConfirmation = "ExternalLoginConfirmation";
                 public readonly string ExternalLoginFailure = "ExternalLoginFailure";
                 public readonly string ForgotPassword = "ForgotPassword";
@@ -270,6 +289,7 @@ namespace FenrirProjectManager.Controllers
             public readonly string _ViewStart = "~/Views/Account/_ViewStart.cshtml";
             public readonly string ChangePassword = "~/Views/Account/ChangePassword.cshtml";
             public readonly string ConfirmEmail = "~/Views/Account/ConfirmEmail.cshtml";
+            public readonly string ConfirmEmailByInvitation = "~/Views/Account/ConfirmEmailByInvitation.cshtml";
             public readonly string ExternalLoginConfirmation = "~/Views/Account/ExternalLoginConfirmation.cshtml";
             public readonly string ExternalLoginFailure = "~/Views/Account/ExternalLoginFailure.cshtml";
             public readonly string ForgotPassword = "~/Views/Account/ForgotPassword.cshtml";
@@ -348,6 +368,31 @@ namespace FenrirProjectManager.Controllers
             ModelUnbinderHelpers.AddRouteValues(callInfo.RouteValueDictionary, "token", token);
             ConfirmEmailOverride(callInfo, userId, token);
             return callInfo;
+        }
+
+        [NonAction]
+        partial void ConfirmEmailByInvitationOverride(T4MVC_System_Web_Mvc_ActionResult callInfo, string userId, string token);
+
+        [NonAction]
+        public override System.Web.Mvc.ActionResult ConfirmEmailByInvitation(string userId, string token)
+        {
+            var callInfo = new T4MVC_System_Web_Mvc_ActionResult(Area, Name, ActionNames.ConfirmEmailByInvitation);
+            ModelUnbinderHelpers.AddRouteValues(callInfo.RouteValueDictionary, "userId", userId);
+            ModelUnbinderHelpers.AddRouteValues(callInfo.RouteValueDictionary, "token", token);
+            ConfirmEmailByInvitationOverride(callInfo, userId, token);
+            return callInfo;
+        }
+
+        [NonAction]
+        partial void ConfirmEmailByInvitationOverride(T4MVC_System_Web_Mvc_ActionResult callInfo, FenrirProjectManager.Models.ConfirmEmailByInvitationViewModel model);
+
+        [NonAction]
+        public override System.Threading.Tasks.Task<System.Web.Mvc.ActionResult> ConfirmEmailByInvitation(FenrirProjectManager.Models.ConfirmEmailByInvitationViewModel model)
+        {
+            var callInfo = new T4MVC_System_Web_Mvc_ActionResult(Area, Name, ActionNames.ConfirmEmailByInvitation);
+            ModelUnbinderHelpers.AddRouteValues(callInfo.RouteValueDictionary, "model", model);
+            ConfirmEmailByInvitationOverride(callInfo, model);
+            return System.Threading.Tasks.Task.FromResult(callInfo as ActionResult);
         }
 
         [NonAction]

@@ -1,4 +1,8 @@
-﻿namespace Model.Enums
+﻿using System;
+using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
+
+namespace Model.Enums
 {
     public struct StaticData
     { 
@@ -60,9 +64,16 @@
     /// </summary>
     public enum UserRole
     {
+        [Display(Name = "")]
         Administrator = 1,
+
+        [Display(Name = "Project manager")]
         ProjectManager,
+
+        [Display(Name = "Developer")]
         Developer,
+
+        [Display(Name = "Observer")]
         Observer
     }
 }

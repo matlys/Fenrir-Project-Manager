@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Net;
@@ -10,6 +11,7 @@ using FenrirProjectManager.Helpers;
 using FenrirProjectManager.Models;
 using Microsoft.AspNet.Identity;
 using Model.Consts;
+using Model.Enums;
 using Model.Models;
 
 namespace FenrirProjectManager.Controllers
@@ -18,11 +20,14 @@ namespace FenrirProjectManager.Controllers
     {
         private readonly IUserRepo _userRepo;
         private readonly IProjectRepo _projectRepo;
+        private readonly IEmailRepo _emailRepo;
 
-        public UsersController(IUserRepo userRepo, IProjectRepo projectRepo)
+        public UsersController(IUserRepo userRepo, IProjectRepo projectRepo, IEmailRepo emailRepo)
         {
             _userRepo = userRepo;
             _projectRepo = projectRepo;
+            _emailRepo = emailRepo;
+            _emailRepo.SetSmtpConfiguration("localhost", 25, "registration@fenrir-software.com", "fenrir2015", false);
         }
 
 
@@ -67,29 +72,99 @@ namespace FenrirProjectManager.Controllers
         #region Create methods
 
         [HttpGet]
+        [AllowRoles(Consts.AdministratorRole, Consts.ProjectManagerRole)]
         public virtual ActionResult Create()
         {
             ViewBag.ProjectId = new SelectList(_projectRepo.GetAllProjects(), "Id", "Name");
+
+            List<SelectListItem> items = new List<SelectListItem>
+            {
+                new SelectListItem {Text = Consts.ProjectManagerRole, Value = "2"},
+                new SelectListItem {Text = Consts.DeveloperRole, Value = "3"},
+                new SelectListItem {Text = Consts.ObserverRole, Value = "4"}
+            };
+
+            ViewBag.UserRoles = items;
             return View();
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public virtual ActionResult Create([Bind(Include = "Id,Email,EmailConfirmed,PasswordHash,SecurityStamp,PhoneNumber,PhoneNumberConfirmed,TwoFactorEnabled,LockoutEndDateUtc,LockoutEnabled,AccessFailedCount,UserName,FirstName,LastName,Avatar,ProjectId")] User user)
+        [AllowRoles(Consts.AdministratorRole, Consts.ProjectManagerRole)]
+        public virtual ActionResult Create([Bind(Include = "Id,Email,EmailConfirmed,PasswordHash,SecurityStamp,PhoneNumber,PhoneNumberConfirmed,TwoFactorEnabled,LockoutEndDateUtc,LockoutEnabled,AccessFailedCount,UserName,FirstName,LastName,Avatar,ProjectId, UserRole")] User user)
         {
             if (ModelState.IsValid)
             {
-                user.Id = Guid.NewGuid().ToString();
-                _userRepo.CreateUser(user);
-                _userRepo.SaveChanges();
-                return RedirectToAction("In" +
-                                        "dex");
-            }
+                try
+                {
+                    // get logged user ID
+                    Guid loggedUserId = Guid.Parse(User.Identity.GetUserId());
 
-            ViewBag.ProjectId = new SelectList(_projectRepo.GetAllProjects(), "Id", "Name", user.ProjectId);
+                    user.Id = Guid.NewGuid().ToString();
+                    user.ProjectId = _userRepo.GetUserById(loggedUserId).ProjectId;
+                    user.UserName = user.Email;
+                    user.Token = Guid.NewGuid();
+                   
+                    string role = string.Empty;
+                    switch (user.UserRole)
+                    {
+                        case UserRole.Administrator:
+                            role = Consts.AdministratorRole;
+                            user.Avatar = ImageManager.GetByteArray(new Bitmap(Resources.Images.administrator_avatar));
+                            break;
+                        case UserRole.ProjectManager:
+                            role = Consts.ProjectManagerRole;
+                            user.Avatar = ImageManager.GetByteArray(new Bitmap(Resources.Images.project_manager_avatar));
+                            break;
+                        case UserRole.Developer:
+                            role = Consts.DeveloperRole;
+                            user.Avatar = ImageManager.GetByteArray(new Bitmap(Resources.Images.developer_avatar));
+                            break;
+                        case UserRole.Observer:
+                            role = Consts.ObserverRole;
+                            user.Avatar = ImageManager.GetByteArray(new Bitmap(Resources.Images.observer_avatar));
+                            break;
+                        default:
+                            user.Avatar = new byte[] {};
+                            break;
+                    }
+
+                    try
+                    {
+                        var project = _projectRepo.GetProjectById(_userRepo.GetUserById(loggedUserId).ProjectId);
+                        _emailRepo.SendEmail(user.Email,
+                                             EmailManager.GenerateInviteSubject(project.Name),
+                                             EmailManager.GenerateInviteBody(
+                                                 user.FirstName,
+                                                 user.LastName,
+                                                 user.Email,
+                                                 project.Name,
+                                                 _userRepo.GetUserById(loggedUserId).FirstName,
+                                                 _userRepo.GetUserById(loggedUserId).LastName,
+                                                 new Guid(user.Id), 
+                                                 user.Token));
+                    }
+                    catch (Exception exception)
+                    {
+                        ExceptionViewModel exceptionViewModel = new ExceptionViewModel(exception);
+                        return View("Error", exceptionViewModel);
+                    }
+                    
+
+                    _userRepo.CreateUser(user);
+                    _userRepo.AddUserToRole(user, role);
+                    _userRepo.SaveChanges();
+                    return RedirectToAction(MVC.Issues.Index());
+
+                }
+                catch (Exception exception)
+                {
+                    ExceptionViewModel exceptionViewModel = new ExceptionViewModel(exception);
+                    return View("Error", exceptionViewModel);
+                }
+            }
             return View(user);
         }
-
 
         #endregion
 

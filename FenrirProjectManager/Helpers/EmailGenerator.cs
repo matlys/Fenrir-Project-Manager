@@ -25,5 +25,40 @@ namespace FenrirProjectManager.Helpers
                             "Fenrir Software Team", userName, HttpContext.Current.Request.Url.Scheme, HttpContext.Current.Request.Url.Authority, userId, code);
             return body;
         }
+
+        public static string GenerateInviteSubject(string projectName)
+        {
+            return $"Welcome in {projectName}!";
+        }
+
+        public static string GenerateInviteBody(string firstName, 
+                                                string lastName, 
+                                                string email,
+                                                string projectName,
+                                                string projectManagerFirstName,
+                                                string projectManagerLastName,
+                                                Guid userId, 
+                                                Guid code)
+        {
+
+            string body = string.Format(
+                            "<b>Hello {0} {1}!</b><br>" +
+                            "You have been added into \"{2}\" project by {3} {4}<br>" +
+                            "Please click in link below to active your account<br>" +
+                            "<a href='{5}://{6}/Account/ConfirmEmailByInvitation?userId={7}&token={8}'> Activation link </a> <br>" +
+                            "Best Regards<br>" +
+                            "{2} and Fenrir Software Team", 
+                            firstName, 
+                            lastName,
+                            projectName,
+                            projectManagerFirstName,
+                            projectManagerLastName,  
+                            HttpContext.Current.Request.Url.Scheme, 
+                            HttpContext.Current.Request.Url.Authority, 
+                            userId, 
+                            code);
+            return body;
+        }
+
     }
 }

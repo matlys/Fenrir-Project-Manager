@@ -1,14 +1,34 @@
-﻿@using Model.Consts
+﻿@using Microsoft.Ajax.Utilities
+@using Model.Consts
+@using Model.Enums
 @model Model.Models.User
 
-@using (Html.BeginForm()) 
+@{ // you can put the following in a back-end method and pass through ViewBag
+    var selectList = Enum.GetValues(typeof(UserRole))
+                         .Cast<UserRole>()
+                         .Where(e => e != UserRole.Administrator)
+                         .Select(e => new SelectListItem
+                         {
+                             Value = ((int)e).ToString(),
+                             Text = e.ToString()
+                         });
+}
+
+
+@using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
-    
+
     <div class="form-horizontal">
         <h4>Enter user details:</h4>
-        
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+        @Html.ValidationSummary(true, "", new {@class = "text-danger"})
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.UserRole, htmlAttributes: new {@class = "control-label col-md-2"})
+            @Html.DropDownListFor(m => m.UserRole, selectList)
+            @Html.ValidationMessageFor(model => model.UserRole, "", new { @class = "text-danger" })
+        </div>
 
         <div class="form-group">
             @Html.LabelFor(model => model.FirstName, htmlAttributes: new { @class = "control-label col-md-2" })

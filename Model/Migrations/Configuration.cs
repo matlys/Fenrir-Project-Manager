@@ -104,7 +104,8 @@ namespace Model.Migrations
                 UserName = "mateusz.lysien@gmail.com",
                 Avatar = new byte[] { 0 }, //todo: method which convert loaded bitmap to byte[]
                 ProjectId = Guid.Parse("de33562c-eb3f-41e6-9c2c-854fd15abf18"),
-                Token = Guid.NewGuid()
+                Token = Guid.NewGuid(),
+                UserRole = UserRole.Administrator
             };
             var administratorResult = userManager.Create(administrator, "Zaq12#");
             if (administratorResult.Succeeded)
@@ -125,7 +126,8 @@ namespace Model.Migrations
                 UserName = "reenie.chandler@fenrir.com",
                 Avatar = new byte[] {0}, //todo: method which convert loaded bitmap to byte[]
                 ProjectId = Guid.Parse("de33562c-eb3f-41e6-9c2c-854fd15abf18"),
-                Token = Guid.NewGuid()
+                Token = Guid.NewGuid(),
+                UserRole = UserRole.ProjectManager
             };
             var projectManagerResult = userManager.Create(projectManager, "Zaq12#");
             if (projectManagerResult.Succeeded)
@@ -147,7 +149,8 @@ namespace Model.Migrations
                 UserName = "zola.firmin@fenrir.com",
                 Avatar = new byte[] {0}, //todo: method which convert loaded bitmap to byte[]
                 ProjectId = Guid.Parse("de33562c-eb3f-41e6-9c2c-854fd15abf18"),
-                Token = Guid.NewGuid()
+                Token = Guid.NewGuid(),
+                UserRole = UserRole.Developer
             };
             var developer1Result = userManager.Create(developer1, "Zaq12#");
             if (developer1Result.Succeeded)
@@ -169,7 +172,8 @@ namespace Model.Migrations
                 UserName = "johnny.reynell@fenrir.com",
                 Avatar = new byte[] {0}, //todo: method which convert loaded bitmap to byte[]
                 ProjectId = Guid.Parse("de33562c-eb3f-41e6-9c2c-854fd15abf18"),
-                Token = Guid.NewGuid()
+                Token = Guid.NewGuid(),
+                UserRole = UserRole.Developer
             };
             var developer2Result = userManager.Create(developer2, "Zaq12#");
             if (developer2Result.Succeeded)
@@ -191,7 +195,8 @@ namespace Model.Migrations
                 UserName = "dillan.paterson@fenrir.com",
                 Avatar = new byte[] {0}, //todo: method which convert loaded bitmap to byte[]
                 ProjectId = Guid.Parse("de33562c-eb3f-41e6-9c2c-854fd15abf18"),
-                Token = Guid.NewGuid()
+                Token = Guid.NewGuid(),
+                UserRole = UserRole.Developer
             };
             var developer3Result = userManager.Create(developer3, "Zaq12#");
             if (developer3Result.Succeeded)
@@ -213,7 +218,8 @@ namespace Model.Migrations
                 UserName = "faith.dorsey@fenrir.com",
                 Avatar = new byte[] {0}, //todo: method which convert loaded bitmap to byte[]
                 ProjectId = Guid.Parse("de33562c-eb3f-41e6-9c2c-854fd15abf18"),
-                Token = Guid.NewGuid()
+                Token = Guid.NewGuid(),
+                UserRole = UserRole.Observer
             };
             var observerResult = userManager.Create(observer, "Zaq12#");
             if (observerResult.Succeeded)

@@ -4,6 +4,7 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
+using Model.Enums;
 
 namespace Model.Models
 {
@@ -30,6 +31,8 @@ namespace Model.Models
         public virtual ICollection<Issue> Issues { get; set; }
 
         public Guid Token { get; set; }
+
+        public UserRole? UserRole { get; set; }
 
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<User> manager)
         {

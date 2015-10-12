@@ -35,19 +35,28 @@
     <nav class="white" role="navigation">
         <div class="nav-wrapper container">
             @{
-                if (currentProject.Logo != null)
+                if (currentProject?.Logo != null)
                 {
-                    <img src="data:image/png;base64,@Html.Raw(Convert.ToBase64String(currentProject.Logo))" style="padding: 10px" width="65" class="responsive-img" />
+                    <img src="data:image/png;base64,@Html.Raw(Convert.ToBase64String(currentProject.Logo))"
+                         style="padding: 10px; height: 65px;" 
+                         class="responsive-img" />
                 }
                 else
                 {
-                    <img src="~/Graph/FENRIR_LOGO2.png" style="padding: 10px" width="65" class="responsive-img" />
+                    <img src="~/Graph/FENRIR_LOGO2.png"
+                         style="padding: 10px; height: 65px;" 
+                         class="responsive-img" />
                 }
             }
             
             @if (User.Identity.IsAuthenticated)
             {
-                @Html.ActionLink(currentProject.Name, MVC.Issues.Index(), new {@class = "brand-logo", @id = "logo-container"})
+                @Html.ActionLink(currentProject.Name, MVC.Issues.Index(),
+                    new
+                    {
+                        @class = "brand-logo",
+                        @id = "logo-container"
+                    })
             }
             else
             {
@@ -62,7 +71,7 @@
                     Html.RenderPartial("Menu/developer_menu");
                     userRole = "Developer";
                 }
-                if (User.IsInRole(Consts.ProjectManagerRole))
+                if (User.IsInRole(Consts.ProjectManagerRole) || User.IsInRole(Consts.AdministratorRole))
                 {
                     Html.RenderPartial("Menu/projectManager_menu");
                     userRole = "Project manager";
@@ -92,12 +101,19 @@
         <div class="container body-content">
             <div class="card-panel">
                 <div class="row" style="background-color: #c8e6c9; margin-top: 10px;">
-                    <div class="center-align" style="width: 45%; padding-top: 5px; height: 20px; background-color: #4caf50"></div>
+                    <div class="center-align" style="width: 5%; padding-top: 5px; height: 20px; background-color: #2196f3"></div>
                 </div>
                 <div class="row">
                     <div class="col s2 m2 l2">
                         <div class="center-align">
-                            <img src="data:image/png;base64,@Html.Raw(Convert.ToBase64String(currentUser.Avatar))" class="border-rounded responsive-img" />
+
+                            <img src="data:image/png;base64,@Html.Raw(Convert.ToBase64String(currentUser.Avatar))"
+                                 class="border-rounded responsive-img tooltipped" 
+                                 data-position="left"
+                                 data-delay ="50"
+                                 data-tooltip ="Hello @Html.Raw($"{currentUser.FirstName}!")"/>
+
+
                             <h6> @Html.Raw($"{currentUser.FirstName} {currentUser.LastName}")</h6>
                             @Html.Raw($"({userRole})")
                         </div>

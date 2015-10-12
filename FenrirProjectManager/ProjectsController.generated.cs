@@ -120,7 +120,7 @@ namespace FenrirProjectManager.Controllers
         [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
         public class ActionParamsClass_Edit
         {
-            public readonly string project = "project";
+            public readonly string model = "model";
         }
         static readonly ActionParamsClass_Delete s_params_Delete = new ActionParamsClass_Delete();
         [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
@@ -189,14 +189,14 @@ namespace FenrirProjectManager.Controllers
         }
 
         [NonAction]
-        partial void EditOverride(T4MVC_System_Web_Mvc_ActionResult callInfo, Model.Models.Project project);
+        partial void EditOverride(T4MVC_System_Web_Mvc_ActionResult callInfo, Model.Models.Project model);
 
         [NonAction]
-        public override System.Web.Mvc.ActionResult Edit(Model.Models.Project project)
+        public override System.Web.Mvc.ActionResult Edit(Model.Models.Project model)
         {
             var callInfo = new T4MVC_System_Web_Mvc_ActionResult(Area, Name, ActionNames.Edit);
-            ModelUnbinderHelpers.AddRouteValues(callInfo.RouteValueDictionary, "project", project);
-            EditOverride(callInfo, project);
+            ModelUnbinderHelpers.AddRouteValues(callInfo.RouteValueDictionary, "model", model);
+            EditOverride(callInfo, model);
             return callInfo;
         }
 
