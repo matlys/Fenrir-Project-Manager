@@ -63,6 +63,16 @@ namespace Resources {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap administrator_avatar {
+            get {
+                object obj = ResourceManager.GetObject("administrator_avatar", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap developer_avatar {
             get {
                 object obj = ResourceManager.GetObject("developer_avatar", resourceCulture);

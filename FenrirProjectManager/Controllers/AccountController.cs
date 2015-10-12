@@ -217,6 +217,14 @@ namespace FenrirProjectManager.Controllers
             {
                 if (userId == null || token == null) return View("Error");
 
+                //check if user get this by invitation
+                var user = _userRepo.GetUserById(Guid.Parse(userId));
+                if (string.IsNullOrEmpty(user.PasswordHash))
+                {
+                    //return RedirectToAction(ChangePassword());
+                }
+
+
                 return View(!ActivateUser(new Guid(userId), new Guid(token)) ? "Error" : "ConfirmEmail");
             }
             catch (Exception exception)
@@ -224,6 +232,69 @@ namespace FenrirProjectManager.Controllers
                 ExceptionViewModel exceptionViewModel = new ExceptionViewModel(exception);
                 return View("Error", exceptionViewModel);
             }
+        }
+
+        [HttpGet]
+        [AllowAnonymous]
+        public virtual ActionResult ConfirmEmailByInvitation(string userId, string token)
+        {
+            try
+            {
+                if (userId == null || token == null) return View("Error");
+
+                var userEmail = _userRepo.GetUserById(Guid.Parse(userId)).Email;
+
+                ViewBag.UserId = userId;
+                ViewBag.UserToken = token;
+                ViewBag.UserEmail = userEmail;
+                ConfirmEmailByInvitationViewModel model = new ConfirmEmailByInvitationViewModel()
+                {
+                    Email = userEmail,
+                    UserId = Guid.Parse(userId),
+                    UserToken = Guid.Parse(token)
+                };
+                return View(model);
+            }
+            catch (Exception exception)
+            {
+                ExceptionViewModel exceptionViewModel = new ExceptionViewModel(exception);
+                return View("Error", exceptionViewModel);
+            }
+        }
+
+        [HttpPost]
+        [AllowAnonymous]
+        [ValidateAntiForgeryToken]
+        public virtual async Task<ActionResult> ConfirmEmailByInvitation(ConfirmEmailByInvitationViewModel model)
+        {
+
+            if (ModelState.IsValid)
+            {
+                try
+                {    
+                    var userId = model.UserId;
+                    var user = _userRepo.GetUserById(userId);
+
+                    if (user == null) return HttpNotFound();
+
+                    user.EmailConfirmed = true;
+
+                    user.SecurityStamp = Guid.NewGuid().ToString("D");
+                    user.PasswordHash = UserManager.PasswordHasher.HashPassword(model.Password);
+
+                    _userRepo.UpdateUser(user);
+                    _userRepo.SaveChanges();
+
+                    return RedirectToAction(MVC.Account.Login());
+                    
+                }
+                catch (Exception exception)
+                {
+                    ExceptionViewModel exceptionViewModel = new ExceptionViewModel(exception);
+                    return View("Error", exceptionViewModel);
+                }
+            }
+            return View(model);
         }
 
         #endregion

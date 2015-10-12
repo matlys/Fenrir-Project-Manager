@@ -223,6 +223,7 @@
     </Compile>
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\ChangePasswordViewModel.cs" />
+    <Compile Include="Models\ConfirmEmailByInvitationViewModel.cs" />
     <Compile Include="Models\ExceptionViewModel.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\ProjectInfoModel.cs" />
@@ -255,6 +256,7 @@
     <Content Include="css\style.css" />
     <Content Include="favico.ico" />
     <Content Include="Global.asax" />
+    <None Include="Graph\Avatars\administrator_avatar.png" />
     <Content Include="Graph\Avatars\developer_avatar.png" />
     <Content Include="Graph\Avatars\observer_avatar.png" />
     <Content Include="Graph\Avatars\project_manager_avatar.png" />
@@ -350,6 +352,7 @@
     <Content Include="Views\Shared\Menu\projectManager_menu.cshtml" />
     <Content Include="Views\Shared\Menu\observer_menu.cshtml" />
     <Content Include="Views\Account\ChangePassword.cshtml" />
+    <Content Include="Views\Account\ConfirmEmailByInvitation.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
