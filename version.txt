@@ -1,3 +1,8 @@
+1.6.1 [2015-10-12]
+* Project manager can add new user by form,
+* Invited user has got activation link by email,
+* Thanks actiation link user is setting new password.
+
 1.6.0 [2015-10-07]
 * user model has been changed.
 
