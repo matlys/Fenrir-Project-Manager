@@ -1,11 +1,15 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Web.Mvc;
+using System.Web.UI.WebControls;
 using DataAccessInterfaces;
 using FenrirProjectManager.CustomAttributes;
+using FenrirProjectManager.Models;
 using Microsoft.AspNet.Identity;
 using Model.Consts;
+using Model.Enums;
 using Model.Models;
 
 namespace FenrirProjectManager.Controllers
@@ -44,7 +48,7 @@ namespace FenrirProjectManager.Controllers
         public virtual ActionResult Index()
         {
             var userId = Guid.Parse(User.Identity.GetUserId());
-            var issues = _issueRepo.GetAllIssuesFromProject(_userRepo.GetUserById(userId).ProjectId);
+            var issues = _issueRepo.GetAllIssuesFromProject(_userRepo.GetUserById(userId).ProjectId).OrderByDescending(p=>p.CreationDate);
             return View(issues);
         }
 
@@ -70,11 +74,54 @@ namespace FenrirProjectManager.Controllers
             return View(issue);
         }
 
+        #region Create methods
+
+        private List<SelectListItem> GetAvailableUsers(Guid projectId)
+        {
+            // only active developers and project managers can be assigned to issue
+            var users = _userRepo.GetAllUsersFromProject(projectId)
+                .Where(u => u.EmailConfirmed)
+                .Where(u => u.UserRole == UserRole.Developer ||
+                            u.UserRole == UserRole.ProjectManager);
+
+            List<SelectListItem> usersList = new List<SelectListItem>();
+
+            foreach (var item in users)
+            {
+                var role = item.UserRole.ToString();
+                if (item.UserRole == UserRole.ProjectManager)
+                    role = "Project manager";
+                
+                var fullName = $"{item.FirstName} {item.LastName} ({role})";
+
+                usersList.Add(new SelectListItem() { Text = fullName, Value = item.Id });
+            }
+
+            return usersList;
+        }
+
         [HttpGet]
         [AllowRoles(Consts.ProjectManagerRole, Consts.AdministratorRole)]
         public virtual ActionResult Create()
         {
-            return View();
+            // get logged user
+            var userId = Guid.Parse(User.Identity.GetUserId());
+            var user = _userRepo.GetUserById(userId);
+
+            var usersList = GetAvailableUsers(user.ProjectId);
+
+
+            // prepare model
+            Issue model = new Issue()
+            {
+                CreateUserId = userId,
+                CreationDate = DateTime.Now,
+                Status = IssueStatus.New,
+                Progress = IssueProgress.OnStart
+            };
+
+            ViewBag.UsersList = usersList;
+            return View(model);
         }
 
         [HttpPost]
@@ -84,14 +131,25 @@ namespace FenrirProjectManager.Controllers
         {
             if (ModelState.IsValid)
             {
-                issue.Id = Guid.NewGuid();
-                _issueRepo.CreateIssue(issue);
-                _issueRepo.SaveChanges();
-                return RedirectToAction("Index");
+                try
+                {
+                    issue.Id = Guid.NewGuid();
+                    _issueRepo.CreateIssue(issue);
+                    _issueRepo.SaveChanges();
+                    ViewBag.ConfirmMessage = "Issue has been added";
+                    return RedirectToAction(MVC.Issues.Index());
+                }
+                catch (Exception trolololo)
+                {
+                    ExceptionViewModel exceptionViewModel = new ExceptionViewModel(trolololo);
+                    return View("Error", exceptionViewModel);
+                }
             }
 
             return View(issue);
         }
+
+        #endregion
 
         [HttpGet]
         [AllowRoles(Consts.ProjectManagerRole, Consts.AdministratorRole)]

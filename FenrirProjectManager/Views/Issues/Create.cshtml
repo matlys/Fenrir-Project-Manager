@@ -1,19 +1,23 @@
 ﻿@model Model.Models.Issue
 
 @{
-    ViewBag.Title = "Create";
+    List<SelectListItem> UsersList = ViewBag.UsersList;
 }
 
-<h2>Create</h2>
+<h2>Create new issue</h2>
 
 
 @using (Html.BeginForm()) 
 {
     @Html.AntiForgeryToken()
-    
+
+    @Html.HiddenFor(model => model.CreateUserId)
+    @Html.HiddenFor(model => model.CreationDate)
+    @Html.HiddenFor(model => model.Status)
+    @Html.HiddenFor(model => model.Progress)
+
     <div class="form-horizontal">
-        <h4>Issue</h4>
-        <hr />
+
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         <div class="form-group">
             @Html.LabelFor(model => model.Title, htmlAttributes: new { @class = "control-label col-md-2" })
@@ -32,34 +36,10 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.CreationDate, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.CreationDate, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.CreationDate, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
             @Html.LabelFor(model => model.FinishDate, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.FinishDate, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.EditorFor(model => model.FinishDate, new { htmlAttributes = new { @class = "form-control", @id= "datepicker", @type="text" } })
                 @Html.ValidationMessageFor(model => model.FinishDate, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.Progress, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EnumDropDownListFor(model => model.Progress, htmlAttributes: new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.Progress, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.Status, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EnumDropDownListFor(model => model.Status, htmlAttributes: new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.Status, "", new { @class = "text-danger" })
             </div>
         </div>
 
@@ -74,22 +54,16 @@
         <div class="form-group">
             @Html.LabelFor(model => model.AssignUserId, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.AssignUserId, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.DropDownListFor(model => model.AssignUserId, UsersList)
                 @Html.ValidationMessageFor(model => model.AssignUserId, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.CreateUserId, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.CreateUserId, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.CreateUserId, "", new { @class = "text-danger" })
             </div>
         </div>
 
         <div class="row center">
             <a class="btn btn-form grey  waves-effect waves-light" href="@Url.Action(MVC.Issues.Index())">Cancel</a>
-            <button class="btn btn-form blue lighten-1 waves-effect waves-light" type="submit" name="action">Save</button>
+            <button class="btn btn-form blue lighten-1 waves-effect waves-light" type="submit" name="action">Add</button>
         </div>
     </div>
 }
+
+

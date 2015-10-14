@@ -28,7 +28,20 @@
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link href="~/css/materialize.css" type="text/css" rel="stylesheet" media="screen,projection" />
     <link href="~/css/style.css" type="text/css" rel="stylesheet" media="screen,projection"/>
-    <link href="~/css/slider.css" type="text/css" rel="stylesheet" media="screen,projection" />
+    <link href="~/css/slider.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+
+    <!-- material-desig-icons -->
+    <link href="css/materialdesignicons.min.css" media="all" rel="stylesheet" type="text/css" />
+
+    <!-- for data picker -->
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+    <script src="//code.jquery.com/jquery-1.10.2.js"></script>
+    <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+    <script>
+      $(function() {
+        $( "#datepicker" ).datepicker();
+      });
+    </script>
 </head>
 
 <body>
@@ -66,12 +79,17 @@
 
             @if (Request.IsAuthenticated)
             {
+                if (User.IsInRole(Consts.AdministratorRole))
+                {
+                    Html.RenderPartial("Menu/projectManager_menu");
+                    userRole = "Administrator";
+                }
                 if (User.IsInRole(Consts.DeveloperRole))
                 {
                     Html.RenderPartial("Menu/developer_menu");
                     userRole = "Developer";
                 }
-                if (User.IsInRole(Consts.ProjectManagerRole) || User.IsInRole(Consts.AdministratorRole))
+                if (User.IsInRole(Consts.ProjectManagerRole))
                 {
                     Html.RenderPartial("Menu/projectManager_menu");
                     userRole = "Project manager";
@@ -108,7 +126,7 @@
                         <div class="center-align">
 
                             <img src="data:image/png;base64,@Html.Raw(Convert.ToBase64String(currentUser.Avatar))"
-                                 class="border-rounded responsive-img tooltipped" 
+                                 class="border-rounded responsive-img tooltipped"
                                  data-position="left"
                                  data-delay ="50"
                                  data-tooltip ="Hello @Html.Raw($"{currentUser.FirstName}!")"/>
@@ -134,11 +152,12 @@
 <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
 <script src="~/js/materialize.js"></script>
 <script src="~/js/init.js"></script>
-    <script>
-        
-              $(document).ready(function() {
-                  $('select').material_select();
-              });
-    </script>
+<script>
+
+    $(document).ready(function() {
+        $('select').material_select();
+    });
+</script>
+
 </body>
 </html>

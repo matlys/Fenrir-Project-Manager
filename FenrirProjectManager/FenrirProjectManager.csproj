@@ -251,11 +251,20 @@
     <Compile Include="CustomAttributes\PasswordValidator.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="css\materialdesignicons.css" />
+    <Content Include="css\materialdesignicons.min.css" />
     <Content Include="css\materialize.css" />
     <Content Include="css\slider.css" />
     <Content Include="css\style.css" />
     <Content Include="favico.ico" />
+    <Content Include="font\materialdesignicons-webfont.svg" />
     <Content Include="Global.asax" />
+    <Content Include="css\materialdesignicons.css.map" />
+    <Content Include="css\materialdesignicons.min.css.map" />
+    <Content Include="font\materialdesignicons-webfont.eot" />
+    <Content Include="font\materialdesignicons-webfont.ttf" />
+    <Content Include="font\materialdesignicons-webfont.woff" />
+    <Content Include="font\materialdesignicons-webfont.woff2" />
     <None Include="Graph\Avatars\administrator_avatar.png" />
     <Content Include="Graph\Avatars\developer_avatar.png" />
     <Content Include="Graph\Avatars\observer_avatar.png" />
@@ -266,6 +275,9 @@
     <Content Include="Graph\FENRIR_LOGO1.png" />
     <Content Include="Graph\FENRIR_LOGO2.png" />
     <Compile Include="Helpers\ImageManager.cs" />
+    <Content Include="Graph\Pictograms\beaker-outline.png" />
+    <Content Include="Graph\Pictograms\bug.png" />
+    <Content Include="Graph\Pictograms\rocket.png" />
     <Content Include="js\init.js" />
     <Content Include="js\materialize.js" />
     <Content Include="js\materialize.min.js" />

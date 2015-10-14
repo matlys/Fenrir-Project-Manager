@@ -2695,6 +2695,12 @@ img.responsive-img, video.responsive-video {
     height: auto;
 }
 
+img.rounded {
+    border-radius: 80px;
+    max-width: 100%;
+    height: auto;
+}
+
 img.border-rounded {
     border-radius: 80px;
     border: 2px solid #2196F3;

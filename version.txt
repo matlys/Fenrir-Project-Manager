@@ -1,3 +1,8 @@
+1.6.2 [2015-10-13]
+* Project manager can add a new issue and assign it to user,
+* Add new issue form with special date picker,
+* Assigned user can change him issue details.
+
 1.6.1 [2015-10-12]
 * Project manager can add new user by form,
 * Invited user has got activation link by email,

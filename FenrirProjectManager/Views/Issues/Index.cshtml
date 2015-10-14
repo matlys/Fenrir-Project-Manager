@@ -1,5 +1,8 @@
 ﻿@using DataAccessImplementation
+@using FenrirProjectManager.Helpers
 @using Microsoft.AspNet.Identity
+@using Model.Consts
+@using Model.Enums
 @model IEnumerable<Model.Models.Issue>
 @{
     UserRepo _userRepo = new UserRepo();
@@ -14,7 +17,11 @@
                     @Html.DisplayNameFor(model => model.Title)
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.AssignUserId)
+                    Assigned to
+
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Type)
                 </th>
                 <th>
                     @Html.DisplayNameFor(model => model.Progress)
@@ -31,20 +38,54 @@
                         @Html.DisplayFor(modelItem => item.Title)
                     </td>
                     <td>
+
                         @{
-                            string userName = _userRepo.GetUserById(item.AssignUserId).Email;
-                            if (User.Identity.GetUserId() == item.AssignUserId.ToString())
+                            var assignedUser = _userRepo.GetUserById(item.AssignUserId);
+                        }
+
+                        <img src="data:image/png;base64,@Html.Raw(Convert.ToBase64String(assignedUser.Avatar))"
+                             class="rounded responsive-img tooltipped"
+                             style="max-height: 50px"
+                             data-position="bottom"
+                             data-delay="50"
+                             data-tooltip="@Html.Raw($"{assignedUser.Email}")" />
+                    </td>
+                    <td>
+                        @{
+                            switch (item.Type)
                             {
-                                userName = "Me";
+                                case IssueType.Feature:
+                                    <img src="data:image/png;base64, @Html.Raw(Convert.ToBase64String(ImageManager.GetByteArray(Resources.Images.rocket)))"
+                                         class="responsive-img tooltipped"
+                                         data-position="bottom"
+                                         data-delay="50"
+                                         data-tooltip=@Html.DisplayFor(modelItem => item.Type) />
+                                    break;
+                                case IssueType.Bug:
+                                    <img src="data:image/png;base64, @Html.Raw(Convert.ToBase64String(ImageManager.GetByteArray(Resources.Images.bug)))"
+                                         class="responsive-img tooltipped"
+                                         data-position="bottom"
+                                         data-delay="50"
+                                         data-tooltip=@Html.DisplayFor(modelItem => item.Type) />
+                                    break;
+                                case IssueType.Test:
+                                    <img src="data:image/png;base64, @Html.Raw(Convert.ToBase64String(ImageManager.GetByteArray(Resources.Images.beaker_outline)))"
+                                         class="responsive-img tooltipped"
+                                         data-position="bottom"
+                                         data-delay="50"
+                                         data-tooltip=@Html.DisplayFor(modelItem => item.Type) />
+                                    break;
                             }
                         }
-                        @Html.Raw(userName)
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.Progress)
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.FinishDate)
+                        @{
+                            string formatedDate = $"{Html.DisplayFor(modelItem => item.FinishDate):yy-MM-dd}";
+                        }
+                        @Html.Raw(formatedDate)
                     </td>
                 </tr>
             }
@@ -53,10 +94,13 @@
     }
     else
     {
-        <div class="row center">
-            <h5>
-                No issues to show, but don't worry you can <a class="blue-text green-hover hover-animation" href="@Url.Action(MVC.Issues.Create())">add a new issue</a>
-            </h5>
-        </div>
+        if (User.IsInRole(Consts.ProjectManagerRole) || User.IsInRole(Consts.AdministratorRole))
+        {
+            <div class="row center">
+                <h5>
+                    No issues to show, but don't worry you can <a class="blue-text green-hover hover-animation" href="@Url.Action(MVC.Issues.Create())">add a new issue</a>
+                </h5>
+            </div>
+        }
     }
 }
