@@ -24,11 +24,15 @@
                     @Html.DisplayNameFor(model => model.Type)
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.Progress)
+                   %
                 </th>
                 <th>
                     @Html.DisplayNameFor(model => model.FinishDate)
                 </th>
+                <th>
+                    @Html.Raw("Action")
+                </th>
+
             </tr>
 
             @foreach (var item in Model)
@@ -37,7 +41,7 @@
                     <td>
                         @Html.DisplayFor(modelItem => item.Title)
                     </td>
-                    <td>
+                    <td class="center-align">
 
                         @{
                             var assignedUser = _userRepo.GetUserById(item.AssignUserId);
@@ -50,7 +54,7 @@
                              data-delay="50"
                              data-tooltip="@Html.Raw($"{assignedUser.Email}")" />
                     </td>
-                    <td>
+                    <td class="center-align">
                         @{
                             switch (item.Type)
                             {
@@ -78,15 +82,24 @@
                             }
                         }
                     </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Progress)
+                    <td class="center-align">
+
+                        @{
+                            int progress = (int) item.Progress;
+                        }
+                        <strong>@Html.Raw($"{progress}%")</strong>
                     </td>
-                    <td>
+                    <td class="center-align">
                         @{
                             string formatedDate = $"{Html.DisplayFor(modelItem => item.FinishDate):yy-MM-dd}";
                         }
                         @Html.Raw(formatedDate)
                     </td>
+
+                    <td class="center-align">
+                        Zatwierdź
+                    </td>
+
                 </tr>
             }
 

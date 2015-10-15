@@ -45,104 +45,105 @@
 </head>
 
 <body>
-    <nav class="white" role="navigation">
-        <div class="nav-wrapper container">
-            @{
-                if (currentProject?.Logo != null)
-                {
-                    <img src="data:image/png;base64,@Html.Raw(Convert.ToBase64String(currentProject.Logo))"
-                         style="padding: 10px; height: 65px;" 
-                         class="responsive-img" />
-                }
-                else
-                {
-                    <img src="~/Graph/FENRIR_LOGO2.png"
-                         style="padding: 10px; height: 65px;" 
-                         class="responsive-img" />
-                }
-            }
-            
-            @if (User.Identity.IsAuthenticated)
+
+<nav class="white" style="position: fixed; top: 0" >
+    <div class="nav-wrapper container">
+        @{
+            if (currentProject?.Logo != null)
             {
-                @Html.ActionLink(currentProject.Name, MVC.Issues.Index(),
-                    new
-                    {
-                        @class = "brand-logo",
-                        @id = "logo-container"
-                    })
+                <img src="data:image/png;base64,@Html.Raw(Convert.ToBase64String(currentProject.Logo))"
+                     style="padding: 10px; height: 65px;"
+                     class="responsive-img"/>
             }
             else
             {
-                @Html.ActionLink("FENRIR PROJECT MANAGER", MVC.Home.Index(), new {@class = "brand-logo", @id = "logo-container"})
+                <img src="~/Graph/FENRIR_LOGO2.png"
+                     style="padding: 10px; height: 65px;"
+                     class="responsive-img"/>
             }
+        }
+
+        @if (User.Identity.IsAuthenticated)
+        {
+            @Html.ActionLink(currentProject.Name, MVC.Issues.Index(),
+                new
+                {
+                    @class = "brand-logo",
+                    @id = "logo-container"
+                })
+        }
+        else
+        {
+            @Html.ActionLink("FENRIR PROJECT MANAGER", MVC.Home.Index(), new {@class = "brand-logo", @id = "logo-container"})
+        }
 
 
-            @if (Request.IsAuthenticated)
+        @if (Request.IsAuthenticated)
+        {
+            if (User.IsInRole(Consts.AdministratorRole))
             {
-                if (User.IsInRole(Consts.AdministratorRole))
-                {
-                    Html.RenderPartial("Menu/projectManager_menu");
-                    userRole = "Administrator";
-                }
-                if (User.IsInRole(Consts.DeveloperRole))
-                {
-                    Html.RenderPartial("Menu/developer_menu");
-                    userRole = "Developer";
-                }
-                if (User.IsInRole(Consts.ProjectManagerRole))
-                {
-                    Html.RenderPartial("Menu/projectManager_menu");
-                    userRole = "Project manager";
-                }
-                if (User.IsInRole(Consts.ObserverRole))
-                {
-                    Html.RenderPartial("Menu/observer_menu");
-                    userRole = "Observer";
-                }
+                Html.RenderPartial("Menu/projectManager_menu");
+                userRole = "Administrator";
             }
-            else
+            if (User.IsInRole(Consts.DeveloperRole))
             {
-                Html.RenderPartial("Menu/default_menu");
+                Html.RenderPartial("Menu/developer_menu");
+                userRole = "Developer";
             }
-        </div>
+            if (User.IsInRole(Consts.ProjectManagerRole))
+            {
+                Html.RenderPartial("Menu/projectManager_menu");
+                userRole = "Project manager";
+            }
+            if (User.IsInRole(Consts.ObserverRole))
+            {
+                Html.RenderPartial("Menu/observer_menu");
+                userRole = "Observer";
+            }
+        }
+        else
+        {
+            Html.RenderPartial("Menu/default_menu");
+        }
+    </div>
 </nav>
 
-    @if (!Request.IsAuthenticated)
-    {
-        Html.RenderPartial("PartialForAnonymous");
-        <div class="col s12 m12 l12 card-panel" style="padding-left: 5px;">
-            @RenderBody()
-        </div>
-    }
-    else
-    {
-        <div class="container body-content">
-            <div class="card-panel">
-                <div class="row" style="background-color: #c8e6c9; margin-top: 10px;">
-                    <div class="center-align" style="width: 5%; padding-top: 5px; height: 20px; background-color: #2196f3"></div>
+@if (!Request.IsAuthenticated)
+{
+    Html.RenderPartial("PartialForAnonymous");
+    <div class="col s12 m12 l12 card-panel" style="padding-left: 5px;">
+        @RenderBody()
+    </div>
+}
+else
+{
+    <div class="container body-content">
+        <div class="card-panel" style="margin-top: 90px;">
+            <div class="row" style="background-color: #e1f5fe;">
+                <div class="center-align" style="width: 5%; padding-top: 5px; height: 20px; background-color: #2196f3"></div>
+            </div>
+            <div class="row">
+                <div class="col s2 m2 l2">
+                    <div class="center-align">
+
+                        <img src="data:image/png;base64,@Html.Raw(Convert.ToBase64String(currentUser.Avatar))"
+                             class="border-rounded responsive-img tooltipped"
+                             data-position="left"
+                             data-delay="50"
+                             data-tooltip="Hello @Html.Raw($"{currentUser.FirstName}!")"/>
+
+
+                        <h6> @Html.Raw($"{currentUser.FirstName} {currentUser.LastName}")</h6>
+                        @Html.Raw($"({userRole})")
+                    </div>
                 </div>
-                <div class="row">
-                    <div class="col s2 m2 l2">
-                        <div class="center-align">
-
-                            <img src="data:image/png;base64,@Html.Raw(Convert.ToBase64String(currentUser.Avatar))"
-                                 class="border-rounded responsive-img tooltipped"
-                                 data-position="left"
-                                 data-delay ="50"
-                                 data-tooltip ="Hello @Html.Raw($"{currentUser.FirstName}!")"/>
-
-
-                            <h6> @Html.Raw($"{currentUser.FirstName} {currentUser.LastName}")</h6>
-                            @Html.Raw($"({userRole})")
-                        </div>
-                    </div>
-                    <div class="col s10 m10 l10 card-panel" style="padding-left: 5px;">
-                        @RenderBody()
-                    </div>
+                <div class="col s10 m10 l10 card-panel" style="padding-left: 5px;">
+                    @RenderBody()
                 </div>
             </div>
         </div>
-            }
+    </div>
+}
 
 <footer class="center-align">
     <p>&copy; @DateTime.Now.Year - FENRIR SOFTWARE</p>
