@@ -1,82 +1,146 @@
-﻿@model Model.Models.Issue
+﻿@using DataAccessImplementation
+@using FenrirProjectManager.Helpers
+@using Model.Enums
+@model Model.Models.Issue
 
 @{
-    ViewBag.Title = "Details";
+    UserRepo _userRepo = new UserRepo();
 }
 
-<h2>Details</h2>
+<div class="row">
+    <div class="col l9 m12 s12">
+        <h3>@Html.DisplayFor(model => model.Title)</h3>
+    </div>
 
-<div>
-    <h4>Issue</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.Title)
-        </dt>
+    <div class="center-align col l3 m12 s12">
+        @{
+            var assignedUser = _userRepo.GetUserById(Model.AssignUserId);
+            var createdUser = _userRepo.GetUserById(Model.CreateUserId);
+        }
+        <h3>
+            <img src="data:image/png;base64,@Html.Raw(Convert.ToBase64String(assignedUser.Avatar))"
+                 class="rounded responsive-img tooltipped"
+                 style="max-height: 50px"
+                 data-position="bottom"
+                 data-delay="50"
+                 data-tooltip="@Html.Raw($"{assignedUser.Email}")"/>
 
-        <dd>
-            @Html.DisplayFor(model => model.Title)
-        </dd>
+            <img src="data:image/png;base64,@Html.Raw(Convert.ToBase64String(ImageManager.GetByteArray(Resources.Images.assigned_to)))"
+                 class="responsive-img"
+                 style="vertical-align: top;"/>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Description)
-        </dt>
+            <img src="data:image/png;base64,@Html.Raw(Convert.ToBase64String(createdUser.Avatar))"
+                 class="rounded responsive-img tooltipped"
+                 style="max-height: 50px"
+                 data-position="bottom"
+                 data-delay="50"
+                 data-tooltip="@Html.Raw($"{createdUser.Email}")" />
 
-        <dd>
-            @Html.DisplayFor(model => model.Description)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.CreationDate)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.CreationDate)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.FinishDate)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.FinishDate)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Progress)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Progress)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Status)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Status)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Type)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Type)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.AssignUserId)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.AssignUserId)
-        </dd>
-
-        
-    </dl>
+        </h3>
+    </div>
 </div>
-<div class="center">
-    <a href="@Url.Action(MVC.Issues.Index())" class="btn btn-form green waves-effect waves-light">OK</a>
+
+<div class="row">
+    <div class="col l12 m12 s12">
+        @Html.DisplayFor(model => model.Description)
+    </div>
 </div>
+
+<div class="row">
+
+    <div class="center-align col l3 m12 s12">
+        <img src="data:image/png;base64, @Html.Raw(Convert.ToBase64String(ImageManager.GetByteArray(Resources.Images.creation_date)))"
+             class="responsive-img"
+             style="vertical-align: middle;"/>
+        @{
+            string formatedCreationDate = string.Format("{0:d}", Model.CreationDate);
+        }
+        @Html.Raw(formatedCreationDate)
+    </div>
+
+    <div class="center-align col l3 m12 s12">
+        <img src="data:image/png;base64, @Html.Raw(Convert.ToBase64String(ImageManager.GetByteArray(Resources.Images.deadline_date)))"
+             class="responsive-img"
+             style="vertical-align: middle;"/>
+        @{
+            string formatedFinishDate = string.Format("{0:d}", Model.FinishDate);
+        }
+        @Html.Raw(formatedFinishDate)
+    </div>
+
+    <div class="center-align col l2 m12 s12">
+        @{
+            byte[] issueType = {};
+
+            switch (Model.Type)
+            {
+                case IssueType.Feature:
+                    issueType = ImageManager.GetByteArray(Resources.Images.feature);
+                    break;
+                case IssueType.Bug:
+                    issueType = ImageManager.GetByteArray(Resources.Images.bug);
+                    break;
+                case IssueType.Test:
+                    issueType = ImageManager.GetByteArray(Resources.Images.test);
+                    break;
+            }
+        }
+
+        <img src="data:image/png;base64, @Html.Raw(Convert.ToBase64String(issueType))"
+             class="responsive-img tooltipped"
+             style="margin-top: 0"
+             data-position="bottom"
+             data-delay="50"
+             data-tooltip="@Html.DisplayFor(model => model.Type)"/>
+    </div>
+
+    <div class="center-align col l2 m12 s12">
+        @{
+            int issueProgress = (int) Model.Progress;
+        }
+        <strong style="font-size: 36px;"> @Html.Raw(issueProgress)% </strong>
+    </div>
+
+    <div class="center-align col l2 m12 s12">
+
+        @{
+            byte[] issueStatus = {};
+
+            switch (Model.Status)
+            {
+                case IssueStatus.New:
+                    issueStatus = ImageManager.GetByteArray(Resources.Images.status_start);
+                    break;
+                case IssueStatus.InProgress:
+                    issueStatus = ImageManager.GetByteArray(Resources.Images.status_in_progress);
+                    break;
+                case IssueStatus.Finished:
+                    issueStatus = ImageManager.GetByteArray(Resources.Images.status_finished);
+                    break;
+                case IssueStatus.Closed:
+                    issueStatus = ImageManager.GetByteArray(Resources.Images.status_finished);
+                    break;
+                case IssueStatus.Checking:
+                    issueStatus = ImageManager.GetByteArray(Resources.Images.status_finished);
+                    break;
+                case IssueStatus.ReOpen:
+                    issueStatus = ImageManager.GetByteArray(Resources.Images.status_finished);
+                    break;
+            }
+        }
+        <img src="data:image/png;base64, @Html.Raw(Convert.ToBase64String(issueStatus))"
+             class="responsive-img tooltipped"
+             style="margin-top: 0"
+             data-position="bottom"
+             data-delay="50"
+             data-tooltip="@Html.DisplayFor(model => model.Status)" />
+    </div>
+
+</div>
+
+<div class="center row">
+    <a class="btn grey waves-effect waves-light" href="@Url.Action(MVC.Issues.Index())">Cancel</a>
+    <a class="btn blue lighten-1 waves-effect waves-light" href="@Url.Action(MVC.Issues.Edit(Model.Id))">Edit</a>
+    <a class="btn blue lighten-1 waves-effect waves-light" href="@Url.Action(MVC.Issues.Edit(Model.Id))">Edit</a>
+</div>
+

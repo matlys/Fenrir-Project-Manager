@@ -16,20 +16,20 @@
                 <th>
                     @Html.DisplayNameFor(model => model.Title)
                 </th>
-                <th>
+                <th class="center-align">
                     Assigned to
 
                 </th>
-                <th>
+                <th class="center-align">
                     @Html.DisplayNameFor(model => model.Type)
                 </th>
-                <th>
-                   %
+                <th class="center-align">
+                    %
                 </th>
-                <th>
+                <th class="center-align">
                     @Html.DisplayNameFor(model => model.FinishDate)
                 </th>
-                <th>
+                <th class="center-align">
                     @Html.Raw("Action")
                 </th>
 
@@ -39,7 +39,9 @@
             {
                 <tr>
                     <td>
-                        @Html.DisplayFor(modelItem => item.Title)
+                        <a href="@Url.Action(MVC.Issues.Details(item.Id))" style="text-decoration: none !important; color:black !important;">
+                            @Html.DisplayFor(modelItem => item.Title)
+                        </a>
                     </td>
                     <td class="center-align">
 
@@ -52,15 +54,16 @@
                              style="max-height: 50px"
                              data-position="bottom"
                              data-delay="50"
-                             data-tooltip="@Html.Raw($"{assignedUser.Email}")" />
+                             data-tooltip="@Html.Raw($"{assignedUser.Email}")"/>
                     </td>
                     <td class="center-align">
                         @{
                             switch (item.Type)
                             {
                                 case IssueType.Feature:
-                                    <img src="data:image/png;base64, @Html.Raw(Convert.ToBase64String(ImageManager.GetByteArray(Resources.Images.rocket)))"
+                                    <img src="data:image/png;base64, @Html.Raw(Convert.ToBase64String(ImageManager.GetByteArray(Resources.Images.feature)))"
                                          class="responsive-img tooltipped"
+                                         style="margin-top: 4px"
                                          data-position="bottom"
                                          data-delay="50"
                                          data-tooltip=@Html.DisplayFor(modelItem => item.Type) />
@@ -68,13 +71,15 @@
                                 case IssueType.Bug:
                                     <img src="data:image/png;base64, @Html.Raw(Convert.ToBase64String(ImageManager.GetByteArray(Resources.Images.bug)))"
                                          class="responsive-img tooltipped"
+                                         style="margin-top: 4px"
                                          data-position="bottom"
                                          data-delay="50"
                                          data-tooltip=@Html.DisplayFor(modelItem => item.Type) />
                                     break;
                                 case IssueType.Test:
-                                    <img src="data:image/png;base64, @Html.Raw(Convert.ToBase64String(ImageManager.GetByteArray(Resources.Images.beaker_outline)))"
+                                    <img src="data:image/png;base64, @Html.Raw(Convert.ToBase64String(ImageManager.GetByteArray(Resources.Images.test)))"
                                          class="responsive-img tooltipped"
+                                         style="margin-top: 4px"
                                          data-position="bottom"
                                          data-delay="50"
                                          data-tooltip=@Html.DisplayFor(modelItem => item.Type) />
@@ -91,13 +96,19 @@
                     </td>
                     <td class="center-align">
                         @{
-                            string formatedDate = $"{Html.DisplayFor(modelItem => item.FinishDate):yy-MM-dd}";
+                            string formatedDate = string.Format("{0:d}", item.FinishDate);
                         }
                         @Html.Raw(formatedDate)
                     </td>
 
                     <td class="center-align">
-                        Zatwierdź
+                        <a href="@Url.Action(MVC.Issues.Delete(item.Id))">
+                            <img src="data:image/png;base64,@Html.Raw(Convert.ToBase64String(ImageManager.GetByteArray(Resources.Images.delete_issue)))"
+                                 class="responsive-img tooltipped"
+                                 data-position="bottom"
+                                 data-delay="50"
+                                 data-tooltip="Delete"/>
+                        </a>
                     </td>
 
                 </tr>

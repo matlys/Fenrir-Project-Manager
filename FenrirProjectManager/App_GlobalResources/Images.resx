@@ -133,13 +133,52 @@
   <data name="administrator_avatar" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Graph\Avatars\administrator_avatar.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="beaker_outline" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Graph\Pictograms\beaker-outline.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="add_issue" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Graph\Pictograms\add_issue.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="add_member" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Graph\Pictograms\add_member.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="logout" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Graph\Pictograms\logout.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="project_settings" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Graph\Pictograms\project_settings.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="user_settings" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Graph\Pictograms\user_settings.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="close_issue" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Graph\Pictograms\close_issue.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="delete_issue" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Graph\Pictograms\delete_issue.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="assigned_to" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Graph\Pictograms\assigned_to.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="creation_date" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Graph\Pictograms\creation_date.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="deadline_date" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Graph\Pictograms\deadline_date.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="status_finished" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Graph\Pictograms\status_finished.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="status_in_progress" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Graph\Pictograms\status_in_progress.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="status_start" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Graph\Pictograms\status_start.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="bug" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Graph\Pictograms\bug.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="rocket" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Graph\Pictograms\rocket.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="feature" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Graph\Pictograms\feature.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="test" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Graph\Pictograms\test.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using DataAccessInterfaces;
@@ -65,6 +66,50 @@ namespace DataAccessImplementation
                 return users.AsQueryable();
             }
             return null;
+        }
+
+        public IQueryable<Issue> GetAllIssuesFromProject(Guid projectId)
+        {
+            var usersInProject = GetAllUsersFromProject(projectId);
+
+            var issues = new List<Issue>();
+
+            foreach (var user in usersInProject)
+            {
+                var userIssues = _context.ProjectIssues.Where(i => i.AssignUserId.ToString() == user.Id);
+                issues.AddRange(userIssues);
+            }
+            return issues.AsQueryable();
+        }
+
+        public IQueryable<Issue> GetAllIssuesFromProjectByStatus(Guid projectId, IssueStatus issueStatus)
+        {
+            var usersInProject = GetAllUsersFromProject(projectId);
+
+            var issues = new List<Issue>();
+
+            foreach (var user in usersInProject)
+            {
+                var userIssues = _context.ProjectIssues.Where(i => i.AssignUserId.ToString() == user.Id);
+                issues.AddRange(userIssues);
+            }
+
+            return issues.Where(i=>i.Status == issueStatus).AsQueryable();
+        }
+
+        public float GetProjectProgress(Guid projectId)
+        {
+            float progress = 0;
+
+            var allIssues = GetAllIssuesFromProject(projectId).ToList().Count;
+            var closedIssues = GetAllIssuesFromProjectByStatus(projectId, IssueStatus.Closed).ToList().Count;
+
+            if (allIssues == 0) return 0;
+
+            float result = (float) closedIssues/allIssues;
+            progress = result * 100;
+
+            return progress;
         }
     }
 }

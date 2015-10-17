@@ -7,6 +7,7 @@
     User currentUser = null;
     Project currentProject = null;
     string userRole = string.Empty;
+    string projectProgress = string.Empty;
     if (User.Identity.IsAuthenticated)
     {
         ProjectRepo _projectRepo = new ProjectRepo();
@@ -15,11 +16,18 @@
         Guid userId = Guid.Parse(User.Identity.GetUserId());
         currentUser = _userRepo.GetUserById(userId);
         currentProject = _projectRepo.GetProjectById(currentUser.ProjectId);
+        float progress = _projectRepo.GetProjectProgress(currentUser.ProjectId);
+        if (progress == 0f)
+        {
+            projectProgress = "0";
+        }
+        else
+        {
+            projectProgress = progress.ToString("##");
+        }
     }
- 
 }
-
-<!DOCTYPE html>
+    <!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8" />
@@ -46,7 +54,7 @@
 
 <body>
 
-<nav class="white" style="position: fixed; top: 0" >
+<nav class="white" style="position: fixed; top: 0; opacity: 0.9; filter: alpha(opacity=90);" >
     <div class="nav-wrapper container">
         @{
             if (currentProject?.Logo != null)
@@ -111,7 +119,7 @@
 @if (!Request.IsAuthenticated)
 {
     Html.RenderPartial("PartialForAnonymous");
-    <div class="col s12 m12 l12 card-panel" style="padding-left: 5px;">
+    <div class="col s12 m12 l12 card-panel" style="padding-left: 5px; margin-top: 90px;">
         @RenderBody()
     </div>
 }
@@ -119,23 +127,29 @@ else
 {
     <div class="container body-content">
         <div class="card-panel" style="margin-top: 90px;">
-            <div class="row" style="background-color: #e1f5fe;">
-                <div class="center-align" style="width: 5%; padding-top: 5px; height: 20px; background-color: #2196f3"></div>
+            <div class="row tooltipped"
+                 data-position="bottom"
+                 data-delay="50"
+                 data-tooltip="@Html.Raw(projectProgress)%"
+                 style="background-color: #e1f5fe;">
+                <div class="center-align"
+
+                     style="width: @Html.Raw(projectProgress)%; padding-top: 5px; height: 20px; background-color: #2196f3"></div>
             </div>
             <div class="row">
                 <div class="col s2 m2 l2">
                     <div class="center-align">
+                        <a href="@Url.Action(MVC.Users.Details())">
+                            <img src="data:image/png;base64,@Html.Raw(Convert.ToBase64String(currentUser.Avatar))"
+                                 class="border-rounded responsive-img tooltipped"
+                                 data-position="left"
+                                 data-delay="50"
+                                 data-tooltip="Hello @Html.Raw($"{currentUser.FirstName}!")"/>
+                        </a>
 
-                        <img src="data:image/png;base64,@Html.Raw(Convert.ToBase64String(currentUser.Avatar))"
-                             class="border-rounded responsive-img tooltipped"
-                             data-position="left"
-                             data-delay="50"
-                             data-tooltip="Hello @Html.Raw($"{currentUser.FirstName}!")"/>
-
-
-                        <h6> @Html.Raw($"{currentUser.FirstName} {currentUser.LastName}")</h6>
-                        @Html.Raw($"({userRole})")
-                    </div>
+                            <h6> @Html.Raw($"{currentUser.FirstName} {currentUser.LastName}")</h6>
+                            @Html.Raw($"({userRole})")
+</div>
                 </div>
                 <div class="col s10 m10 l10 card-panel" style="padding-left: 5px;">
                     @RenderBody()

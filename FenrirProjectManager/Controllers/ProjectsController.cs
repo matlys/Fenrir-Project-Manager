@@ -68,11 +68,15 @@ namespace FenrirProjectManager.Controllers
         [AllowRoles(Consts.ProjectManagerRole, Consts.AdministratorRole)]
         public virtual ActionResult Edit()
         {
+            
+
             try
             {
                 // get logged user
                 Guid userId = Guid.Parse(User.Identity.GetUserId());
                 var user = _userRepo.GetUserById(userId);
+
+                var dupa = _projectRepo.GetProjectProgress(user.ProjectId);
 
                 // get project of logged user
                 var project = _projectRepo.GetProjectById(user.ProjectId);

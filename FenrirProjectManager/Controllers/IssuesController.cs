@@ -47,6 +47,8 @@ namespace FenrirProjectManager.Controllers
         [Authorize]
         public virtual ActionResult Index()
         {
+            
+
             var userId = Guid.Parse(User.Identity.GetUserId());
             var issues = _issueRepo.GetAllIssuesFromProject(_userRepo.GetUserById(userId).ProjectId).OrderByDescending(p=>p.CreationDate);
             return View(issues);
@@ -191,6 +193,7 @@ namespace FenrirProjectManager.Controllers
             return View(issue);
         }
 
+
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         [AllowRoles(Consts.ProjectManagerRole, Consts.AdministratorRole)]
@@ -198,7 +201,7 @@ namespace FenrirProjectManager.Controllers
         {
             _issueRepo.DeleteIssue(id);
             _issueRepo.SaveChanges();
-            return RedirectToAction("Index");
+            return RedirectToAction(MVC.Issues.Index());
         }
 
         protected override void Dispose(bool disposing)

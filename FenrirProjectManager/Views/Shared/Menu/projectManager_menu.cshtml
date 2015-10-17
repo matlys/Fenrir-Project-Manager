@@ -1,23 +1,59 @@
-﻿<ul class="right hide-on-med-and-down">
+﻿@using FenrirProjectManager.Helpers
+<ul class="right hide-on-med-and-down">
     <ul class="nav navbar-nav navbar-right">
         <li>
-            <a class="black-text green-hover hover-animation" href="@Url.Action(MVC.Issues.Create())">Add new issue</a>
+            <a href="@Url.Action(MVC.Issues.Create())">
+                <img src="data:image/png;base64, @Html.Raw(Convert.ToBase64String(ImageManager.GetByteArray(Resources.Images.add_issue)))"
+                     class="responsive-img tooltipped"
+                     style="margin-top: 5px"
+                     data-position="bottom"
+                     data-delay="50"
+                     data-tooltip="Add new issue" />
+            </a>
         </li>
 
         <li>
-            <a class="black-text blue-hover hover-animation" href="@Url.Action(MVC.Users.Create())">Add new member</a>
+            <a href="@Url.Action(MVC.Users.Create())">
+                <img src="data:image/png;base64, @Html.Raw(Convert.ToBase64String(ImageManager.GetByteArray(Resources.Images.add_member)))"
+                     class="responsive-img tooltipped"
+                     style="margin-top: 5px"
+                     data-position="bottom"
+                     data-delay="50"
+                     data-tooltip="Add new member" />
+            </a>
         </li>
 
         <li>
-            <a class="black-text gold-hover-hover hover-animation" href="@Url.Action(MVC.Projects.Details())">Project settings</a>
+            <a href="@Url.Action(MVC.Projects.Details())">
+                <img src="data:image/png;base64, @Html.Raw(Convert.ToBase64String(ImageManager.GetByteArray(Resources.Images.project_settings)))"
+                     class="responsive-img tooltipped"
+                     style="margin-top: 6px; height: 43px;"
+                     data-position="bottom"
+                     data-delay="50"
+                     data-tooltip="Project settings" />
+            </a>
         </li>
 
         <li>
-            <a class="black-text brown-hover hover-animation" href="@Url.Action(MVC.Users.Details())">Settings</a>
+            <a href="@Url.Action(MVC.Users.Details())">
+                <img src="data:image/png;base64, @Html.Raw(Convert.ToBase64String(ImageManager.GetByteArray(Resources.Images.user_settings)))"
+                     class="responsive-img tooltipped"
+                     style="margin-top: 5px"
+                     data-position="bottom"
+                     data-delay="50"
+                     data-tooltip="Account settings" />
+            </a>
         </li>
 
         <li>
-            <a class="black-text indigo-hover hover-animation" href="@Url.Action(MVC.Account.LogOff())">Logout</a>
+            <a href="@Url.Action(MVC.Account.LogOff())">
+                <img src="data:image/png;base64, @Html.Raw(Convert.ToBase64String(ImageManager.GetByteArray(Resources.Images.logout)))"
+                     class="responsive-img tooltipped"
+                     style="margin-top: 5px"
+                     data-position="bottom"
+                     data-delay="50"
+                     data-tooltip="Logout" />
+            </a>
         </li>
     </ul>
 </ul>

@@ -4,6 +4,8 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Model.Enums
 {
+
+    // should be deleted in next commit
     public struct StaticData
     { 
         public string UserName { get; set; }
