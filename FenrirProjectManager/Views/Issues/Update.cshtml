@@ -1,6 +1,5 @@
 ﻿@using DataAccessImplementation
 @using FenrirProjectManager.Helpers
-@using Microsoft.AspNet.Identity
 @using Model.Enums
 @model Model.Models.Issue
 
@@ -10,7 +9,7 @@
 
 <div class="row">
     <div class="col l9 m12 s12">
-        <h3>@Html.DisplayFor(model => model.Title)</h3>
+        <h3>Update @Html.DisplayFor(model => model.Title)</h3>
     </div>
 
     <div class="center-align col l3 m12 s12">
@@ -24,11 +23,11 @@
                  style="max-height: 50px"
                  data-position="bottom"
                  data-delay="50"
-                 data-tooltip="@Html.Raw($"{createdUser.Email}")"/>
+                 data-tooltip="@Html.Raw($"{createdUser.Email}")" />
 
             <img src="data:image/png;base64,@Html.Raw(Convert.ToBase64String(ImageManager.GetByteArray(Resources.Images.assigned_to)))"
                  class="responsive-img"
-                 style="vertical-align: top;"/>
+                 style="vertical-align: top;" />
 
             <img src="data:image/png;base64,@Html.Raw(Convert.ToBase64String(assignedUser.Avatar))"
                  class="rounded responsive-img tooltipped"
@@ -40,19 +39,12 @@
         </h3>
     </div>
 </div>
-
-<div class="row">
-    <div class="col l12 m12 s12">
-        @Html.DisplayFor(model => model.Description)
-    </div>
-</div>
-
 <div class="row">
 
     <div class="center-align col l3 m12 s12">
         <img src="data:image/png;base64, @Html.Raw(Convert.ToBase64String(ImageManager.GetByteArray(Resources.Images.creation_date)))"
              class="responsive-img"
-             style="vertical-align: middle;"/>
+             style="vertical-align: middle;" />
         @{
             string formatedCreationDate = string.Format("{0:d}", Model.CreationDate);
         }
@@ -62,7 +54,7 @@
     <div class="center-align col l3 m12 s12">
         <img src="data:image/png;base64, @Html.Raw(Convert.ToBase64String(ImageManager.GetByteArray(Resources.Images.deadline_date)))"
              class="responsive-img"
-             style="vertical-align: middle;"/>
+             style="vertical-align: middle;" />
         @{
             string formatedFinishDate = string.Format("{0:d}", Model.FinishDate);
         }
@@ -71,7 +63,7 @@
 
     <div class="center-align col l2 m12 s12">
         @{
-            byte[] issueType = {};
+            byte[] issueType = { };
 
             switch (Model.Type)
             {
@@ -92,12 +84,12 @@
              style="margin-top: 0"
              data-position="bottom"
              data-delay="50"
-             data-tooltip="@Html.DisplayFor(model => model.Type)"/>
+             data-tooltip="@Html.DisplayFor(model => model.Type)" />
     </div>
 
     <div class="center-align col l2 m12 s12">
         @{
-            int issueProgress = (int) Model.Progress;
+            int issueProgress = (int)Model.Progress;
         }
         <strong style="font-size: 36px;"> @Html.Raw(issueProgress)% </strong>
     </div>
@@ -105,7 +97,7 @@
     <div class="center-align col l2 m12 s12">
 
         @{
-            byte[] issueStatus = {};
+            byte[] issueStatus = { };
 
             switch (Model.Status)
             {
@@ -139,22 +131,37 @@
 
 </div>
 
-<div class="center row">
+@using (Html.BeginForm(MVC.Issues.Update(Model.Id), FormMethod.Post))
+{ 
+    @Html.AntiForgeryToken()
 
-    <a class="btn grey waves-effect waves-light" href="@Url.Action(MVC.Issues.Index())">Cancel</a>
+    @Html.HiddenFor(model => model.Id)
+    @Html.HiddenFor(model => model.Title)
+    @Html.HiddenFor(model => model.Description)
+    @Html.HiddenFor(model => model.AssignUserId)
+    @Html.HiddenFor(model => model.CreateUserId)
+    @Html.HiddenFor(model => model.CreationDate)
+    @Html.HiddenFor(model => model.FinishDate)
+    @Html.HiddenFor(model => model.Type)
+    @Html.HiddenFor(model => model.Status)
 
-    @{
-        // if this issue belong to create user
-        if (createdUser.Id == User.Identity.GetUserId())
-        {
-            <a class="btn blue lighten-1 waves-effect waves-light" href="@Url.Action(MVC.Issues.Edit(Model.Id))">Edit</a>
-        }
+    <div class="form-horizontal">
 
-        if (assignedUser.Id == User.Identity.GetUserId())
-        {
-            <a class="btn brown lighten-1 waves-effect waves-light" href="@Url.Action(MVC.Issues.Update(Model.Id))">Update</a>
-        }
-    }
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(model => model.Progress, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EnumDropDownListFor(model => model.Progress, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Title, "", new { @class = "text-danger" })
+            </div>
+        </div>
 
-</div>
+
+        <div class="row center">
+            <a class="btn btn-form grey  waves-effect waves-light" href="@Url.Action(MVC.Issues.Index())">Cancel</a>
+            <button class="btn btn-form blue lighten-1 waves-effect waves-light" type="submit" name="action">Confirm</button>
+        </div>
+    </div>
+}
+
 

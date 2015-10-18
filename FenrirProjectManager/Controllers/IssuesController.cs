@@ -153,6 +153,8 @@ namespace FenrirProjectManager.Controllers
 
         #endregion
 
+        #region Edit methods
+
         [HttpGet]
         [AllowRoles(Consts.ProjectManagerRole, Consts.AdministratorRole)]
         public virtual ActionResult Edit(Guid? id)
@@ -175,10 +177,50 @@ namespace FenrirProjectManager.Controllers
             {
                 _issueRepo.UpdateIssue(issue);
                 _issueRepo.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction(MVC.Issues.Index());
             }
             return View(issue);
         }
+
+        #endregion
+
+        #region Update methods
+
+        [HttpGet]
+        [AllowRoles(Consts.DeveloperRole, Consts.ProjectManagerRole, Consts.AdministratorRole)]
+        public virtual ActionResult Update(Guid? id)
+        {
+            if (id == null) return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+
+            Issue issue = _issueRepo.GetIssueById((Guid)id);
+
+            if (issue == null) return HttpNotFound();
+
+            return View(issue);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [AllowRoles(Consts.DeveloperRole, Consts.ProjectManagerRole, Consts.AdministratorRole)]
+        public virtual ActionResult Update(Issue model)
+        {
+            if (ModelState.IsValid)
+            {
+                if (model.Progress == IssueProgress.Done)
+                    model.Status = IssueStatus.Finished;
+                else
+                    model.Status = IssueStatus.InProgress;
+                
+                // todo: rest of this logic
+
+                _issueRepo.UpdateIssue(model);
+                _issueRepo.SaveChanges();
+                return RedirectToAction(MVC.Issues.Index());
+            }
+            return View(model);
+        }
+
+        #endregion
 
         [HttpGet]
         [AllowRoles(Consts.ProjectManagerRole, Consts.AdministratorRole)]

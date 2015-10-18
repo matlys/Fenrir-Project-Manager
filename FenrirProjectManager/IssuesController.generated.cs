@@ -70,6 +70,12 @@ namespace FenrirProjectManager.Controllers
         }
         [NonAction]
         [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
+        public virtual System.Web.Mvc.ActionResult Update()
+        {
+            return new T4MVC_System_Web_Mvc_ActionResult(Area, Name, ActionNames.Update);
+        }
+        [NonAction]
+        [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
         public virtual System.Web.Mvc.ActionResult Delete()
         {
             return new T4MVC_System_Web_Mvc_ActionResult(Area, Name, ActionNames.Delete);
@@ -101,6 +107,7 @@ namespace FenrirProjectManager.Controllers
             public readonly string Details = "Details";
             public readonly string Create = "Create";
             public readonly string Edit = "Edit";
+            public readonly string Update = "Update";
             public readonly string Delete = "Delete";
             public readonly string DeleteConfirmed = "Delete";
         }
@@ -113,6 +120,7 @@ namespace FenrirProjectManager.Controllers
             public const string Details = "Details";
             public const string Create = "Create";
             public const string Edit = "Edit";
+            public const string Update = "Update";
             public const string Delete = "Delete";
             public const string DeleteConfirmed = "Delete";
         }
@@ -142,6 +150,15 @@ namespace FenrirProjectManager.Controllers
         {
             public readonly string id = "id";
             public readonly string issue = "issue";
+        }
+        static readonly ActionParamsClass_Update s_params_Update = new ActionParamsClass_Update();
+        [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
+        public ActionParamsClass_Update UpdateParams { get { return s_params_Update; } }
+        [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
+        public class ActionParamsClass_Update
+        {
+            public readonly string id = "id";
+            public readonly string model = "model";
         }
         static readonly ActionParamsClass_Delete s_params_Delete = new ActionParamsClass_Delete();
         [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
@@ -174,12 +191,14 @@ namespace FenrirProjectManager.Controllers
                 public readonly string Details = "Details";
                 public readonly string Edit = "Edit";
                 public readonly string Index = "Index";
+                public readonly string Update = "Update";
             }
             public readonly string Create = "~/Views/Issues/Create.cshtml";
             public readonly string Delete = "~/Views/Issues/Delete.cshtml";
             public readonly string Details = "~/Views/Issues/Details.cshtml";
             public readonly string Edit = "~/Views/Issues/Edit.cshtml";
             public readonly string Index = "~/Views/Issues/Index.cshtml";
+            public readonly string Update = "~/Views/Issues/Update.cshtml";
         }
     }
 
@@ -266,6 +285,30 @@ namespace FenrirProjectManager.Controllers
             var callInfo = new T4MVC_System_Web_Mvc_ActionResult(Area, Name, ActionNames.Edit);
             ModelUnbinderHelpers.AddRouteValues(callInfo.RouteValueDictionary, "issue", issue);
             EditOverride(callInfo, issue);
+            return callInfo;
+        }
+
+        [NonAction]
+        partial void UpdateOverride(T4MVC_System_Web_Mvc_ActionResult callInfo, System.Guid? id);
+
+        [NonAction]
+        public override System.Web.Mvc.ActionResult Update(System.Guid? id)
+        {
+            var callInfo = new T4MVC_System_Web_Mvc_ActionResult(Area, Name, ActionNames.Update);
+            ModelUnbinderHelpers.AddRouteValues(callInfo.RouteValueDictionary, "id", id);
+            UpdateOverride(callInfo, id);
+            return callInfo;
+        }
+
+        [NonAction]
+        partial void UpdateOverride(T4MVC_System_Web_Mvc_ActionResult callInfo, Model.Models.Issue model);
+
+        [NonAction]
+        public override System.Web.Mvc.ActionResult Update(Model.Models.Issue model)
+        {
+            var callInfo = new T4MVC_System_Web_Mvc_ActionResult(Area, Name, ActionNames.Update);
+            ModelUnbinderHelpers.AddRouteValues(callInfo.RouteValueDictionary, "model", model);
+            UpdateOverride(callInfo, model);
             return callInfo;
         }
 
