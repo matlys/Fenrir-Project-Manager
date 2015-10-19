@@ -1,96 +1,73 @@
 ﻿@model Model.Models.Issue
 
 @{
-    ViewBag.Title = "Edit";
+    List<SelectListItem> UsersList = ViewBag.UsersList;
 }
 
 <h2>Edit</h2>
 
-
-@using (Html.BeginForm())
+@using (Html.BeginForm(MVC.Issues.Edit(Model.Id), FormMethod.Post))
 {
     @Html.AntiForgeryToken()
     
     <div class="form-horizontal">
-        <h4>Issue</h4>
-        <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        
         @Html.HiddenFor(model => model.Id)
+        @Html.HiddenFor(model => model.CreateUserId)
+        @Html.HiddenFor(model => model.CreationDate)
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.Title, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Title, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Title, "", new { @class = "text-danger" })
-            </div>
+        <div class="input-field col l12 m12 s12">
+            @Html.TextBoxFor(m => m.Title, new { @class = "validate" })
+            @Html.LabelFor(m => m.Title)
         </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.TextAreaFor(model => model.Description, new { @class = "materialize-textarea"})
-                @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
-            </div>
+        <div class="input-field col l12 m12 s12">
+            @Html.TextAreaFor(m => m.Description, new { @class = "validate materialize-textarea" })
+            @Html.LabelFor(m => m.Description)
+            @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
         </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.CreationDate, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.CreationDate, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.CreationDate, "", new { @class = "text-danger" })
-            </div>
+        <div class="input-field col l12 m12 s12">
+            @Html.TextBoxFor(m => m.CreationDate, new { @disabled="true" })
+            @Html.LabelFor(m => m.CreationDate)
+            @Html.ValidationMessageFor(model => model.CreationDate, "", new { @class = "text-danger" })
         </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.FinishDate, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.FinishDate, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.FinishDate, "", new { @class = "text-danger" })
-            </div>
+        <div class="input-field col l12 m12 s12">
+            @Html.TextBoxFor(m => m.FinishDate)
+            @Html.LabelFor(m => m.FinishDate)
+            @Html.ValidationMessageFor(model => model.FinishDate, "", new { @class = "text-danger" })
         </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.Progress, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EnumDropDownListFor(model => model.Progress, htmlAttributes: new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.Progress, "", new { @class = "text-danger" })
-            </div>
+        <div class="input-field col l12 m12 s12">
+            @Html.EnumDropDownListFor(m => m.Progress)
+            @Html.LabelFor(m => m.Progress)
+            @Html.ValidationMessageFor(model => model.Progress, "", new { @class = "text-danger" })
         </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.Status, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EnumDropDownListFor(model => model.Status, htmlAttributes: new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.Status, "", new { @class = "text-danger" })
-            </div>
+        <div class="input-field col l12 m12 s12">
+            @Html.EnumDropDownListFor(m => m.Status)
+            @Html.LabelFor(m => m.Status)
+            @Html.ValidationMessageFor(model => model.Status, "", new { @class = "text-danger" })
         </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.Type, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EnumDropDownListFor(model => model.Type, htmlAttributes: new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.Type, "", new { @class = "text-danger" })
-            </div>
+        <div class="input-field col l12 m12 s12">
+            @Html.EnumDropDownListFor(m => m.Type)
+            @Html.LabelFor(m => m.Type)
+            @Html.ValidationMessageFor(model => model.Type, "", new {@class = "text-danger"})
         </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.AssignUserId, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.AssignUserId, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.AssignUserId, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.CreateUserId, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.CreateUserId, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.CreateUserId, "", new { @class = "text-danger" })
-            </div>
+        <div class="input-field col l12 m12 s12">
+            @Html.DropDownListFor(model => model.AssignUserId, UsersList)
+            @Html.LabelFor(m => m.AssignUserId)
+            @Html.ValidationMessageFor(model => model.AssignUserId, "", new {@class = "text-danger"})
         </div>
     </div>
+    <div class="center row">
+        <a class="btn btn-form grey waves-effect waves-light" href="@Url.Action(MVC.Issues.Details())">Cancel</a>
+        <button class="btn btn-form blue lighten-1 waves-effect waves-light" type="submit" name="action">Save</button>
+    </div>
 }
-<div class="center row">
-    <a class="btn btn-form grey waves-effect waves-light" href="@Url.Action(MVC.Issues.Details())">Cancel</a>
-    <button class="btn btn-form blue lighten-1 waves-effect waves-light" type="submit" name="action">Save</button>
-</div>
+
+

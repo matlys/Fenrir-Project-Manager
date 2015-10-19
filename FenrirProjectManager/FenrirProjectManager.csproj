@@ -281,13 +281,15 @@
     <Content Include="Graph\Pictograms\assigned_to.png" />
     <Content Include="Graph\Pictograms\bug.png" />
     <Content Include="Graph\Pictograms\close_issue.png" />
-    <Content Include="Graph\Pictograms\creation_date.png" />
+    <None Include="Graph\Pictograms\create_date.png" />
     <Content Include="Graph\Pictograms\deadline_date.png" />
-    <Content Include="Graph\Pictograms\delete_issue.png" />
+    <None Include="Graph\Pictograms\edit_issue.png" />
+    <None Include="Graph\Pictograms\delete_issue.png" />
     <Content Include="Graph\Pictograms\feature.png" />
     <Content Include="Graph\Pictograms\logout.png" />
     <Content Include="Graph\Pictograms\project_settings.png" />
     <None Include="Graph\Pictograms\user_settings.png" />
+    <None Include="Graph\Pictograms\reopen.png" />
     <Content Include="Graph\Pictograms\status_finished.png" />
     <Content Include="Graph\Pictograms\status_in_progress.png" />
     <Content Include="Graph\Pictograms\status_start.png" />

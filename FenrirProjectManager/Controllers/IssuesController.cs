@@ -165,21 +165,28 @@ namespace FenrirProjectManager.Controllers
 
             if (issue == null) return HttpNotFound();
 
+            // get logged user
+            var userId = Guid.Parse(User.Identity.GetUserId());
+            var user = _userRepo.GetUserById(userId);
+
+            var usersList = GetAvailableUsers(user.ProjectId);
+            ViewBag.UsersList = usersList;
+
             return View(issue);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
         [AllowRoles(Consts.ProjectManagerRole, Consts.AdministratorRole)]
-        public virtual ActionResult Edit([Bind(Include = "Id,Title,Description,CreationDate,FinishDate,Progress,Status,Type,AssignUserId,CreateUserId")] Issue issue)
+        public virtual ActionResult Edit(Issue model)
         {
             if (ModelState.IsValid)
             {
-                _issueRepo.UpdateIssue(issue);
+                _issueRepo.UpdateIssue(model);
                 _issueRepo.SaveChanges();
                 return RedirectToAction(MVC.Issues.Index());
             }
-            return View(issue);
+            return View(model);
         }
 
         #endregion
@@ -211,7 +218,7 @@ namespace FenrirProjectManager.Controllers
                 else
                     model.Status = IssueStatus.InProgress;
                 
-                // todo: rest of this logic
+                // todo: rest of this logic (what with reopen?)
 
                 _issueRepo.UpdateIssue(model);
                 _issueRepo.SaveChanges();

@@ -123,9 +123,9 @@ namespace Resources {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap creation_date {
+        internal static System.Drawing.Bitmap create_date {
             get {
-                object obj = ResourceManager.GetObject("creation_date", resourceCulture);
+                object obj = ResourceManager.GetObject("create_date", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -156,6 +156,16 @@ namespace Resources {
         internal static System.Drawing.Bitmap developer_avatar {
             get {
                 object obj = ResourceManager.GetObject("developer_avatar", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap edit_issue {
+            get {
+                object obj = ResourceManager.GetObject("edit_issue", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -216,6 +226,16 @@ namespace Resources {
         internal static System.Drawing.Bitmap project_settings {
             get {
                 object obj = ResourceManager.GetObject("project_settings", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap reopen {
+            get {
+                object obj = ResourceManager.GetObject("reopen", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

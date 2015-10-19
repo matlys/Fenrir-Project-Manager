@@ -148,17 +148,8 @@
   <data name="user_settings" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Graph\Pictograms\user_settings.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="close_issue" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Graph\Pictograms\close_issue.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="delete_issue" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Graph\Pictograms\delete_issue.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="assigned_to" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Graph\Pictograms\assigned_to.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="creation_date" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Graph\Pictograms\creation_date.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="deadline_date" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Graph\Pictograms\deadline_date.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -180,5 +171,20 @@
   </data>
   <data name="test" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Graph\Pictograms\test.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="close_issue" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Graph\Pictograms\close_issue.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="create_date" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Graph\Pictograms\create_date.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="delete_issue" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Graph\Pictograms\delete_issue.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="edit_issue" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Graph\Pictograms\edit_issue.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="reopen" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Graph\Pictograms\reopen.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>

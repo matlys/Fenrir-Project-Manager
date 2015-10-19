@@ -54,7 +54,7 @@
                              style="max-height: 50px"
                              data-position="bottom"
                              data-delay="50"
-                             data-tooltip="@Html.Raw($"{assignedUser.Email}")"/>
+                             data-tooltip="@Html.Raw($"{assignedUser.Email}")" />
                     </td>
                     <td class="center-align">
                         @{
@@ -90,7 +90,7 @@
                     <td class="center-align">
 
                         @{
-                            int progress = (int) item.Progress;
+                            int progress = (int)item.Progress;
                         }
                         <strong>@Html.Raw($"{progress}%")</strong>
                     </td>
@@ -102,29 +102,55 @@
                     </td>
 
                     <td class="center-align">
-                        <a href="@Url.Action(MVC.Issues.Delete(item.Id))">
-                            <img src="data:image/png;base64,@Html.Raw(Convert.ToBase64String(ImageManager.GetByteArray(Resources.Images.delete_issue)))"
-                                 class="responsive-img tooltipped"
-                                 data-position="bottom"
-                                 data-delay="50"
-                                 data-tooltip="Delete"/>
-                        </a>
+
+                        @{
+                            if (item.CreateUserId.ToString() == User.Identity.GetUserId())
+                            {
+                                <img src="data:image/png;base64, @Html.Raw(Convert.ToBase64String(ImageManager.GetByteArray(Resources.Images.edit_issue)))"
+                                     class="responsive-img tooltipped"
+                                     style="margin-top: 4px"
+                                     data-position="bottom"
+                                     data-delay="50"
+                                     data-tooltip="Edit" />
+
+                                if (item.Status == IssueStatus.Finished)
+                                {
+                                    <img src="data:image/png;base64, @Html.Raw(Convert.ToBase64String(ImageManager.GetByteArray(Resources.Images.close_issue)))"
+                                         class="responsive-img tooltipped"
+                                         style="margin-top: 4px"
+                                         data-position="bottom"
+                                         data-delay="50"
+                                         data-tooltip="Close" />
+                                }
+
+                            }
+                            else if (item.AssignUserId.ToString() == User.Identity.GetUserId())
+                            {
+                                <img src="data:image/png;base64, @Html.Raw(Convert.ToBase64String(ImageManager.GetByteArray(Resources.Images.edit_issue)))"
+                                     class="responsive-img tooltipped"
+                                     style="margin-top: 4px"
+                                     data-position="bottom"
+                                     data-delay="50"
+                                     data-tooltip="Edit" />
+                            }
+
+                        }
                     </td>
 
                 </tr>
-            }
+                            }
 
         </table>
-    }
-    else
-    {
-        if (User.IsInRole(Consts.ProjectManagerRole) || User.IsInRole(Consts.AdministratorRole))
-        {
-            <div class="row center">
-                <h5>
-                    No issues to show, but don't worry you can <a class="blue-text green-hover hover-animation" href="@Url.Action(MVC.Issues.Create())">add a new issue</a>
-                </h5>
-            </div>
-        }
-    }
+                            }
+                            else
+                            {
+                                if (User.IsInRole(Consts.ProjectManagerRole) || User.IsInRole(Consts.AdministratorRole))
+                                {
+                                    <div class="row center">
+                                        <h5>
+                                            No issues to show, but don't worry you can <a class="blue-text green-hover hover-animation" href="@Url.Action(MVC.Issues.Create())">add a new issue</a>
+                                        </h5>
+                                    </div>
+                                }
+                            }
 }
