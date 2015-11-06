@@ -9,47 +9,48 @@
 @using (Html.BeginForm(MVC.Issues.Edit(Model.Id), FormMethod.Post))
 {
     @Html.AntiForgeryToken()
-    
+
     <div class="form-horizontal">
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        
+        @Html.ValidationSummary(true, "", new {@class = "text-danger"})
+
         @Html.HiddenFor(model => model.Id)
         @Html.HiddenFor(model => model.CreateUserId)
         @Html.HiddenFor(model => model.CreationDate)
 
         <div class="input-field col l12 m12 s12">
-            @Html.TextBoxFor(m => m.Title, new { @class = "validate" })
+            @Html.TextBoxFor(m => m.Title, new {@class = "validate"})
             @Html.LabelFor(m => m.Title)
+            @Html.ValidationMessageFor(model => model.Title, "", new {@class = "text-danger"})
         </div>
 
         <div class="input-field col l12 m12 s12">
-            @Html.TextAreaFor(m => m.Description, new { @class = "validate materialize-textarea" })
+            @Html.TextAreaFor(m => m.Description, new {@class = "validate materialize-textarea"})
             @Html.LabelFor(m => m.Description)
-            @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+            @Html.ValidationMessageFor(model => model.Description, "", new {@class = "text-danger"})
         </div>
 
         <div class="input-field col l12 m12 s12">
-            @Html.TextBoxFor(m => m.CreationDate, new { @disabled="true" })
+            @Html.TextBoxFor(m => m.CreationDate, new {@disabled = "true"})
             @Html.LabelFor(m => m.CreationDate)
-            @Html.ValidationMessageFor(model => model.CreationDate, "", new { @class = "text-danger" })
+            @Html.ValidationMessageFor(model => model.CreationDate, "", new {@class = "text-danger"})
         </div>
 
         <div class="input-field col l12 m12 s12">
             @Html.TextBoxFor(m => m.FinishDate)
             @Html.LabelFor(m => m.FinishDate)
-            @Html.ValidationMessageFor(model => model.FinishDate, "", new { @class = "text-danger" })
+            @Html.ValidationMessageFor(model => model.FinishDate, "", new {@class = "text-danger"})
         </div>
 
         <div class="input-field col l12 m12 s12">
             @Html.EnumDropDownListFor(m => m.Progress)
             @Html.LabelFor(m => m.Progress)
-            @Html.ValidationMessageFor(model => model.Progress, "", new { @class = "text-danger" })
+            @Html.ValidationMessageFor(model => model.Progress, "", new {@class = "text-danger"})
         </div>
 
         <div class="input-field col l12 m12 s12">
             @Html.EnumDropDownListFor(m => m.Status)
             @Html.LabelFor(m => m.Status)
-            @Html.ValidationMessageFor(model => model.Status, "", new { @class = "text-danger" })
+            @Html.ValidationMessageFor(model => model.Status, "", new {@class = "text-danger"})
         </div>
 
         <div class="input-field col l12 m12 s12">
@@ -63,10 +64,12 @@
             @Html.LabelFor(m => m.AssignUserId)
             @Html.ValidationMessageFor(model => model.AssignUserId, "", new {@class = "text-danger"})
         </div>
-    </div>
-    <div class="center row">
-        <a class="btn btn-form grey waves-effect waves-light" href="@Url.Action(MVC.Issues.Details())">Cancel</a>
-        <button class="btn btn-form blue lighten-1 waves-effect waves-light" type="submit" name="action">Save</button>
+
+        <div class="center row">
+            <a class="btn btn-form grey waves-effect waves-light" href="@Url.Action(MVC.Issues.Details())">Cancel</a>
+            <button class="btn btn-form blue lighten-1 waves-effect waves-light" type="submit" name="action">Save</button>
+        </div>
+
     </div>
 }
 

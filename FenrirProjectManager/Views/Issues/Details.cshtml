@@ -154,6 +154,11 @@
         {
             <a class="btn brown lighten-1 waves-effect waves-light" href="@Url.Action(MVC.Issues.Update(Model.Id))">Update</a>
         }
+
+        if (createdUser.Id == User.Identity.GetUserId() && Model.Status==IssueStatus.Finished)
+        {
+            <a class="btn indigo lighten-1 waves-effect waves-light" href="@Url.Action(MVC.Issues.Edit(Model.Id))">Close</a>
+        }
     }
 
 </div>

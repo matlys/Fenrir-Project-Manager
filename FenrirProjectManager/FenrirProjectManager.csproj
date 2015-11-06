@@ -273,6 +273,11 @@
     <Content Include="Graph\Backgrounds\background1.jpg" />
     <Content Include="Graph\Backgrounds\background2.jpg" />
     <Content Include="Graph\Backgrounds\background3.jpg" />
+    <Content Include="Graph\Backgrounds\background4.jpg" />
+    <Content Include="Graph\Backgrounds\background5.jpg" />
+    <Content Include="Graph\Backgrounds\background6.jpg" />
+    <Content Include="Graph\Backgrounds\background7.jpg" />
+    <Content Include="Graph\Backgrounds\background8.jpg" />
     <Content Include="Graph\FENRIR_LOGO1.png" />
     <Content Include="Graph\FENRIR_LOGO2.png" />
     <Compile Include="Helpers\ImageManager.cs" />

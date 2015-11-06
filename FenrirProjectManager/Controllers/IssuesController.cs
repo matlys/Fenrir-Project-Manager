@@ -158,7 +158,7 @@ namespace FenrirProjectManager.Controllers
         [HttpGet]
         [AllowRoles(Consts.ProjectManagerRole, Consts.AdministratorRole)]
         public virtual ActionResult Edit(Guid? id)
-        {
+        { 
             if (id == null) return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 
             Issue issue = _issueRepo.GetIssueById((Guid)id);

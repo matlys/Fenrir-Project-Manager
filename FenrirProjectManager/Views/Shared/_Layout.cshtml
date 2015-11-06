@@ -54,7 +54,7 @@
 
 <body>
 
-<nav class="white" style="position: fixed; z-index: 1 !important; top: 0; opacity: 0.9; filter: alpha(opacity=90);" >
+<nav class="white" style="position: fixed; z-index: 3 !important; top: 0; opacity: 0.9; filter: alpha(opacity=90);" >
     <div class="nav-wrapper container">
         @{
             if (currentProject?.Logo != null)
@@ -118,10 +118,56 @@
 
 @if (!Request.IsAuthenticated)
 {
-    Html.RenderPartial("PartialForAnonymous");
-    <div class="col s12 m12 l12 card-panel" style="padding-left: 5px; margin-top: 90px;">
-        @RenderBody()
+    //Html.RenderPartial("PartialForAnonymous");
+    <div id="index-banner" class="parallax-container" style="background: rgba(0, 0, 0, 0.6); margin-top: 65px; height: auto" >
+    <div class="section no-pad-bot">
+        <div class="container center ">
+            <div class="row">
+                <div class="col l12 s12 m5">
+                    @if (ViewContext.Controller.ValueProvider.GetValue("controller").RawValue.ToString().Contains("Home") &&
+                         ViewContext.Controller.ValueProvider.GetValue("action").RawValue.ToString().Contains("Index"))
+                    {
+                        <div class="row center">
+                            @Html.Partial("FeatureSlider")
+                            @Html.ActionLink("Get started", MVC.Account.Register(), new {@class = "btn blue btn-large waves-effect waves-light", @style = "width: auto !important"})
+                        </div>
+                        <div class="col s12 m12 l12 card-panel" style="padding-left: 5px; margin-top: 90px;">
+                            @RenderBody()
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="row center">
+                           @RenderBody()
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
     </div>
+    <div class="parallax" >
+        
+@if (ViewContext.Controller.ValueProvider.GetValue("controller").RawValue.ToString().Contains("Account") &&
+     ViewContext.Controller.ValueProvider.GetValue("action").RawValue.ToString().Contains("Login"))
+{
+    <img src="~/Graph/Backgrounds/background1.jpg">
+}
+
+@if (ViewContext.Controller.ValueProvider.GetValue("controller").RawValue.ToString().Contains("Account") &&
+                     ViewContext.Controller.ValueProvider.GetValue("action").RawValue.ToString().Contains("Register"))
+{
+    <img src="~/Graph/Backgrounds/background8.jpg">
+}
+else
+{
+    <img src="~/Graph/Backgrounds/background3.jpg">
+}
+
+
+    </div>
+</div>
+
+
 }
 else
 {
