@@ -101,37 +101,55 @@
                         @Html.Raw(formatedDate)
                     </td>
 
-                    <td class="center-align">
+                    <td class="left-align" style="vertical-align: middle;">
 
                         @{
                             if (item.CreateUserId.ToString() == User.Identity.GetUserId())
                             {
-                                <img src="data:image/png;base64, @Html.Raw(Convert.ToBase64String(ImageManager.GetByteArray(Resources.Images.edit_issue)))"
-                                     class="responsive-img tooltipped"
-                                     style="margin-top: 4px"
-                                     data-position="bottom"
-                                     data-delay="50"
-                                     data-tooltip="Edit" />
+                                <div class="col s12 m12 l12">
+                                    <a href="@Url.Action(MVC.Issues.Edit(item.Id))" class="black-text">
+                                        <img src="data:image/png;base64,
+                                         @Html.Raw(Convert.ToBase64String(ImageManager.GetByteArray(Resources.Images.edit_issue)))"
+                                        class="action-icon-small" />
+                                        Edit
+                                    </a>
+                                </div>
 
                                 if (item.Status == IssueStatus.Finished)
                                 {
-                                    <img src="data:image/png;base64, @Html.Raw(Convert.ToBase64String(ImageManager.GetByteArray(Resources.Images.close_issue)))"
-                                         class="responsive-img tooltipped"
-                                         style="margin-top: 4px"
-                                         data-position="bottom"
-                                         data-delay="50"
-                                         data-tooltip="Close" />
+                                    <div class="col s12 m12 l12">
+                                        <a href="@Url.Action(MVC.Issues.Edit(item.Id))" class="black-text">
+                                            <img src="data:image/png;base64,
+                                         @Html.Raw(Convert.ToBase64String(ImageManager.GetByteArray(Resources.Images.close_issue)))"
+                                                 class="action-icon-small" />
+                                            Close
+                                        </a>
+                                    </div>
                                 }
+                                if (item.Status == IssueStatus.Closed)
+                                {
+                                    <div class="col s12 m12 l12">
+                                        <a href="@Url.Action(MVC.Issues.Edit(item.Id))" class="black-text">
+                                            <img src="data:image/png;base64,
+                                         @Html.Raw(Convert.ToBase64String(ImageManager.GetByteArray(Resources.Images.reopen)))"
+                                                 class="action-icon-small" />
+                                            Open again
+                                        </a>
+                                    </div>
+                                }
+
 
                             }
                             else if (item.AssignUserId.ToString() == User.Identity.GetUserId())
                             {
-                                <img src="data:image/png;base64, @Html.Raw(Convert.ToBase64String(ImageManager.GetByteArray(Resources.Images.edit_issue)))"
-                                     class="responsive-img tooltipped"
-                                     style="margin-top: 4px"
-                                     data-position="bottom"
-                                     data-delay="50"
-                                     data-tooltip="Edit" />
+                                <a href="@Url.Action(MVC.Issues.Edit(item.Id))">
+                                    <img src="data:image/png;base64, @Html.Raw(Convert.ToBase64String(ImageManager.GetByteArray(Resources.Images.edit_issue)))"
+                                         class="responsive-img tooltipped"
+                                         style="margin-top: 4px;"
+                                         data-position="bottom"
+                                         data-delay="50"
+                                         data-tooltip="Edit" />
+                                </a>
                             }
 
                         }

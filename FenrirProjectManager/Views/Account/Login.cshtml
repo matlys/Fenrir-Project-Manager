@@ -12,17 +12,19 @@
 
             <div class="input-field col l12 m12 s12">
                 @Html.TextBoxFor(m => m.Email)
-                @Html.LabelFor(m => m.Email)
+                @Html.LabelFor(m => m.Email, new { @class= "form-label"})
+                @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
             </div>
 
             <div class="input-field col l12 m12 s12">
                 @Html.PasswordFor(m => m.Password, new { @style = "blue" })
                 @Html.LabelFor(m => m.Password)
+                @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
             </div>
             <div class="row col l12 m12 s12 left-align" style="padding-bottom: 30px;">
-
                 @Html.TextBoxFor(m => m.RememberMe, new { @type = "checkbox" })
                 @Html.LabelFor(m => m.RememberMe)
+                @Html.ValidationMessageFor(model => model.RememberMe, "", new { @class = "text-danger" })
             </div>
 
             <div class="card-action center">

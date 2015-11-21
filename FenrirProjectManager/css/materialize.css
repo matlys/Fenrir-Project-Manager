@@ -3,6 +3,22 @@
  * Copyright 2014-2015 Materialize
  * MIT License (https://raw.githubusercontent.com/Dogfalo/materialize/master/LICENSE)
  */
+
+/*
+
+   OWN STYLES
+
+*/
+
+a:link + .action-icon-small {
+    color: #000000 !important;
+    text-decoration: none;
+}
+.action-icon-small {
+    height: 24px;
+    vertical-align: middle;
+}
+
 .materialize-red.lighten-5 {
     background-color: #fdeaeb !important;
 }
@@ -8365,7 +8381,7 @@ button:focus {
 
 label {
     font-size: 0.8rem;
-    color: #FFF;
+    color: #000;
 }
 
 /***************************
@@ -8392,7 +8408,7 @@ label {
 input[type=text], input[type=password], input[type=email], input[type=url], input[type=time], input[type=date], input[type=datetime-local], input[type=tel], input[type=number], input[type=search], textarea.materialize-textarea {
     background-color: transparent;
     border: none;
-    border-bottom: 1px solid #FFF;
+    border-bottom: 1px solid #000;
     border-radius: 0;
     outline: none;
     height: 3rem;
@@ -8459,6 +8475,34 @@ input[type=text], input[type=password], input[type=email], input[type=url], inpu
     position: relative;
     margin-top: 1rem;
 }
+
+
+    .input-field .black-label {
+        color: #000;
+        position: absolute;
+        top: 0.8rem;
+        left: 0.75rem;
+        font-size: 1rem;
+        cursor: text;
+        -webkit-transition: .2s ease-out;
+        -moz-transition: .2s ease-out;
+        -o-transition: .2s ease-out;
+        -ms-transition: .2s ease-out;
+        transition: .2s ease-out;
+    }
+        .input-field .blue-label {
+        color: #26a69a;
+        position: absolute;
+        top: 0.8rem;
+        left: 0.75rem;
+        font-size: 1rem;
+        cursor: text;
+        -webkit-transition: .2s ease-out;
+        -moz-transition: .2s ease-out;
+        -o-transition: .2s ease-out;
+        -ms-transition: .2s ease-out;
+        transition: .2s ease-out;
+    }
 
     .input-field label {
         color: #FFF;
@@ -9028,6 +9072,7 @@ input[type=checkbox]:not(:disabled) ~ .lever:active:after {
 
     .select-wrapper + label {
         position: absolute;
+        color: #000;
         top: -14px;
         font-size: 0.8rem;
     }

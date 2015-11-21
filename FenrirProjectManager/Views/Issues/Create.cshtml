@@ -22,19 +22,19 @@
 
         <div class="input-field col l12 m12 s12">
             @Html.TextBoxFor(m => m.Title, new { @class = "validate" })
-            @Html.LabelFor(m => m.Title)
+            @Html.LabelFor(m => m.Title, new { @class= "black-label" })
             @Html.ValidationMessageFor(model => model.Title, "", new { @class = "text-danger" })
         </div>
 
         <div class="input-field col l12 m12 s12">
             @Html.TextAreaFor(m => m.Description, new { @class = "validate materialize-textarea" })
-            @Html.LabelFor(m => m.Description)
+            @Html.LabelFor(m => m.Description, new { @class = "black-label" })
             @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
         </div>
 
         <div class="input-field col l12 m12 s12">
             @Html.TextBoxFor(m => m.FinishDate)
-            @Html.LabelFor(m => m.FinishDate)
+            @Html.LabelFor(m => m.FinishDate, new { @class = "black-label" })
             @Html.ValidationMessageFor(model => model.FinishDate, "", new {@class = "text-danger"})
         </div>
 

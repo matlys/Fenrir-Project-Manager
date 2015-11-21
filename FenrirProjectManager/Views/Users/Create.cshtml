@@ -14,49 +14,42 @@
                          });
 }
 
+<div class="row center">
 
-@using (Html.BeginForm())
-{
-    @Html.AntiForgeryToken()
+    <h1>Create a new user</h1>
 
-    <div class="form-horizontal">
-        <h4>Enter user details:</h4>
+    @using (Html.BeginForm("Create", "Users", new {ViewBag.ReturnUrl}, FormMethod.Post))
+    {
+        @Html.AntiForgeryToken()
 
-        @Html.ValidationSummary(true, "", new {@class = "text-danger"})
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.UserRole, htmlAttributes: new {@class = "control-label col-md-2"})
+        <div class="input-field col l12 m12 s12">
             @Html.DropDownListFor(m => m.UserRole, selectList)
-            @Html.ValidationMessageFor(model => model.UserRole, "", new { @class = "text-danger" })
+            @Html.LabelFor(m => m.UserRole)
+            @Html.ValidationMessageFor(model => model.Email, "", new {@class = "text-danger"})
         </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.FirstName, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.FirstName, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.FirstName, "", new { @class = "text-danger" })
-            </div>
+        <div class="input-field col l12 m12 s12">
+            @Html.TextBoxFor(m => m.FirstName)
+            @Html.LabelFor(m => m.FirstName, new {@class = "black-label"})
+            @Html.ValidationMessageFor(model => model.FirstName, "", new {@class = "text-danger"})
         </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.LastName, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.LastName, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.LastName, "", new { @class = "text-danger" })
-            </div>
+        <div class="input-field col l12 m12 s12">
+            @Html.TextBoxFor(m => m.LastName)
+            @Html.LabelFor(m => m.LastName, new {@class = "black-label"})
+            @Html.ValidationMessageFor(model => model.LastName, "", new {@class = "text-danger"})
         </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
-            </div>
+        <div class="input-field col l12 m12 s12">
+            @Html.TextBoxFor(m => m.Email)
+            @Html.LabelFor(m => m.Email, new {@class = "black-label"})
+            @Html.ValidationMessageFor(model => model.Email, "", new {@class = "text-danger"})
         </div>
 
         <div class="center row">
-            <a class="btn btn-form grey waves-effect waves-light" href="@Url.Action(MVC.Users.Index())">Cancel</a>
-            <button class="btn btn-form blue lighten-1 waves-effect waves-light" type="submit" name="action">Save</button>
+            <a class="btn btn-form grey waves-effect waves-light" href="@Url.Action(MVC.Issues.Index())">Cancel</a>
+            <button class="btn btn-form blue lighten-1 waves-effect waves-light" type="submit" name="action">Create</button>
         </div>
-    </div>
-}
+    }
+
+</div>

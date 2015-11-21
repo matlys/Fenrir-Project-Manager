@@ -189,6 +189,22 @@ namespace FenrirProjectManager.Controllers
             return View(model);
         }
 
+        [HttpGet]
+        public virtual ActionResult CloseIssue(Guid issueId)
+        {
+            var issue = _issueRepo.GetIssueById(issueId);
+
+            if(issue == null)
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+
+            issue.Status = IssueStatus.Closed;
+            
+            _issueRepo.UpdateIssue(issue);
+            _issueRepo.SaveChanges();
+
+            return RedirectToAction(MVC.Issues.Index());
+        }
+
         #endregion
 
         #region Update methods

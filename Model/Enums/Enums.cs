@@ -54,10 +54,19 @@ namespace Model.Enums
     /// </summary>
     public enum IssueProgress
     {
+        [Display(Name = "No progress, sorry")]
         OnStart = 0,
+
+        [Display(Name = "I do something")]
         SomethingIsDone = 25,
-        DoneInHalf= 50,
-        AlmostDone= 75,
+
+        [Display(Name = "I think I'm in half")]
+        DoneInHalf = 50,
+
+        [Display(Name = "Almost done")]
+        AlmostDone = 75,
+
+        [Display(Name = "I'm finish")]
         Done = 100
     }
 
