@@ -74,6 +74,12 @@ namespace FenrirProjectManager.Controllers
         {
             return new T4MVC_System_Web_Mvc_ActionResult(Area, Name, ActionNames.DeleteConfirmed);
         }
+        [NonAction]
+        [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
+        public virtual System.Web.Mvc.ActionResult GetProjectProgres()
+        {
+            return new T4MVC_System_Web_Mvc_ActionResult(Area, Name, ActionNames.GetProjectProgres);
+        }
 
         [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
         public ProjectsController Actions { get { return MVC.Projects; } }
@@ -94,6 +100,7 @@ namespace FenrirProjectManager.Controllers
             public readonly string Edit = "Edit";
             public readonly string Delete = "Delete";
             public readonly string DeleteConfirmed = "Delete";
+            public readonly string GetProjectProgres = "GetProjectProgres";
         }
 
         [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
@@ -103,6 +110,7 @@ namespace FenrirProjectManager.Controllers
             public const string Edit = "Edit";
             public const string Delete = "Delete";
             public const string DeleteConfirmed = "Delete";
+            public const string GetProjectProgres = "GetProjectProgres";
         }
 
 
@@ -137,6 +145,14 @@ namespace FenrirProjectManager.Controllers
         public class ActionParamsClass_DeleteConfirmed
         {
             public readonly string id = "id";
+        }
+        static readonly ActionParamsClass_GetProjectProgres s_params_GetProjectProgres = new ActionParamsClass_GetProjectProgres();
+        [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
+        public ActionParamsClass_GetProjectProgres GetProjectProgresParams { get { return s_params_GetProjectProgres; } }
+        [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
+        public class ActionParamsClass_GetProjectProgres
+        {
+            public readonly string projectId = "projectId";
         }
         static readonly ViewsClass s_views = new ViewsClass();
         [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
@@ -221,6 +237,18 @@ namespace FenrirProjectManager.Controllers
             var callInfo = new T4MVC_System_Web_Mvc_ActionResult(Area, Name, ActionNames.DeleteConfirmed);
             ModelUnbinderHelpers.AddRouteValues(callInfo.RouteValueDictionary, "id", id);
             DeleteConfirmedOverride(callInfo, id);
+            return callInfo;
+        }
+
+        [NonAction]
+        partial void GetProjectProgresOverride(T4MVC_System_Web_Mvc_ActionResult callInfo, System.Guid projectId);
+
+        [NonAction]
+        public override System.Web.Mvc.ActionResult GetProjectProgres(System.Guid projectId)
+        {
+            var callInfo = new T4MVC_System_Web_Mvc_ActionResult(Area, Name, ActionNames.GetProjectProgres);
+            ModelUnbinderHelpers.AddRouteValues(callInfo.RouteValueDictionary, "projectId", projectId);
+            GetProjectProgresOverride(callInfo, projectId);
             return callInfo;
         }
 

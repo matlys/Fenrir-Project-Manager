@@ -1,0 +1,16 @@
+﻿@model  FenrirProjectManager.Models.ProgresBarViewModel
+
+<div class="card-panel" style="margin-top: 90px;">
+    <div class="row fenrir-progress-bar z-depth-1">
+        <div class="left bottom-layer" style="width: @Html.Raw(Model.Percent)%;"></div>
+        <div class="top-layer">@Html.Raw(Model.Percent)%</div>
+    </div>
+<!--
+<div class="row" style="margin-bottom: -12px">
+    <div class="col s6 m3 l3"> Features: 10 </div>
+    <div class="col s6 m3 l3"> Bugs: 6 </div>
+    <div class="col s6 m3 l3"> Tests: 4 </div>
+    <div class="col s6 m3 l3"> Team members: 7 </div>
+</div>
+    -->
+</div>

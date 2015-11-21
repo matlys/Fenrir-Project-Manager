@@ -167,5 +167,12 @@ namespace FenrirProjectManager.Controllers
         }
 
         #endregion
+
+        public virtual ActionResult GetProjectProgres(Guid projectId)
+        {
+            var progress = (int)_projectRepo.GetProjectProgress(projectId);
+
+            return PartialView("_ProgressBar", new ProgresBarViewModel() { Percent = progress });
+        }
     }
 }

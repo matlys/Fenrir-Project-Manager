@@ -1,0 +1,27 @@
+﻿/*
+    Made by FENRIR SOFTWARE
+*/
+
+.fenrir-progress-bar {
+    position: relative;
+    background: #e3f2fd;
+    text-align: center;
+    border-radius: 4px 4px 4px 4px;
+}
+
+.fenrir-progress-bar .bottom-layer {
+    z-index: 10;
+    height: 24px;
+    background-color: #2196f3;
+    border-radius: 4px 0 0 4px;
+}
+
+.fenrir-progress-bar .top-layer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: inherit;
+    font-weight: bold;
+}
