@@ -25,3 +25,9 @@
     border-radius: inherit;
     font-weight: bold;
 }
+
+.project-logo {
+    padding: 5px; 
+    height: 60px;
+    vertical-align: middle;
+}

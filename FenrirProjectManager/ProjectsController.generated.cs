@@ -76,9 +76,15 @@ namespace FenrirProjectManager.Controllers
         }
         [NonAction]
         [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
-        public virtual System.Web.Mvc.ActionResult GetProjectProgres()
+        public virtual System.Web.Mvc.ActionResult GetProjectHeader()
         {
-            return new T4MVC_System_Web_Mvc_ActionResult(Area, Name, ActionNames.GetProjectProgres);
+            return new T4MVC_System_Web_Mvc_ActionResult(Area, Name, ActionNames.GetProjectHeader);
+        }
+        [NonAction]
+        [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
+        public virtual System.Web.Mvc.ActionResult GetProjectProgress()
+        {
+            return new T4MVC_System_Web_Mvc_ActionResult(Area, Name, ActionNames.GetProjectProgress);
         }
 
         [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
@@ -100,7 +106,9 @@ namespace FenrirProjectManager.Controllers
             public readonly string Edit = "Edit";
             public readonly string Delete = "Delete";
             public readonly string DeleteConfirmed = "Delete";
-            public readonly string GetProjectProgres = "GetProjectProgres";
+            public readonly string GetProjectHeader = "GetProjectHeader";
+            public readonly string GetDefaultProjectHeader = "GetDefaultProjectHeader";
+            public readonly string GetProjectProgress = "GetProjectProgress";
         }
 
         [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
@@ -110,7 +118,9 @@ namespace FenrirProjectManager.Controllers
             public const string Edit = "Edit";
             public const string Delete = "Delete";
             public const string DeleteConfirmed = "Delete";
-            public const string GetProjectProgres = "GetProjectProgres";
+            public const string GetProjectHeader = "GetProjectHeader";
+            public const string GetDefaultProjectHeader = "GetDefaultProjectHeader";
+            public const string GetProjectProgress = "GetProjectProgress";
         }
 
 
@@ -146,11 +156,19 @@ namespace FenrirProjectManager.Controllers
         {
             public readonly string id = "id";
         }
-        static readonly ActionParamsClass_GetProjectProgres s_params_GetProjectProgres = new ActionParamsClass_GetProjectProgres();
+        static readonly ActionParamsClass_GetProjectHeader s_params_GetProjectHeader = new ActionParamsClass_GetProjectHeader();
         [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
-        public ActionParamsClass_GetProjectProgres GetProjectProgresParams { get { return s_params_GetProjectProgres; } }
+        public ActionParamsClass_GetProjectHeader GetProjectHeaderParams { get { return s_params_GetProjectHeader; } }
         [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
-        public class ActionParamsClass_GetProjectProgres
+        public class ActionParamsClass_GetProjectHeader
+        {
+            public readonly string projectId = "projectId";
+        }
+        static readonly ActionParamsClass_GetProjectProgress s_params_GetProjectProgress = new ActionParamsClass_GetProjectProgress();
+        [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
+        public ActionParamsClass_GetProjectProgress GetProjectProgressParams { get { return s_params_GetProjectProgress; } }
+        [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
+        public class ActionParamsClass_GetProjectProgress
         {
             public readonly string projectId = "projectId";
         }
@@ -241,14 +259,37 @@ namespace FenrirProjectManager.Controllers
         }
 
         [NonAction]
-        partial void GetProjectProgresOverride(T4MVC_System_Web_Mvc_ActionResult callInfo, System.Guid projectId);
+        partial void GetProjectHeaderOverride(T4MVC_System_Web_Mvc_ActionResult callInfo, System.Guid projectId);
 
         [NonAction]
-        public override System.Web.Mvc.ActionResult GetProjectProgres(System.Guid projectId)
+        public override System.Web.Mvc.ActionResult GetProjectHeader(System.Guid projectId)
         {
-            var callInfo = new T4MVC_System_Web_Mvc_ActionResult(Area, Name, ActionNames.GetProjectProgres);
+            var callInfo = new T4MVC_System_Web_Mvc_ActionResult(Area, Name, ActionNames.GetProjectHeader);
             ModelUnbinderHelpers.AddRouteValues(callInfo.RouteValueDictionary, "projectId", projectId);
-            GetProjectProgresOverride(callInfo, projectId);
+            GetProjectHeaderOverride(callInfo, projectId);
+            return callInfo;
+        }
+
+        [NonAction]
+        partial void GetDefaultProjectHeaderOverride(T4MVC_System_Web_Mvc_ActionResult callInfo);
+
+        [NonAction]
+        public override System.Web.Mvc.ActionResult GetDefaultProjectHeader()
+        {
+            var callInfo = new T4MVC_System_Web_Mvc_ActionResult(Area, Name, ActionNames.GetDefaultProjectHeader);
+            GetDefaultProjectHeaderOverride(callInfo);
+            return callInfo;
+        }
+
+        [NonAction]
+        partial void GetProjectProgressOverride(T4MVC_System_Web_Mvc_ActionResult callInfo, System.Guid projectId);
+
+        [NonAction]
+        public override System.Web.Mvc.ActionResult GetProjectProgress(System.Guid projectId)
+        {
+            var callInfo = new T4MVC_System_Web_Mvc_ActionResult(Area, Name, ActionNames.GetProjectProgress);
+            ModelUnbinderHelpers.AddRouteValues(callInfo.RouteValueDictionary, "projectId", projectId);
+            GetProjectProgressOverride(callInfo, projectId);
             return callInfo;
         }
 

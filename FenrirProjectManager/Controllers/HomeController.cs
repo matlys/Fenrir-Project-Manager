@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Web.Mvc;
+using FenrirProjectManager.Helpers;
 using FenrirProjectManager.Models;
 
 namespace FenrirProjectManager.Controllers
@@ -9,10 +10,11 @@ namespace FenrirProjectManager.Controllers
 
         public virtual ActionResult Index()
         {
-            if (User.Identity.IsAuthenticated) return RedirectToAction(MVC.Issues.Index());
-
             try
             {
+                if (User.Identity.IsAuthenticated)
+                    return RedirectToAction(MVC.Issues.Index());
+
                 return View();
             }
             catch (Exception exception)

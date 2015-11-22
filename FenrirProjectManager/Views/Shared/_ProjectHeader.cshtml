@@ -1,0 +1,20 @@
+﻿@model FenrirProjectManager.Models.ProjectHeaderViewModel
+
+@{
+
+    if (Model.ProjectLogo != null)
+    {
+        <a href="@Url.Action(Model.ActionLink)" class="brand-logo" id="logo-container">
+            <img src="data:image/png;base64,@Html.Raw(Convert.ToBase64String(Model.ProjectLogo))" class="project-logo"/>
+            @Model.ProjectName
+        </a>
+    }
+    else
+    {
+        <a href="@Url.Action(Model.ActionLink)" class="brand-logo" id="logo-container">
+            <img src="~/Graph/FENRIR_LOGO2.png" class="project-logo" />
+            @Model.ProjectName
+        </a>
+    }
+
+}

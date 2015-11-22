@@ -226,8 +226,10 @@
     <Compile Include="Models\ChangePasswordViewModel.cs" />
     <Compile Include="Models\ConfirmEmailByInvitationViewModel.cs" />
     <Compile Include="Models\ExceptionViewModel.cs" />
+    <Compile Include="Models\LayoutViewModel.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\ProgresBarViewModel.cs" />
+    <Compile Include="Models\ProjectHeaderViewModel.cs" />
     <Compile Include="Models\ProjectInfoModel.cs" />
     <Compile Include="Models\RegisterViewModel.cs" />
     <Compile Include="ProjectsController.generated.cs">
@@ -254,7 +256,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="css\fenrir_style.css" />
-    <Content Include="css\materialdesignicons.css" />
     <Content Include="css\materialdesignicons.min.css" />
     <Content Include="css\materialize.css" />
     <Content Include="css\slider.css" />
@@ -262,7 +263,6 @@
     <Content Include="favico.ico" />
     <Content Include="font\materialdesignicons-webfont.svg" />
     <Content Include="Global.asax" />
-    <Content Include="css\materialdesignicons.css.map" />
     <Content Include="css\materialdesignicons.min.css.map" />
     <Content Include="font\materialdesignicons-webfont.eot" />
     <Content Include="font\materialdesignicons-webfont.ttf" />
@@ -322,6 +322,12 @@
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Scripts\_references.js" />
+    <Content Include="scss\materialdesignicons.scss" />
+    <Content Include="scss\_core.scss" />
+    <Content Include="scss\_extras.scss" />
+    <Content Include="scss\_icons.scss" />
+    <Content Include="scss\_path.scss" />
+    <Content Include="scss\_variables.scss" />
     <None Include="T4MVC.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>T4MVC.cs</LastGenOutput>
@@ -390,11 +396,11 @@
     <Content Include="Views\Account\ConfirmEmailByInvitation.cshtml" />
     <Content Include="Views\Issues\Update.cshtml" />
     <Content Include="Views\Shared\_ProgressBar.cshtml" />
+    <Content Include="Views\Shared\_ProjectHeader.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Content\" />
-    <Folder Include="font\material-design-icons\" />
     <Folder Include="font\roboto\" />
     <Folder Include="Views\Email\" />
     <Folder Include="Views\Security\" />

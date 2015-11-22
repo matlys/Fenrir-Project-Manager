@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Net;
 using System.Web.Mvc;
@@ -47,10 +48,13 @@ namespace FenrirProjectManager.Controllers
         [Authorize]
         public virtual ActionResult Index()
         {
-            
-
             var userId = Guid.Parse(User.Identity.GetUserId());
-            var issues = _issueRepo.GetAllIssuesFromProject(_userRepo.GetUserById(userId).ProjectId).OrderByDescending(p=>p.CreationDate);
+            var projectId = _userRepo.GetUserById(userId).ProjectId;
+            var issues = _issueRepo.GetAllIssuesFromProject(projectId).AsNoTracking().OrderByDescending(p=>p.CreationDate);
+
+            ViewBag.ProjectId = projectId;
+            ViewBag.UserId = userId;
+
             return View(issues);
         }
 
@@ -73,6 +77,9 @@ namespace FenrirProjectManager.Controllers
 
             if (issue == null) return HttpNotFound();
 
+            ViewBag.ProjectId = user.ProjectId;
+            ViewBag.UserId = userId;
+
             return View(issue);
         }
 
@@ -81,7 +88,7 @@ namespace FenrirProjectManager.Controllers
         private List<SelectListItem> GetAvailableUsers(Guid projectId)
         {
             // only active developers and project managers can be assigned to issue
-            var users = _userRepo.GetAllUsersFromProject(projectId)
+            var users = _userRepo.GetAllUsersFromProject(projectId).AsNoTracking()
                 .Where(u => u.EmailConfirmed)
                 .Where(u => u.UserRole == UserRole.Developer ||
                             u.UserRole == UserRole.ProjectManager);
@@ -123,6 +130,8 @@ namespace FenrirProjectManager.Controllers
             };
 
             ViewBag.UsersList = usersList;
+            ViewBag.ProjectId = user.ProjectId;
+            ViewBag.UserId = userId;
             return View(model);
         }
 
@@ -171,7 +180,8 @@ namespace FenrirProjectManager.Controllers
 
             var usersList = GetAvailableUsers(user.ProjectId);
             ViewBag.UsersList = usersList;
-
+            ViewBag.ProjectId = user.ProjectId;
+            ViewBag.UserId = userId;
             return View(issue);
         }
 
@@ -219,6 +229,13 @@ namespace FenrirProjectManager.Controllers
 
             if (issue == null) return HttpNotFound();
 
+            // get logged user
+            var userId = Guid.Parse(User.Identity.GetUserId());
+            var user = _userRepo.GetUserById(userId);
+
+            ViewBag.ProjectId = user.ProjectId;
+            ViewBag.UserId = userId;
+
             return View(issue);
         }
 
@@ -254,6 +271,13 @@ namespace FenrirProjectManager.Controllers
             Issue issue = _issueRepo.GetIssueById((Guid)id);
 
             if (issue == null) return HttpNotFound();
+
+            // get logged user
+            var userId = Guid.Parse(User.Identity.GetUserId());
+            var user = _userRepo.GetUserById(userId);
+
+            ViewBag.ProjectId = user.ProjectId;
+            ViewBag.UserId = userId;
 
             return View(issue);
         }

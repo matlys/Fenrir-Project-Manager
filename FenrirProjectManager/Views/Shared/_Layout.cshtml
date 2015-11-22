@@ -2,219 +2,140 @@
 @using Microsoft.AspNet.Identity
 @using Model.Consts;
 @using Model.Models
-
 @{
-    User currentUser = null;
-    Project currentProject = null;
+    Guid projectId = Guid.Empty;
+    Guid userId = Guid.Empty;
     string userRole = string.Empty;
-    string projectProgress = string.Empty;
+
     if (User.Identity.IsAuthenticated)
     {
-        ProjectRepo _projectRepo = new ProjectRepo();
-        UserRepo _userRepo = new UserRepo();
-
-        Guid userId = Guid.Parse(User.Identity.GetUserId());
-        currentUser = _userRepo.GetUserById(userId);
-        currentProject = _projectRepo.GetProjectById(currentUser.ProjectId);
-        float progress = _projectRepo.GetProjectProgress(currentUser.ProjectId);
-        if (progress == 0f)
-        {
-            projectProgress = "0";
-        }
-        else
-        {
-            projectProgress = progress.ToString("##");
-        }
+        projectId = ViewBag.ProjectId;
+        userId = ViewBag.UserId;
     }
+
 }
-    <!DOCTYPE html>
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Fenrir - Project Manager</title>
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
     <link href="~/css/materialize.css" type="text/css" rel="stylesheet" media="screen,projection" />
-    <link href="~/css/style.css" type="text/css" rel="stylesheet" media="screen,projection"/>
-    <link href="~/css/slider.css" type="text/css" rel="stylesheet" media="screen,projection"/>
-
+    <link href="~/css/style.css" type="text/css" rel="stylesheet" media="screen,projection" />
+    <link href="~/css/slider.css" type="text/css" rel="stylesheet" media="screen,projection" />
     <!--fenrir style-->
-    <link href="~/css/fenrir_style.css" type="text/css" rel="stylesheet" media="screen,projection" />
-    <!-- material-desig-icons -->
-    <link href="css/materialdesignicons.min.css" media="all" rel="stylesheet" type="text/css" />
+    <link href="~/css/fenrir_style.css" type="text/css" rel="stylesheet" media="screen,projection"/>
 
-    <!-- for data picker -->
-    <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
-    <script src="//code.jquery.com/jquery-1.10.2.js"></script>
-    <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
-    <script>
-      $(function() {
-        $( "#datepicker" ).datepicker();
-      });
-    </script>
+    <!-- material design icons -->
+    <link href="~/css/materialdesignicons.min.css" type="text/css" rel="stylesheet" media="screen,projection" />
 </head>
-
 <body>
-
-<nav class="white" style="position: fixed; z-index: 3 !important; top: 0; opacity: 0.9; filter: alpha(opacity=90);" >
-    <div class="nav-wrapper container">
-        @{
-            if (currentProject?.Logo != null)
+    <nav class="white" style="position: fixed; z-index: 3 !important; top: 0; opacity: 0.9; filter: alpha(opacity=90);">
+        <div class="nav-wrapper container">
+            @if (Request.IsAuthenticated)
             {
-                <img src="data:image/png;base64,@Html.Raw(Convert.ToBase64String(currentProject.Logo))"
-                     style="padding: 10px; height: 65px;"
-                     class="responsive-img"/>
+                @Html.Action(MVC.Projects.GetProjectHeader(projectId))
+
+                if (User.IsInRole(Consts.AdministratorRole))
+                {
+                    Html.RenderPartial("Menu/projectManager_menu");
+                    userRole = "Administrator";
+                }
+                if (User.IsInRole(Consts.DeveloperRole))
+                {
+                    Html.RenderPartial("Menu/developer_menu");
+                    userRole = "Developer";
+                }
+                if (User.IsInRole(Consts.ProjectManagerRole))
+                {
+                    Html.RenderPartial("Menu/projectManager_menu");
+                    userRole = "Project manager";
+                }
+                if (User.IsInRole(Consts.ObserverRole))
+                {
+                    Html.RenderPartial("Menu/observer_menu");
+                    userRole = "Observer";
+                }
             }
             else
             {
-                <img src="~/Graph/FENRIR_LOGO2.png"
-                     style="padding: 10px; height: 65px;"
-                     class="responsive-img"/>
-            }
-        }
+                @Html.Action(MVC.Projects.GetDefaultProjectHeader());
 
-        @if (User.Identity.IsAuthenticated)
-        {
-            @Html.ActionLink(currentProject.Name, MVC.Issues.Index(),
-                new
-                {
-                    @class = "brand-logo",
-                    @id = "logo-container"
-                })
-        }
-        else
-        {
-            @Html.ActionLink("FENRIR PROJECT MANAGER", MVC.Home.Index(), new {@class = "brand-logo", @id = "logo-container"})
-        }
-
-
-        @if (Request.IsAuthenticated)
-        {
-            if (User.IsInRole(Consts.AdministratorRole))
-            {
-                Html.RenderPartial("Menu/projectManager_menu");
-                userRole = "Administrator";
+                Html.RenderPartial("Menu/default_menu");
             }
-            if (User.IsInRole(Consts.DeveloperRole))
-            {
-                Html.RenderPartial("Menu/developer_menu");
-                userRole = "Developer";
-            }
-            if (User.IsInRole(Consts.ProjectManagerRole))
-            {
-                Html.RenderPartial("Menu/projectManager_menu");
-                userRole = "Project manager";
-            }
-            if (User.IsInRole(Consts.ObserverRole))
-            {
-                Html.RenderPartial("Menu/observer_menu");
-                userRole = "Observer";
-            }
-        }
-        else
-        {
-            Html.RenderPartial("Menu/default_menu");
-        }
-    </div>
-</nav>
-
-@if (!Request.IsAuthenticated)
-{
-    //Html.RenderPartial("PartialForAnonymous");
-    <div id="index-banner" class="parallax-container" style="background: rgba(0, 0, 0, 0.6); margin-top: 65px; height: auto" >
-    <div class="section no-pad-bot">
-        <div class="container center ">
-            <div class="row">
-                <div class="col l12 s12 m5">
-                    @if (ViewContext.Controller.ValueProvider.GetValue("controller").RawValue.ToString().Contains("Home") &&
-                         ViewContext.Controller.ValueProvider.GetValue("action").RawValue.ToString().Contains("Index"))
-                    {
-                        <div class="row center">
-                            @Html.Partial("FeatureSlider")
-                            @Html.ActionLink("Get started", MVC.Account.Register(), new {@class = "btn blue btn-large waves-effect waves-light", @style = "width: auto !important"})
-                        </div>
-                        <div class="col s12 m12 l12 card-panel" style="padding-left: 5px; margin-top: 90px;">
-                            @RenderBody()
-                        </div>
-                    }
-                    else
-                    {
-                        <div class="row center">
-                           @RenderBody()
-                        </div>
-                    }
-                </div>
-            </div>
         </div>
-    </div>
-    <div class="parallax" >
-        
-@if (ViewContext.Controller.ValueProvider.GetValue("controller").RawValue.ToString().Contains("Account") &&
-     ViewContext.Controller.ValueProvider.GetValue("action").RawValue.ToString().Contains("Login"))
-{
-    <img src="~/Graph/Backgrounds/background1.jpg">
-}
-
-@if (ViewContext.Controller.ValueProvider.GetValue("controller").RawValue.ToString().Contains("Account") &&
-                     ViewContext.Controller.ValueProvider.GetValue("action").RawValue.ToString().Contains("Register"))
-{
-    <img src="~/Graph/Backgrounds/background8.jpg">
-}
-else
-{
-    <img src="~/Graph/Backgrounds/background3.jpg">
-}
-
-
-    </div>
-</div>
-
-
-}
-else
-{
-    <div class="container body-content">
-
-        @Html.Action(MVC.Projects.GetProjectProgres(currentProject.Id))
-
-        <div class="card-panel">
-            <div class="row">
-                <div class="col s2 m2 l2">
-                    <div class="center-align">
-                        <a href="@Url.Action(MVC.Users.Details())">
-                            <img src="data:image/png;base64,@Html.Raw(Convert.ToBase64String(currentUser.Avatar))"
-                                 class="border-rounded responsive-img tooltipped"
-                                 data-position="left"
-                                 data-delay="50"
-                                 data-tooltip="Hello @Html.Raw($"{currentUser.FirstName}!")" />
-                        </a>
-
-                        <h6> @Html.Raw($"{currentUser.FirstName} {currentUser.LastName}")</h6>
-                        @Html.Raw($"({userRole})")
+    </nav>
+    @if (!Request.IsAuthenticated)
+    {
+        //Html.RenderPartial("PartialForAnonymous");
+        <div id="index-banner" class="parallax-container" style="background: rgba(0, 0, 0, 0.6); margin-top: 65px; height: auto">
+            <div class="section no-pad-bot">
+                <div class="container center ">
+                    <div class="row">
+                        <div class="col l12 s12 m5">
+                            @if (ViewContext.Controller.ValueProvider.GetValue("controller").RawValue.ToString().Contains("Home") &&
+             ViewContext.Controller.ValueProvider.GetValue("action").RawValue.ToString().Contains("Index"))
+                            {
+                                <div class="row center">
+                                    @Html.Partial("FeatureSlider")
+                                    @Html.ActionLink("Get started", MVC.Account.Register(), new { @class = "btn blue btn-large waves-effect waves-light", @style = "width: auto !important" })
+                                </div>
+                                <div class="col s12 m12 l12 card-panel" style="padding-left: 5px; margin-top: 90px;">
+                                    @RenderBody()
+                                </div>
+                            }
+                            else
+                            {
+                                <div class="row center">
+                                    @RenderBody()
+                                </div>
+                            }
+                        </div>
                     </div>
                 </div>
-                <div class="col s10 m10 l10 card-panel" style="padding-left: 5px;">
+            </div>
+            <div class="parallax">
+
+                @if (ViewContext.Controller.ValueProvider.GetValue("controller").RawValue.ToString().Contains("Account") &&
+     ViewContext.Controller.ValueProvider.GetValue("action").RawValue.ToString().Contains("Login"))
+                {
+                    <img src="~/Graph/Backgrounds/background1.jpg">
+                }
+                @if (ViewContext.Controller.ValueProvider.GetValue("controller").RawValue.ToString().Contains("Account") &&
+                     ViewContext.Controller.ValueProvider.GetValue("action").RawValue.ToString().Contains("Register"))
+                {
+                    <img src="~/Graph/Backgrounds/background8.jpg">
+                }
+                else
+                {
+                    <img src="~/Graph/Backgrounds/background3.jpg">
+                }
+
+            </div>
+        </div>
+
+
+    }
+    else
+    {
+    <!-- CONTAIN FOR LOGGED USERS -->
+        <div class="container body-content">
+            @Html.Action(MVC.Projects.GetProjectProgress(projectId))
+            <div class="card-panel">
+                <div class="row">
                     @RenderBody()
+
                 </div>
             </div>
         </div>
-    </div>
-}
-
-<footer class="center-align">
-    <p>&copy; @DateTime.Now.Year - FENRIR SOFTWARE</p>
-</footer>
-
-<!-- Scripts-->
-<script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
-<script src="~/js/materialize.js"></script>
-<script src="~/js/init.js"></script>
-<script>
-
-    $(document).ready(function() {
-        $('select').material_select();
-    });
-</script>
-
+    }
+    <footer class="center-align">
+        <p>&copy; @DateTime.Now.Year - FENRIR SOFTWARE</p>
+    </footer>
+    <!-- Scripts-->
+    <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+    <script src="~/js/materialize.js"></script>
+    <script src="~/js/init.js"></script>
 </body>
 </html>

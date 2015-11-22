@@ -3,6 +3,7 @@
 @using Microsoft.AspNet.Identity
 @using Model.Consts
 @using Model.Enums
+
 @model IEnumerable<Model.Models.Issue>
 @{
     UserRepo _userRepo = new UserRepo();
@@ -37,6 +38,7 @@
 
             @foreach (var item in Model)
             {
+
                 <tr>
                     <td>
                         <a href="@Url.Action(MVC.Issues.Details(item.Id))" style="text-decoration: none !important; color:black !important;">
@@ -49,56 +51,28 @@
                             var assignedUser = _userRepo.GetUserById(item.AssignUserId);
                         }
 
-                        <img src="data:image/png;base64,@Html.Raw(Convert.ToBase64String(assignedUser.Avatar))"
-                             class="rounded responsive-img tooltipped"
-                             style="max-height: 50px"
-                             data-position="bottom"
-                             data-delay="50"
-                             data-tooltip="@Html.Raw($"{assignedUser.Email}")" />
                     </td>
                     <td class="center-align">
                         @{
                             switch (item.Type)
                             {
                                 case IssueType.Feature:
-                                    <img src="data:image/png;base64, @Html.Raw(Convert.ToBase64String(ImageManager.GetByteArray(Resources.Images.feature)))"
-                                         class="responsive-img tooltipped"
-                                         style="margin-top: 4px"
-                                         data-position="bottom"
-                                         data-delay="50"
-                                         data-tooltip=@Html.DisplayFor(modelItem => item.Type) />
+                                    <i class="mdi mdi-36px mdi-rocket"></i>
                                     break;
                                 case IssueType.Bug:
-                                    <img src="data:image/png;base64, @Html.Raw(Convert.ToBase64String(ImageManager.GetByteArray(Resources.Images.bug)))"
-                                         class="responsive-img tooltipped"
-                                         style="margin-top: 4px"
-                                         data-position="bottom"
-                                         data-delay="50"
-                                         data-tooltip=@Html.DisplayFor(modelItem => item.Type) />
+                                    <i class="mdi mdi-36px mdi-bug"></i>
                                     break;
                                 case IssueType.Test:
-                                    <img src="data:image/png;base64, @Html.Raw(Convert.ToBase64String(ImageManager.GetByteArray(Resources.Images.test)))"
-                                         class="responsive-img tooltipped"
-                                         style="margin-top: 4px"
-                                         data-position="bottom"
-                                         data-delay="50"
-                                         data-tooltip=@Html.DisplayFor(modelItem => item.Type) />
+                                    <i class="mdi mdi-36px mdi-beaker-outline"></i>
                                     break;
                             }
                         }
                     </td>
                     <td class="center-align">
-
-                        @{
-                            int progress = (int)item.Progress;
-                        }
-                        <strong>@Html.Raw($"{progress}%")</strong>
+                        <strong>@Html.Raw($"{(int)item.Progress}%")</strong>
                     </td>
                     <td class="center-align">
-                        @{
-                            string formatedDate = string.Format("{0:d}", item.FinishDate);
-                        }
-                        @Html.Raw(formatedDate)
+                        @Html.Raw($"{item.FinishDate:d}")
                     </td>
 
                     <td class="left-align" style="vertical-align: middle;">
@@ -106,34 +80,25 @@
                         @{
                             if (item.CreateUserId.ToString() == User.Identity.GetUserId())
                             {
-                                <div class="col s12 m12 l12">
+                                <div>
                                     <a href="@Url.Action(MVC.Issues.Edit(item.Id))" class="black-text">
-                                        <img src="data:image/png;base64,
-                                         @Html.Raw(Convert.ToBase64String(ImageManager.GetByteArray(Resources.Images.edit_issue)))"
-                                        class="action-icon-small" />
-                                        Edit
+                                        <i class="mdi mdi-24px mdi-pencil"></i> Edit
                                     </a>
                                 </div>
 
                                 if (item.Status == IssueStatus.Finished)
                                 {
-                                    <div class="col s12 m12 l12">
+                                    <div>
                                         <a href="@Url.Action(MVC.Issues.Edit(item.Id))" class="black-text">
-                                            <img src="data:image/png;base64,
-                                         @Html.Raw(Convert.ToBase64String(ImageManager.GetByteArray(Resources.Images.close_issue)))"
-                                                 class="action-icon-small" />
-                                            Close
+                                            <i class="mdi mdi-24px mdi-checkbox-marked-circle-outline"></i> Close
                                         </a>
                                     </div>
                                 }
                                 if (item.Status == IssueStatus.Closed)
                                 {
-                                    <div class="col s12 m12 l12">
+                                    <div>
                                         <a href="@Url.Action(MVC.Issues.Edit(item.Id))" class="black-text">
-                                            <img src="data:image/png;base64,
-                                         @Html.Raw(Convert.ToBase64String(ImageManager.GetByteArray(Resources.Images.reopen)))"
-                                                 class="action-icon-small" />
-                                            Open again
+                                            <i class="mdi mdi-24px mdi-refresh"></i> Open again
                                         </a>
                                     </div>
                                 }

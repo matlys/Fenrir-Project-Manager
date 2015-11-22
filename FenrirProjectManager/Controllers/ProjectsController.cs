@@ -168,11 +168,40 @@ namespace FenrirProjectManager.Controllers
 
         #endregion
 
-        public virtual ActionResult GetProjectProgres(Guid projectId)
+        public virtual ActionResult GetProjectHeader(Guid projectId)
+        {
+            var project = _projectRepo.GetProjectById(projectId);
+            var actionLink = MVC.Issues.Index();
+
+            var viewModel = new ProjectHeaderViewModel()
+            {
+                ProjectName = project.Name,
+                ProjectLogo = project.Logo,
+                ActionLink = actionLink
+            };
+
+            return PartialView("_ProjectHeader", viewModel);
+        }
+
+        public virtual ActionResult GetDefaultProjectHeader()
+        {
+            var actionLink = MVC.Home.Index();
+
+            var viewModel = new ProjectHeaderViewModel()
+            {
+                ProjectName = "FENRIR PROJECT MANAGER",
+                ProjectLogo = null,
+                ActionLink = actionLink
+            };
+
+            return PartialView("_ProjectHeader", viewModel);
+        }
+
+        public virtual ActionResult GetProjectProgress(Guid projectId)
         {
             var progress = (int)_projectRepo.GetProjectProgress(projectId);
 
-            return PartialView("_ProgressBar", new ProgresBarViewModel() { Percent = progress });
+            return PartialView("_ProgressBar", new ProgresBarViewModel() { Percent = progress});
         }
     }
 }

@@ -1,6 +1,6 @@
 ﻿namespace FenrirProjectManager.Models
 {
-    public class ProgresBarViewModel
+    public class ProgresBarViewModel : LayoutViewModel
     {
         public int Percent { get; set; }
     }

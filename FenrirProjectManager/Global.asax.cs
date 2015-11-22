@@ -17,15 +17,16 @@ namespace FenrirProjectManager
         {
             // build container
             _containerBuilder = new ContainerBuilder();
-            
-            // register controllers
-            _containerBuilder.RegisterType<HomeController>().InstancePerRequest();
-            _containerBuilder.RegisterType<AccountController>().InstancePerRequest();
-            _containerBuilder.RegisterType<ManageController>().InstancePerRequest();
-            _containerBuilder.RegisterType<UsersController>().InstancePerRequest();
-            _containerBuilder.RegisterType<ProjectsController>().InstancePerRequest();
-            _containerBuilder.RegisterType<IssuesController>().InstancePerRequest();
 
+            // register controllers
+            _containerBuilder.RegisterControllers(typeof(MvcApplication).Assembly).InstancePerRequest();
+            _containerBuilder.RegisterType<AccountController>().InstancePerDependency();
+            _containerBuilder.RegisterType<ManageController>().InstancePerDependency();
+            _containerBuilder.RegisterType<UsersController>().InstancePerDependency();
+            _containerBuilder.RegisterType<IssuesController>().InstancePerDependency();
+            _containerBuilder.RegisterType<HomeController>().InstancePerDependency();
+            _containerBuilder.RegisterType<ProjectsController>().InstancePerDependency();
+            
             // register services
             _containerBuilder.RegisterType<IssueRepo>().AsSelf().As<IIssueRepo>();
             _containerBuilder.RegisterType<ProjectRepo>().AsSelf().As<IProjectRepo>();
