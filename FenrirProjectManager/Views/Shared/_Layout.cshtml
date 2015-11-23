@@ -20,48 +20,34 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Fenrir - Project Manager</title>
-
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link href="~/css/materialize.css" type="text/css" rel="stylesheet" media="screen,projection" />
     <link href="~/css/style.css" type="text/css" rel="stylesheet" media="screen,projection" />
     <link href="~/css/slider.css" type="text/css" rel="stylesheet" media="screen,projection" />
     <!--fenrir style-->
-    <link href="~/css/fenrir_style.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+    <link href="~/css/fenrir_style.css" type="text/css" rel="stylesheet" media="screen,projection" />
 
     <!-- material design icons -->
-    <link href="~/css/materialdesignicons.min.css" type="text/css" rel="stylesheet" media="screen,projection" />
+    <link href="~/css/materialdesignicons.min.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+    <script src="//code.jquery.com/jquery-1.10.2.js"></script>
+    <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+    <script>
+      $(function() {
+        $( "#datepicker" ).datepicker();
+      });
+    </script>
 </head>
 <body>
-    <nav class="white" style="position: fixed; z-index: 3 !important; top: 0; opacity: 0.9; filter: alpha(opacity=90);">
+    <nav class="white project-nav-panel transparent-background">
         <div class="nav-wrapper container">
             @if (Request.IsAuthenticated)
             {
                 @Html.Action(MVC.Projects.GetProjectHeader(projectId))
-
-                if (User.IsInRole(Consts.AdministratorRole))
-                {
-                    Html.RenderPartial("Menu/projectManager_menu");
-                    userRole = "Administrator";
-                }
-                if (User.IsInRole(Consts.DeveloperRole))
-                {
-                    Html.RenderPartial("Menu/developer_menu");
-                    userRole = "Developer";
-                }
-                if (User.IsInRole(Consts.ProjectManagerRole))
-                {
-                    Html.RenderPartial("Menu/projectManager_menu");
-                    userRole = "Project manager";
-                }
-                if (User.IsInRole(Consts.ObserverRole))
-                {
-                    Html.RenderPartial("Menu/observer_menu");
-                    userRole = "Observer";
-                }
             }
             else
             {
-                @Html.Action(MVC.Projects.GetDefaultProjectHeader());
-
+                @Html.Action(MVC.Projects.GetDefaultProjectHeader())
                 Html.RenderPartial("Menu/default_menu");
             }
         </div>
@@ -75,7 +61,7 @@
                     <div class="row">
                         <div class="col l12 s12 m5">
                             @if (ViewContext.Controller.ValueProvider.GetValue("controller").RawValue.ToString().Contains("Home") &&
-             ViewContext.Controller.ValueProvider.GetValue("action").RawValue.ToString().Contains("Index"))
+ViewContext.Controller.ValueProvider.GetValue("action").RawValue.ToString().Contains("Index"))
                             {
                                 <div class="row center">
                                     @Html.Partial("FeatureSlider")
@@ -130,12 +116,58 @@
             </div>
         </div>
     }
-    <footer class="center-align">
+    <footer class="center-align" style="padding-bottom: 60px;">
         <p>&copy; @DateTime.Now.Year - FENRIR SOFTWARE</p>
     </footer>
+    @if (User.Identity.IsAuthenticated)
+    {
+        <nav class="white user-nav-panel transparent-background" style="height: 64px;">
+            <div class="nav-wrapper container black-text">
+                <div class="row">
+                    <div class="col s12 m12 l12">
+                        <div class="col s12 m4 l4">
+                            @Html.Action(MVC.Users.GetUserPanelData(userId))
+                        </div>
+                        <div class="col s18 m6 l8">
+                            @{
+                                if (User.IsInRole(Consts.AdministratorRole))
+                                {
+                                    Html.RenderPartial("Menu/projectManager_menu");
+                                    userRole = "Administrator";
+                                }
+                                if (User.IsInRole(Consts.DeveloperRole))
+                                {
+                                    Html.RenderPartial("Menu/developer_menu");
+                                    userRole = "Developer";
+                                }
+                                if (User.IsInRole(Consts.ProjectManagerRole))
+                                {
+                                    Html.RenderPartial("Menu/projectManager_menu");
+                                    userRole = "Project manager";
+                                }
+                                if (User.IsInRole(Consts.ObserverRole))
+                                {
+                                    Html.RenderPartial("Menu/observer_menu");
+                                    userRole = "Observer";
+                                }
+                            }
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </nav>
+    }
     <!-- Scripts-->
     <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
     <script src="~/js/materialize.js"></script>
     <script src="~/js/init.js"></script>
+    <script>
+
+    $(document).ready(function() {
+        $('select').material_select();
+    });
+    </script>
 </body>
+
 </html>

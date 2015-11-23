@@ -43,6 +43,7 @@ namespace T4MVC
                 public readonly string _NotLoggedInLayout = "_NotLoggedInLayout";
                 public readonly string _ProgressBar = "_ProgressBar";
                 public readonly string _ProjectHeader = "_ProjectHeader";
+                public readonly string _UserPanel = "_UserPanel";
                 public readonly string Error = "Error";
                 public readonly string FeatureSlider = "FeatureSlider";
                 public readonly string Lockout = "Lockout";
@@ -54,6 +55,7 @@ namespace T4MVC
             public readonly string _NotLoggedInLayout = "~/Views/Shared/_NotLoggedInLayout.cshtml";
             public readonly string _ProgressBar = "~/Views/Shared/_ProgressBar.cshtml";
             public readonly string _ProjectHeader = "~/Views/Shared/_ProjectHeader.cshtml";
+            public readonly string _UserPanel = "~/Views/Shared/_UserPanel.cshtml";
             public readonly string Error = "~/Views/Shared/Error.cshtml";
             public readonly string FeatureSlider = "~/Views/Shared/FeatureSlider.cshtml";
             public readonly string Lockout = "~/Views/Shared/Lockout.cshtml";

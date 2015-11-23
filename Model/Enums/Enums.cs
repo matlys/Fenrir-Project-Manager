@@ -75,7 +75,7 @@ namespace Model.Enums
     /// </summary>
     public enum UserRole
     {
-        [Display(Name = "")]
+        [Display(Name = "Administrator")]
         Administrator = 1,
 
         [Display(Name = "Project manager")]

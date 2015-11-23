@@ -76,9 +76,9 @@ namespace FenrirProjectManager.Controllers
         }
         [NonAction]
         [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
-        public virtual System.Web.Mvc.ActionResult MyIssues()
+        public virtual System.Web.Mvc.ActionResult GetUserPanelData()
         {
-            return new T4MVC_System_Web_Mvc_ActionResult(Area, Name, ActionNames.MyIssues);
+            return new T4MVC_System_Web_Mvc_ActionResult(Area, Name, ActionNames.GetUserPanelData);
         }
 
         [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
@@ -102,7 +102,7 @@ namespace FenrirProjectManager.Controllers
             public readonly string Edit = "Edit";
             public readonly string Delete = "Delete";
             public readonly string DeleteConfirmed = "Delete";
-            public readonly string MyIssues = "MyIssues";
+            public readonly string GetUserPanelData = "GetUserPanelData";
         }
 
         [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
@@ -114,7 +114,7 @@ namespace FenrirProjectManager.Controllers
             public const string Edit = "Edit";
             public const string Delete = "Delete";
             public const string DeleteConfirmed = "Delete";
-            public const string MyIssues = "MyIssues";
+            public const string GetUserPanelData = "GetUserPanelData";
         }
 
 
@@ -158,11 +158,11 @@ namespace FenrirProjectManager.Controllers
         {
             public readonly string id = "id";
         }
-        static readonly ActionParamsClass_MyIssues s_params_MyIssues = new ActionParamsClass_MyIssues();
+        static readonly ActionParamsClass_GetUserPanelData s_params_GetUserPanelData = new ActionParamsClass_GetUserPanelData();
         [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
-        public ActionParamsClass_MyIssues MyIssuesParams { get { return s_params_MyIssues; } }
+        public ActionParamsClass_GetUserPanelData GetUserPanelDataParams { get { return s_params_GetUserPanelData; } }
         [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
-        public class ActionParamsClass_MyIssues
+        public class ActionParamsClass_GetUserPanelData
         {
             public readonly string userId = "userId";
         }
@@ -289,14 +289,14 @@ namespace FenrirProjectManager.Controllers
         }
 
         [NonAction]
-        partial void MyIssuesOverride(T4MVC_System_Web_Mvc_ActionResult callInfo, System.Guid userId);
+        partial void GetUserPanelDataOverride(T4MVC_System_Web_Mvc_ActionResult callInfo, System.Guid userId);
 
         [NonAction]
-        public override System.Web.Mvc.ActionResult MyIssues(System.Guid userId)
+        public override System.Web.Mvc.ActionResult GetUserPanelData(System.Guid userId)
         {
-            var callInfo = new T4MVC_System_Web_Mvc_ActionResult(Area, Name, ActionNames.MyIssues);
+            var callInfo = new T4MVC_System_Web_Mvc_ActionResult(Area, Name, ActionNames.GetUserPanelData);
             ModelUnbinderHelpers.AddRouteValues(callInfo.RouteValueDictionary, "userId", userId);
-            MyIssuesOverride(callInfo, userId);
+            GetUserPanelDataOverride(callInfo, userId);
             return callInfo;
         }
 

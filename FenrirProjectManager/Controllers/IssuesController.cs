@@ -20,20 +20,11 @@ namespace FenrirProjectManager.Controllers
         private readonly IIssueRepo _issueRepo;
         private readonly IUserRepo _userRepo;
      
-
         public IssuesController(IIssueRepo issueRepo, IUserRepo userRepo)
         {
             _issueRepo = issueRepo;
             _userRepo = userRepo;
         }
-
-        private bool ValidAccess(Guid projectId)
-        {
-            var userId = Guid.Parse(User.Identity.GetUserId());
-            if (_userRepo.GetUserById(userId).ProjectId != projectId) return false;
-            return true;
-        }
-
 
         [HttpGet]
         [AllowRoles(Consts.DeveloperRole, Consts.ProjectManagerRole)]
@@ -41,6 +32,9 @@ namespace FenrirProjectManager.Controllers
         {
             var userId = Guid.Parse(User.Identity.GetUserId());
             var issues = _issueRepo.GetAllIssuesFromUser(userId);
+
+            SetAdditionalViewData(_userRepo.GetUserById(userId));
+
             return View("Index", issues);
         }
 
@@ -50,10 +44,9 @@ namespace FenrirProjectManager.Controllers
         {
             var userId = Guid.Parse(User.Identity.GetUserId());
             var projectId = _userRepo.GetUserById(userId).ProjectId;
-            var issues = _issueRepo.GetAllIssuesFromProject(projectId).AsNoTracking().OrderByDescending(p=>p.CreationDate);
+            var issues = _issueRepo.GetAllIssuesFromProject(projectId).OrderByDescending(p=>p.CreationDate);
 
-            ViewBag.ProjectId = projectId;
-            ViewBag.UserId = userId;
+            SetAdditionalViewData(_userRepo.GetUserById(userId));
 
             return View(issues);
         }
@@ -77,36 +70,9 @@ namespace FenrirProjectManager.Controllers
 
             if (issue == null) return HttpNotFound();
 
-            ViewBag.ProjectId = user.ProjectId;
-            ViewBag.UserId = userId;
+            SetAdditionalViewData(_userRepo.GetUserById(userId));
 
             return View(issue);
-        }
-
-        #region Create methods
-
-        private List<SelectListItem> GetAvailableUsers(Guid projectId)
-        {
-            // only active developers and project managers can be assigned to issue
-            var users = _userRepo.GetAllUsersFromProject(projectId).AsNoTracking()
-                .Where(u => u.EmailConfirmed)
-                .Where(u => u.UserRole == UserRole.Developer ||
-                            u.UserRole == UserRole.ProjectManager);
-
-            List<SelectListItem> usersList = new List<SelectListItem>();
-
-            foreach (var item in users)
-            {
-                var role = item.UserRole.ToString();
-                if (item.UserRole == UserRole.ProjectManager)
-                    role = "Project manager";
-                
-                var fullName = $"{item.FirstName} {item.LastName} ({role})";
-
-                usersList.Add(new SelectListItem() { Text = fullName, Value = item.Id });
-            }
-
-            return usersList;
         }
 
         [HttpGet]
@@ -116,9 +82,7 @@ namespace FenrirProjectManager.Controllers
             // get logged user
             var userId = Guid.Parse(User.Identity.GetUserId());
             var user = _userRepo.GetUserById(userId);
-
             var usersList = GetAvailableUsers(user.ProjectId);
-
 
             // prepare model
             Issue model = new Issue()
@@ -130,8 +94,9 @@ namespace FenrirProjectManager.Controllers
             };
 
             ViewBag.UsersList = usersList;
-            ViewBag.ProjectId = user.ProjectId;
-            ViewBag.UserId = userId;
+
+            SetAdditionalViewData(_userRepo.GetUserById(userId));
+
             return View(model);
         }
 
@@ -160,10 +125,6 @@ namespace FenrirProjectManager.Controllers
             return View(issue);
         }
 
-        #endregion
-
-        #region Edit methods
-
         [HttpGet]
         [AllowRoles(Consts.ProjectManagerRole, Consts.AdministratorRole)]
         public virtual ActionResult Edit(Guid? id)
@@ -180,8 +141,7 @@ namespace FenrirProjectManager.Controllers
 
             var usersList = GetAvailableUsers(user.ProjectId);
             ViewBag.UsersList = usersList;
-            ViewBag.ProjectId = user.ProjectId;
-            ViewBag.UserId = userId;
+            SetAdditionalViewData(_userRepo.GetUserById(userId));
             return View(issue);
         }
 
@@ -200,26 +160,6 @@ namespace FenrirProjectManager.Controllers
         }
 
         [HttpGet]
-        public virtual ActionResult CloseIssue(Guid issueId)
-        {
-            var issue = _issueRepo.GetIssueById(issueId);
-
-            if(issue == null)
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-
-            issue.Status = IssueStatus.Closed;
-            
-            _issueRepo.UpdateIssue(issue);
-            _issueRepo.SaveChanges();
-
-            return RedirectToAction(MVC.Issues.Index());
-        }
-
-        #endregion
-
-        #region Update methods
-
-        [HttpGet]
         [AllowRoles(Consts.DeveloperRole, Consts.ProjectManagerRole, Consts.AdministratorRole)]
         public virtual ActionResult Update(Guid? id)
         {
@@ -231,10 +171,8 @@ namespace FenrirProjectManager.Controllers
 
             // get logged user
             var userId = Guid.Parse(User.Identity.GetUserId());
-            var user = _userRepo.GetUserById(userId);
 
-            ViewBag.ProjectId = user.ProjectId;
-            ViewBag.UserId = userId;
+            SetAdditionalViewData(_userRepo.GetUserById(userId));
 
             return View(issue);
         }
@@ -260,8 +198,6 @@ namespace FenrirProjectManager.Controllers
             return View(model);
         }
 
-        #endregion
-
         [HttpGet]
         [AllowRoles(Consts.ProjectManagerRole, Consts.AdministratorRole)]
         public virtual ActionResult Delete(Guid? id)
@@ -274,10 +210,8 @@ namespace FenrirProjectManager.Controllers
 
             // get logged user
             var userId = Guid.Parse(User.Identity.GetUserId());
-            var user = _userRepo.GetUserById(userId);
-
-            ViewBag.ProjectId = user.ProjectId;
-            ViewBag.UserId = userId;
+            
+            SetAdditionalViewData(_userRepo.GetUserById(userId));
 
             return View(issue);
         }
@@ -301,6 +235,36 @@ namespace FenrirProjectManager.Controllers
                 //_issueRepo.Dispose();
             }
             base.Dispose(disposing);
+        }
+
+        private List<SelectListItem> GetAvailableUsers(Guid projectId)
+        {
+            // only active developers and project managers can be assigned to issue
+            var users = _userRepo.GetAllUsersFromProject(projectId).AsNoTracking()
+                .Where(u => u.EmailConfirmed)
+                .Where(u => u.UserRole == UserRole.Developer ||
+                            u.UserRole == UserRole.ProjectManager);
+
+            List<SelectListItem> usersList = new List<SelectListItem>();
+
+            foreach (var item in users)
+            {
+                var role = item.UserRole.ToString();
+                if (item.UserRole == UserRole.ProjectManager)
+                    role = "Project manager";
+
+                var fullName = $"{item.FirstName} {item.LastName} ({role})";
+
+                usersList.Add(new SelectListItem() { Text = fullName, Value = item.Id });
+            }
+
+            return usersList;
+        }
+
+        private void SetAdditionalViewData(User userInfo)
+        {
+            ViewBag.ProjectId = userInfo.ProjectId;
+            ViewBag.UserId = Guid.Parse(userInfo.Id);
         }
     }
 }

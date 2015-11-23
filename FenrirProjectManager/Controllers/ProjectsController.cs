@@ -51,6 +51,8 @@ namespace FenrirProjectManager.Controllers
 
                 if (project == null) return HttpNotFound();
 
+                SetAdditionalViewData(user);
+
                 return View(project);
             }
             catch (Exception exception)
@@ -68,21 +70,18 @@ namespace FenrirProjectManager.Controllers
         [AllowRoles(Consts.ProjectManagerRole, Consts.AdministratorRole)]
         public virtual ActionResult Edit()
         {
-            
-
             try
             {
                 // get logged user
                 Guid userId = Guid.Parse(User.Identity.GetUserId());
                 var user = _userRepo.GetUserById(userId);
 
-                var dupa = _projectRepo.GetProjectProgress(user.ProjectId);
-
                 // get project of logged user
                 var project = _projectRepo.GetProjectById(user.ProjectId);
 
-
                 if (project == null) return HttpNotFound();
+
+                SetAdditionalViewData(user);
 
                 return View(project);
             }
@@ -147,6 +146,9 @@ namespace FenrirProjectManager.Controllers
                 if (project == null)
                     return HttpNotFound();
 
+                var user = _userRepo.GetUserById(Guid.Parse(User.Identity.GetUserId()));
+                SetAdditionalViewData(user);
+
                 return View(project);
             }
             catch (Exception exception)
@@ -202,6 +204,12 @@ namespace FenrirProjectManager.Controllers
             var progress = (int)_projectRepo.GetProjectProgress(projectId);
 
             return PartialView("_ProgressBar", new ProgresBarViewModel() { Percent = progress});
+        }
+
+        private void SetAdditionalViewData(User userInfo)
+        {
+            ViewBag.ProjectId = userInfo.ProjectId;
+            ViewBag.UserId = Guid.Parse(userInfo.Id);
         }
     }
 }

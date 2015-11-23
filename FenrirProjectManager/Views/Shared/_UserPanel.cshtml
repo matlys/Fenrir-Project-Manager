@@ -1,0 +1,21 @@
+﻿@model FenrirProjectManager.Models.UserPanelViewModel
+
+
+
+<div class="row">
+    <a href="@Url.Action(MVC.Users.Details(Model.UserId.ToString()))">
+        <div class="col s2 m2 l2">
+            <img src="data:image/png;base64,@Html.Raw(Convert.ToBase64String(Model.Avatar))" class="user-avatar" />
+        </div>
+
+        <div class=" col s8 m8 l8 black-text user-avatar-text">
+            <p>@Html.Raw($"{Model.FirstName} {Model.LastName}")</p>
+        </div>
+    </a>
+
+    <div class="new-notification" style="display: inline-flex">
+        <i class="mdi mdi-18px mdi-bell"></i>
+        <b>(6)</b>
+    </div>
+</div>
+

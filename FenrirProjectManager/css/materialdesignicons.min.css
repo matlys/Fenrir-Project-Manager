@@ -7,13 +7,14 @@
 }
 .mdi {
     vertical-align: middle;
-    display: inline-block;
+    display: inline;
     font: normal normal normal 24px/1 'materialdesignicons-webfont';
     font-size: inherit;
     text-rendering: auto;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     transform: translate(0, 0);
+    padding: 0 5px;
 }
 
 .mdi-access-point:before {

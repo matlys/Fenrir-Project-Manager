@@ -1,58 +1,34 @@
 ﻿@using FenrirProjectManager.Helpers
 <ul class="right hide-on-med-and-down">
     <ul class="nav navbar-nav navbar-right">
+
         <li>
-            <a href="@Url.Action(MVC.Issues.Create())">
-                <img src="data:image/png;base64, @Html.Raw(Convert.ToBase64String(ImageManager.GetByteArray(Resources.Images.add_issue)))"
-                     class="responsive-img tooltipped"
-                     style="margin-top: 5px"
-                     data-position="bottom"
-                     data-delay="50"
-                     data-tooltip="Add new issue" />
+            <a href="@Url.Action(MVC.Issues.Create())" class="black-text">
+                <i class="mdi mdi-24px  mdi-note-plus-outline"></i> Add issue
             </a>
         </li>
 
         <li>
-            <a href="@Url.Action(MVC.Users.Create())">
-                <img src="data:image/png;base64, @Html.Raw(Convert.ToBase64String(ImageManager.GetByteArray(Resources.Images.add_member)))"
-                     class="responsive-img tooltipped"
-                     style="margin-top: 5px"
-                     data-position="bottom"
-                     data-delay="50"
-                     data-tooltip="Add new member" />
+            <a href="@Url.Action(MVC.Projects.Details())" class="black-text">
+                <i class="mdi mdi-24px mdi-account-plus"></i> Add member
             </a>
         </li>
 
         <li>
-            <a href="@Url.Action(MVC.Projects.Details())">
-                <img src="data:image/png;base64, @Html.Raw(Convert.ToBase64String(ImageManager.GetByteArray(Resources.Images.project_settings)))"
-                     class="responsive-img tooltipped"
-                     style="margin-top: 6px; height: 43px;"
-                     data-position="bottom"
-                     data-delay="50"
-                     data-tooltip="Project settings" />
+            <a href="@Url.Action(MVC.Projects.Details())" class="black-text">
+                <i class="mdi mdi-24px mdi-wrench"></i> Project settings
             </a>
         </li>
 
         <li>
-            <a href="@Url.Action(MVC.Users.Details())">
-                <img src="data:image/png;base64, @Html.Raw(Convert.ToBase64String(ImageManager.GetByteArray(Resources.Images.user_settings)))"
-                     class="responsive-img tooltipped"
-                     style="margin-top: 5px"
-                     data-position="bottom"
-                     data-delay="50"
-                     data-tooltip="Account settings" />
+            <a href="@Url.Action(MVC.Users.Details())" class="black-text">
+                <i class="mdi mdi-24px  mdi-settings"></i> Settings
             </a>
         </li>
 
         <li>
-            <a href="@Url.Action(MVC.Account.LogOff())">
-                <img src="data:image/png;base64, @Html.Raw(Convert.ToBase64String(ImageManager.GetByteArray(Resources.Images.logout)))"
-                     class="responsive-img tooltipped"
-                     style="margin-top: 5px"
-                     data-position="bottom"
-                     data-delay="50"
-                     data-tooltip="Logout" />
+            <a href="@Url.Action(MVC.Account.LogOff())" class="black-text">
+                <i class="mdi mdi-24px  mdi-logout"></i> Logout
             </a>
         </li>
     </ul>

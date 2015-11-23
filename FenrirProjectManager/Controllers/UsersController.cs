@@ -60,6 +60,8 @@ namespace FenrirProjectManager.Controllers
                 if (user == null)
                     return HttpNotFound();
 
+
+
                 return View(user);
             }
             catch (Exception exception)
@@ -83,7 +85,9 @@ namespace FenrirProjectManager.Controllers
                 new SelectListItem {Text = Consts.DeveloperRole, Value = "3"},
                 new SelectListItem {Text = Consts.ObserverRole, Value = "4"}
             };
-
+            var userId = User.Identity.GetUserId();
+            User user = _userRepo.GetUserById(Guid.Parse(userId));
+            SetAdditionalViewData(user);
             ViewBag.UserRoles = items;
             return View();
         }
@@ -181,7 +185,8 @@ namespace FenrirProjectManager.Controllers
             if (user == null)
                 return HttpNotFound();
 
-            ViewBag.ProjectId = new SelectList(_projectRepo.GetAllProjects(), "Id", "Name", user.ProjectId);
+            SetAdditionalViewData(user);
+
             return View(user);
         }
 
@@ -228,6 +233,8 @@ namespace FenrirProjectManager.Controllers
             if (user == null)
                 return HttpNotFound();
 
+            SetAdditionalViewData(user);
+
             return View(user);
         }
 
@@ -240,11 +247,20 @@ namespace FenrirProjectManager.Controllers
             return RedirectToAction("Index");
         }
 
-        public virtual ActionResult MyIssues(Guid userId)
+        public virtual ActionResult GetUserPanelData(Guid userId)
         {
-            //todo: view for user issues
-            //todo: viewmodel for user issues;
-            return MVC.Issues.Index();
+            var user = _userRepo.GetUserById(userId);
+
+            var viewModel = new UserPanelViewModel()
+            {
+                UserId = Guid.Parse(user.Id),
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                Role = user.UserRole.ToString(),
+                Avatar = user.Avatar
+            };
+
+            return PartialView("_UserPanel", viewModel);
         }
 
         protected override void Dispose(bool disposing)
@@ -254,6 +270,12 @@ namespace FenrirProjectManager.Controllers
                 //_userRepo.Dispose();
             }
             base.Dispose(disposing);
+        }
+
+        private void SetAdditionalViewData(User userInfo)
+        {
+            ViewBag.ProjectId = userInfo.ProjectId;
+            ViewBag.UserId = Guid.Parse(userInfo.Id);
         }
     }
 }

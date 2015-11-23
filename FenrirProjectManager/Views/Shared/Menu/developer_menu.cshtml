@@ -1,15 +1,21 @@
 ﻿<ul class="right hide-on-med-and-down">
     <ul class="nav navbar-nav navbar-right">
         <li>
-            <a class="black-text green-hover hover-animation" href="@Url.Action(MVC.Issues.MyIssues())">My issues</a>
+            <a href="#" class="black-text">
+                <i class="mdi mdi-24px mdi-clipboard-text"></i> My issues
+            </a>
         </li>
 
         <li>
-            <a class="black-text blue-hover hover-animation" href="@Url.Action(MVC.Users.Details())">Settings</a>
+            <a href="@Url.Action(MVC.Users.Details())" class="black-text">
+                <i class="mdi mdi-24px  mdi-settings"></i> Settings
+            </a>
         </li>
 
         <li>
-            <a class="black-text indigo-hover hover-animation" href="@Url.Action(MVC.Account.LogOff())">Logout</a>
+            <a href="@Url.Action(MVC.Account.LogOff())" class="black-text">
+                <i class="mdi mdi-24px  mdi-logout"></i> Logout
+            </a>
         </li>
     </ul>
 </ul>

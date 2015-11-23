@@ -70,12 +70,6 @@ namespace FenrirProjectManager.Controllers
         }
         [NonAction]
         [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
-        public virtual System.Web.Mvc.ActionResult CloseIssue()
-        {
-            return new T4MVC_System_Web_Mvc_ActionResult(Area, Name, ActionNames.CloseIssue);
-        }
-        [NonAction]
-        [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
         public virtual System.Web.Mvc.ActionResult Update()
         {
             return new T4MVC_System_Web_Mvc_ActionResult(Area, Name, ActionNames.Update);
@@ -113,7 +107,6 @@ namespace FenrirProjectManager.Controllers
             public readonly string Details = "Details";
             public readonly string Create = "Create";
             public readonly string Edit = "Edit";
-            public readonly string CloseIssue = "CloseIssue";
             public readonly string Update = "Update";
             public readonly string Delete = "Delete";
             public readonly string DeleteConfirmed = "Delete";
@@ -127,7 +120,6 @@ namespace FenrirProjectManager.Controllers
             public const string Details = "Details";
             public const string Create = "Create";
             public const string Edit = "Edit";
-            public const string CloseIssue = "CloseIssue";
             public const string Update = "Update";
             public const string Delete = "Delete";
             public const string DeleteConfirmed = "Delete";
@@ -158,14 +150,6 @@ namespace FenrirProjectManager.Controllers
         {
             public readonly string id = "id";
             public readonly string model = "model";
-        }
-        static readonly ActionParamsClass_CloseIssue s_params_CloseIssue = new ActionParamsClass_CloseIssue();
-        [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
-        public ActionParamsClass_CloseIssue CloseIssueParams { get { return s_params_CloseIssue; } }
-        [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
-        public class ActionParamsClass_CloseIssue
-        {
-            public readonly string issueId = "issueId";
         }
         static readonly ActionParamsClass_Update s_params_Update = new ActionParamsClass_Update();
         [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
@@ -301,18 +285,6 @@ namespace FenrirProjectManager.Controllers
             var callInfo = new T4MVC_System_Web_Mvc_ActionResult(Area, Name, ActionNames.Edit);
             ModelUnbinderHelpers.AddRouteValues(callInfo.RouteValueDictionary, "model", model);
             EditOverride(callInfo, model);
-            return callInfo;
-        }
-
-        [NonAction]
-        partial void CloseIssueOverride(T4MVC_System_Web_Mvc_ActionResult callInfo, System.Guid issueId);
-
-        [NonAction]
-        public override System.Web.Mvc.ActionResult CloseIssue(System.Guid issueId)
-        {
-            var callInfo = new T4MVC_System_Web_Mvc_ActionResult(Area, Name, ActionNames.CloseIssue);
-            ModelUnbinderHelpers.AddRouteValues(callInfo.RouteValueDictionary, "issueId", issueId);
-            CloseIssueOverride(callInfo, issueId);
             return callInfo;
         }
 

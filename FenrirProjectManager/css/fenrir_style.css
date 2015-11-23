@@ -27,7 +27,48 @@
 }
 
 .project-logo {
-    padding: 5px; 
+    margin-bottom: 5px;
     height: 60px;
     vertical-align: middle;
+}
+
+.project-nav-panel {
+    position: fixed; 
+    z-index: 3 !important; 
+    top: 0; 
+}
+.user-nav-panel {
+    position: fixed;
+    bottom: 0;
+    vertical-align: middle;
+}
+
+.user-avatar {
+    padding: 2px;
+    margin-bottom: 2px;
+    height: 60px;
+    vertical-align: middle;
+}
+
+.user-avatar-text {
+    font-weight: bold;
+    font-size: 18px;
+}
+.user-avatar-top {
+    padding: 5px; 
+    height: 60px;
+    vertical-align: text-top;
+}
+
+.new-notification b{
+    color: #795548;
+    font-weight: bold;
+    font-size: 18px;
+    margin-left: -5px;
+}
+
+
+.transparent-background {
+    background:#7f7f7f !important;
+    background:rgba(255,255,255,0.9)!important;
 }

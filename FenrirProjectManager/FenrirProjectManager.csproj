@@ -232,6 +232,7 @@
     <Compile Include="Models\ProjectHeaderViewModel.cs" />
     <Compile Include="Models\ProjectInfoModel.cs" />
     <Compile Include="Models\RegisterViewModel.cs" />
+    <Compile Include="Models\UserPanelViewModel.cs" />
     <Compile Include="ProjectsController.generated.cs">
       <DependentUpon>T4MVC.tt</DependentUpon>
     </Compile>
@@ -397,6 +398,7 @@
     <Content Include="Views\Issues\Update.cshtml" />
     <Content Include="Views\Shared\_ProgressBar.cshtml" />
     <Content Include="Views\Shared\_ProjectHeader.cshtml" />
+    <Content Include="Views\Shared\_UserPanel.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
