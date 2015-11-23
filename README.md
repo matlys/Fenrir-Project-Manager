@@ -1,4 +1,13 @@
 #Project history
+1.6.4 [2015-11-23]
+* Project navigation panel has been changed,
+* User navigation panel has been added,
+* Project progress bar has been changed,
+* Code optimalization:
+	+ Material Design Icons instead of pictograms pictures,
+	+ Avatar showig is disable for all of users in issues list.
+
+
 1.6.3 [2015-10-19]
 * Project manager can add, edit and delete an issue,
 * Assigned user can update issue details,
